@@ -17,12 +17,12 @@ func ProductCommentCriterionLangMgr(db *gorm.DB) *_ProductCommentCriterionLangMg
 		panic(fmt.Errorf("ProductCommentCriterionLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ProductCommentCriterionLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_product_comment_criterion_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ProductCommentCriterionLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_product_comment_criterion_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ProductCommentCriterionLangMgr) GetTableName() string {
-	return "eg_product_comment_criterion_lang"
+	return "ps_product_comment_criterion_lang"
 }
 
 // Get 获取

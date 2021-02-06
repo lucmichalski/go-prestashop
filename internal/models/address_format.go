@@ -17,12 +17,12 @@ func AddressFormatMgr(db *gorm.DB) *_AddressFormatMgr {
 		panic(fmt.Errorf("AddressFormatMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_AddressFormatMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_address_format"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_AddressFormatMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_address_format"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_AddressFormatMgr) GetTableName() string {
-	return "eg_address_format"
+	return "ps_address_format"
 }
 
 // Get 获取

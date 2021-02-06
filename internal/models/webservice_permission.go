@@ -17,12 +17,12 @@ func WebservicePermissionMgr(db *gorm.DB) *_WebservicePermissionMgr {
 		panic(fmt.Errorf("WebservicePermissionMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_WebservicePermissionMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_webservice_permission"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_WebservicePermissionMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_webservice_permission"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_WebservicePermissionMgr) GetTableName() string {
-	return "eg_webservice_permission"
+	return "ps_webservice_permission"
 }
 
 // Get 获取

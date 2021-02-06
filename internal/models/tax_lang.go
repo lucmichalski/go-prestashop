@@ -17,12 +17,12 @@ func TaxLangMgr(db *gorm.DB) *_TaxLangMgr {
 		panic(fmt.Errorf("TaxLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_TaxLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_tax_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_TaxLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_tax_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_TaxLangMgr) GetTableName() string {
-	return "eg_tax_lang"
+	return "ps_tax_lang"
 }
 
 // Get 获取

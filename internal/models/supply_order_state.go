@@ -17,12 +17,12 @@ func SupplyOrderStateMgr(db *gorm.DB) *_SupplyOrderStateMgr {
 		panic(fmt.Errorf("SupplyOrderStateMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_SupplyOrderStateMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_supply_order_state"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_SupplyOrderStateMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_supply_order_state"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_SupplyOrderStateMgr) GetTableName() string {
-	return "eg_supply_order_state"
+	return "ps_supply_order_state"
 }
 
 // Get 获取

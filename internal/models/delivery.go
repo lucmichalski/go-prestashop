@@ -17,12 +17,12 @@ func DeliveryMgr(db *gorm.DB) *_DeliveryMgr {
 		panic(fmt.Errorf("DeliveryMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_DeliveryMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_delivery"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_DeliveryMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_delivery"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_DeliveryMgr) GetTableName() string {
-	return "eg_delivery"
+	return "ps_delivery"
 }
 
 // Get 获取

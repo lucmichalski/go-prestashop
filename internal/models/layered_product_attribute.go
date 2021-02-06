@@ -17,12 +17,12 @@ func LayeredProductAttributeMgr(db *gorm.DB) *_LayeredProductAttributeMgr {
 		panic(fmt.Errorf("LayeredProductAttributeMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_LayeredProductAttributeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_layered_product_attribute"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_LayeredProductAttributeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_layered_product_attribute"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_LayeredProductAttributeMgr) GetTableName() string {
-	return "eg_layered_product_attribute"
+	return "ps_layered_product_attribute"
 }
 
 // Get 获取

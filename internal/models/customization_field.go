@@ -17,12 +17,12 @@ func CustomizationFieldMgr(db *gorm.DB) *_CustomizationFieldMgr {
 		panic(fmt.Errorf("CustomizationFieldMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_CustomizationFieldMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_customization_field"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_CustomizationFieldMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_customization_field"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_CustomizationFieldMgr) GetTableName() string {
-	return "eg_customization_field"
+	return "ps_customization_field"
 }
 
 // Get 获取

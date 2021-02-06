@@ -17,12 +17,12 @@ func RangePriceMgr(db *gorm.DB) *_RangePriceMgr {
 		panic(fmt.Errorf("RangePriceMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_RangePriceMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_range_price"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_RangePriceMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_range_price"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_RangePriceMgr) GetTableName() string {
-	return "eg_range_price"
+	return "ps_range_price"
 }
 
 // Get 获取

@@ -17,12 +17,12 @@ func ConditionBadgeMgr(db *gorm.DB) *_ConditionBadgeMgr {
 		panic(fmt.Errorf("ConditionBadgeMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ConditionBadgeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_condition_badge"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ConditionBadgeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_condition_badge"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ConditionBadgeMgr) GetTableName() string {
-	return "eg_condition_badge"
+	return "ps_condition_badge"
 }
 
 // Get 获取

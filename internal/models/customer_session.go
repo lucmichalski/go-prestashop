@@ -17,12 +17,12 @@ func CustomerSessionMgr(db *gorm.DB) *_CustomerSessionMgr {
 		panic(fmt.Errorf("CustomerSessionMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_CustomerSessionMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_customer_session"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_CustomerSessionMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_customer_session"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_CustomerSessionMgr) GetTableName() string {
-	return "eg_customer_session"
+	return "ps_customer_session"
 }
 
 // Get 获取

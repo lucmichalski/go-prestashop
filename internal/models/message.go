@@ -18,12 +18,12 @@ func MessageMgr(db *gorm.DB) *_MessageMgr {
 		panic(fmt.Errorf("MessageMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_MessageMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_message"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_MessageMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_message"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_MessageMgr) GetTableName() string {
-	return "eg_message"
+	return "ps_message"
 }
 
 // Get 获取

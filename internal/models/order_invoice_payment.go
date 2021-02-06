@@ -17,12 +17,12 @@ func OrderInvoicePaymentMgr(db *gorm.DB) *_OrderInvoicePaymentMgr {
 		panic(fmt.Errorf("OrderInvoicePaymentMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_OrderInvoicePaymentMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_order_invoice_payment"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_OrderInvoicePaymentMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_order_invoice_payment"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_OrderInvoicePaymentMgr) GetTableName() string {
-	return "eg_order_invoice_payment"
+	return "ps_order_invoice_payment"
 }
 
 // Get 获取

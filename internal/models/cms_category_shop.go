@@ -17,12 +17,12 @@ func CmsCategoryShopMgr(db *gorm.DB) *_CmsCategoryShopMgr {
 		panic(fmt.Errorf("CmsCategoryShopMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_CmsCategoryShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_cms_category_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_CmsCategoryShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_cms_category_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_CmsCategoryShopMgr) GetTableName() string {
-	return "eg_cms_category_shop"
+	return "ps_cms_category_shop"
 }
 
 // Get 获取

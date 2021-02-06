@@ -17,12 +17,12 @@ func OperatingSystemMgr(db *gorm.DB) *_OperatingSystemMgr {
 		panic(fmt.Errorf("OperatingSystemMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_OperatingSystemMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_operating_system"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_OperatingSystemMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_operating_system"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_OperatingSystemMgr) GetTableName() string {
-	return "eg_operating_system"
+	return "ps_operating_system"
 }
 
 // Get 获取

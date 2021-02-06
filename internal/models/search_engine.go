@@ -17,12 +17,12 @@ func SearchEngineMgr(db *gorm.DB) *_SearchEngineMgr {
 		panic(fmt.Errorf("SearchEngineMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_SearchEngineMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_search_engine"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_SearchEngineMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_search_engine"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_SearchEngineMgr) GetTableName() string {
-	return "eg_search_engine"
+	return "ps_search_engine"
 }
 
 // Get 获取

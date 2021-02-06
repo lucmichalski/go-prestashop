@@ -17,12 +17,12 @@ func CartRuleProductRuleGroupMgr(db *gorm.DB) *_CartRuleProductRuleGroupMgr {
 		panic(fmt.Errorf("CartRuleProductRuleGroupMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_CartRuleProductRuleGroupMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_cart_rule_product_rule_group"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_CartRuleProductRuleGroupMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_cart_rule_product_rule_group"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_CartRuleProductRuleGroupMgr) GetTableName() string {
-	return "eg_cart_rule_product_rule_group"
+	return "ps_cart_rule_product_rule_group"
 }
 
 // Get 获取

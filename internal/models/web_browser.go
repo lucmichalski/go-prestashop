@@ -17,12 +17,12 @@ func WebBrowserMgr(db *gorm.DB) *_WebBrowserMgr {
 		panic(fmt.Errorf("WebBrowserMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_WebBrowserMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_web_browser"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_WebBrowserMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_web_browser"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_WebBrowserMgr) GetTableName() string {
-	return "eg_web_browser"
+	return "ps_web_browser"
 }
 
 // Get 获取

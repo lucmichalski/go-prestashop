@@ -17,12 +17,12 @@ func PageTypeMgr(db *gorm.DB) *_PageTypeMgr {
 		panic(fmt.Errorf("PageTypeMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_PageTypeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_page_type"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_PageTypeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_page_type"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_PageTypeMgr) GetTableName() string {
-	return "eg_page_type"
+	return "ps_page_type"
 }
 
 // Get 获取

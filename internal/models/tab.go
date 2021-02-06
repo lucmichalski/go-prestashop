@@ -17,12 +17,12 @@ func TabMgr(db *gorm.DB) *_TabMgr {
 		panic(fmt.Errorf("TabMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_TabMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_tab"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_TabMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_tab"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_TabMgr) GetTableName() string {
-	return "eg_tab"
+	return "ps_tab"
 }
 
 // Get 获取

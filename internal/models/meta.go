@@ -17,12 +17,12 @@ func MetaMgr(db *gorm.DB) *_MetaMgr {
 		panic(fmt.Errorf("MetaMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_MetaMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_meta"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_MetaMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_meta"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_MetaMgr) GetTableName() string {
-	return "eg_meta"
+	return "ps_meta"
 }
 
 // Get 获取

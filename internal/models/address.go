@@ -18,12 +18,12 @@ func AddressMgr(db *gorm.DB) *_AddressMgr {
 		panic(fmt.Errorf("AddressMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_AddressMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_address"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_AddressMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_address"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_AddressMgr) GetTableName() string {
-	return "eg_address"
+	return "ps_address"
 }
 
 // Get 获取

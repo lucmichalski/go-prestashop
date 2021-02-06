@@ -17,12 +17,12 @@ func GuestMgr(db *gorm.DB) *_GuestMgr {
 		panic(fmt.Errorf("GuestMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_GuestMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_guest"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_GuestMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_guest"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_GuestMgr) GetTableName() string {
-	return "eg_guest"
+	return "ps_guest"
 }
 
 // Get 获取

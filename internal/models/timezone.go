@@ -17,12 +17,12 @@ func TimezoneMgr(db *gorm.DB) *_TimezoneMgr {
 		panic(fmt.Errorf("TimezoneMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_TimezoneMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_timezone"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_TimezoneMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_timezone"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_TimezoneMgr) GetTableName() string {
-	return "eg_timezone"
+	return "ps_timezone"
 }
 
 // Get 获取

@@ -17,12 +17,12 @@ func HomesliderSlidesLangMgr(db *gorm.DB) *_HomesliderSlidesLangMgr {
 		panic(fmt.Errorf("HomesliderSlidesLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_HomesliderSlidesLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_homeslider_slides_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_HomesliderSlidesLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_homeslider_slides_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_HomesliderSlidesLangMgr) GetTableName() string {
-	return "eg_homeslider_slides_lang"
+	return "ps_homeslider_slides_lang"
 }
 
 // Get 获取

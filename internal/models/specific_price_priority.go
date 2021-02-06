@@ -17,12 +17,12 @@ func SpecificPricePriorityMgr(db *gorm.DB) *_SpecificPricePriorityMgr {
 		panic(fmt.Errorf("SpecificPricePriorityMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_SpecificPricePriorityMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_specific_price_priority"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_SpecificPricePriorityMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_specific_price_priority"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_SpecificPricePriorityMgr) GetTableName() string {
-	return "eg_specific_price_priority"
+	return "ps_specific_price_priority"
 }
 
 // Get 获取

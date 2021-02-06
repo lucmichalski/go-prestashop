@@ -17,12 +17,12 @@ func FeatureValueMgr(db *gorm.DB) *_FeatureValueMgr {
 		panic(fmt.Errorf("FeatureValueMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_FeatureValueMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_feature_value"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_FeatureValueMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_feature_value"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_FeatureValueMgr) GetTableName() string {
-	return "eg_feature_value"
+	return "ps_feature_value"
 }
 
 // Get 获取

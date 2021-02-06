@@ -18,12 +18,12 @@ func ConfigurationMgr(db *gorm.DB) *_ConfigurationMgr {
 		panic(fmt.Errorf("ConfigurationMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ConfigurationMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_configuration"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ConfigurationMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_configuration"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ConfigurationMgr) GetTableName() string {
-	return "eg_configuration"
+	return "ps_configuration"
 }
 
 // Get 获取

@@ -17,12 +17,12 @@ func ImageMgr(db *gorm.DB) *_ImageMgr {
 		panic(fmt.Errorf("ImageMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ImageMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_image"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ImageMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_image"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ImageMgr) GetTableName() string {
-	return "eg_image"
+	return "ps_image"
 }
 
 // Get 获取

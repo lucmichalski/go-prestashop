@@ -17,12 +17,12 @@ func PackMgr(db *gorm.DB) *_PackMgr {
 		panic(fmt.Errorf("PackMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_PackMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_pack"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_PackMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_pack"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_PackMgr) GetTableName() string {
-	return "eg_pack"
+	return "ps_pack"
 }
 
 // Get 获取

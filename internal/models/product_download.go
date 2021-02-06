@@ -18,12 +18,12 @@ func ProductDownloadMgr(db *gorm.DB) *_ProductDownloadMgr {
 		panic(fmt.Errorf("ProductDownloadMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ProductDownloadMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_product_download"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ProductDownloadMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_product_download"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ProductDownloadMgr) GetTableName() string {
-	return "eg_product_download"
+	return "ps_product_download"
 }
 
 // Get 获取

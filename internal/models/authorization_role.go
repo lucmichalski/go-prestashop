@@ -17,12 +17,12 @@ func AuthorizationRoleMgr(db *gorm.DB) *_AuthorizationRoleMgr {
 		panic(fmt.Errorf("AuthorizationRoleMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_AuthorizationRoleMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_authorization_role"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_AuthorizationRoleMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_authorization_role"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_AuthorizationRoleMgr) GetTableName() string {
-	return "eg_authorization_role"
+	return "ps_authorization_role"
 }
 
 // Get 获取

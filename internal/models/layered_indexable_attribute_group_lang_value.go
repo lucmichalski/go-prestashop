@@ -17,12 +17,12 @@ func LayeredIndexableAttributeGroupLangValueMgr(db *gorm.DB) *_LayeredIndexableA
 		panic(fmt.Errorf("LayeredIndexableAttributeGroupLangValueMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_LayeredIndexableAttributeGroupLangValueMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_layered_indexable_attribute_group_lang_value"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_LayeredIndexableAttributeGroupLangValueMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_layered_indexable_attribute_group_lang_value"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetTableName() string {
-	return "eg_layered_indexable_attribute_group_lang_value"
+	return "ps_layered_indexable_attribute_group_lang_value"
 }
 
 // Get 获取

@@ -17,12 +17,12 @@ func WarehouseCarrierMgr(db *gorm.DB) *_WarehouseCarrierMgr {
 		panic(fmt.Errorf("WarehouseCarrierMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_WarehouseCarrierMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_warehouse_carrier"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_WarehouseCarrierMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_warehouse_carrier"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_WarehouseCarrierMgr) GetTableName() string {
-	return "eg_warehouse_carrier"
+	return "ps_warehouse_carrier"
 }
 
 // Get 获取

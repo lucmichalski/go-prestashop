@@ -17,12 +17,12 @@ func CategoryGroupMgr(db *gorm.DB) *_CategoryGroupMgr {
 		panic(fmt.Errorf("CategoryGroupMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_CategoryGroupMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_category_group"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_CategoryGroupMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_category_group"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_CategoryGroupMgr) GetTableName() string {
-	return "eg_category_group"
+	return "ps_category_group"
 }
 
 // Get 获取

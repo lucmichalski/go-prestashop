@@ -18,12 +18,12 @@ func MailMgr(db *gorm.DB) *_MailMgr {
 		panic(fmt.Errorf("MailMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_MailMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_mail"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_MailMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_mail"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_MailMgr) GetTableName() string {
-	return "eg_mail"
+	return "ps_mail"
 }
 
 // Get 获取

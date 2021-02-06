@@ -17,12 +17,12 @@ func MemcachedServersMgr(db *gorm.DB) *_MemcachedServersMgr {
 		panic(fmt.Errorf("MemcachedServersMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_MemcachedServersMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_memcached_servers"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_MemcachedServersMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_memcached_servers"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_MemcachedServersMgr) GetTableName() string {
-	return "eg_memcached_servers"
+	return "ps_memcached_servers"
 }
 
 // Get 获取

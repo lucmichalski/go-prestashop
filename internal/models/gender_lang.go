@@ -17,12 +17,12 @@ func GenderLangMgr(db *gorm.DB) *_GenderLangMgr {
 		panic(fmt.Errorf("GenderLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_GenderLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_gender_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_GenderLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_gender_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_GenderLangMgr) GetTableName() string {
-	return "eg_gender_lang"
+	return "ps_gender_lang"
 }
 
 // Get 获取

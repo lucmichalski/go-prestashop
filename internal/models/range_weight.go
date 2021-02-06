@@ -17,12 +17,12 @@ func RangeWeightMgr(db *gorm.DB) *_RangeWeightMgr {
 		panic(fmt.Errorf("RangeWeightMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_RangeWeightMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_range_weight"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_RangeWeightMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_range_weight"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_RangeWeightMgr) GetTableName() string {
-	return "eg_range_weight"
+	return "ps_range_weight"
 }
 
 // Get 获取

@@ -17,12 +17,12 @@ func ModuleMgr(db *gorm.DB) *_ModuleMgr {
 		panic(fmt.Errorf("ModuleMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ModuleMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_module"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ModuleMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_module"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ModuleMgr) GetTableName() string {
-	return "eg_module"
+	return "ps_module"
 }
 
 // Get 获取

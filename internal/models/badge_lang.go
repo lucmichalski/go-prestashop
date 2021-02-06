@@ -17,12 +17,12 @@ func BadgeLangMgr(db *gorm.DB) *_BadgeLangMgr {
 		panic(fmt.Errorf("BadgeLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_BadgeLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_badge_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_BadgeLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_badge_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_BadgeLangMgr) GetTableName() string {
-	return "eg_badge_lang"
+	return "ps_badge_lang"
 }
 
 // Get 获取

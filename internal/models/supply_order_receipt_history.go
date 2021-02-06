@@ -18,12 +18,12 @@ func SupplyOrderReceiptHistoryMgr(db *gorm.DB) *_SupplyOrderReceiptHistoryMgr {
 		panic(fmt.Errorf("SupplyOrderReceiptHistoryMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_SupplyOrderReceiptHistoryMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_supply_order_receipt_history"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_SupplyOrderReceiptHistoryMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_supply_order_receipt_history"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_SupplyOrderReceiptHistoryMgr) GetTableName() string {
-	return "eg_supply_order_receipt_history"
+	return "ps_supply_order_receipt_history"
 }
 
 // Get 获取

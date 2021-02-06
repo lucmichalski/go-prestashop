@@ -19,12 +19,12 @@ func ProductShopMgr(db *gorm.DB) *_ProductShopMgr {
 		panic(fmt.Errorf("ProductShopMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ProductShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_product_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ProductShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_product_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ProductShopMgr) GetTableName() string {
-	return "eg_product_shop"
+	return "ps_product_shop"
 }
 
 // Get 获取

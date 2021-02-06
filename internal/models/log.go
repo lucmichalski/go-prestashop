@@ -18,12 +18,12 @@ func LogMgr(db *gorm.DB) *_LogMgr {
 		panic(fmt.Errorf("LogMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_LogMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_log"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_LogMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_log"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_LogMgr) GetTableName() string {
-	return "eg_log"
+	return "ps_log"
 }
 
 // Get 获取

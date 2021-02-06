@@ -17,12 +17,12 @@ func LinksmenutopLangMgr(db *gorm.DB) *_LinksmenutopLangMgr {
 		panic(fmt.Errorf("LinksmenutopLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_LinksmenutopLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_linksmenutop_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_LinksmenutopLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_linksmenutop_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_LinksmenutopLangMgr) GetTableName() string {
-	return "eg_linksmenutop_lang"
+	return "ps_linksmenutop_lang"
 }
 
 // Get 获取

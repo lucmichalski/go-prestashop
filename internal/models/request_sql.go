@@ -17,12 +17,12 @@ func RequestSQLMgr(db *gorm.DB) *_RequestSQLMgr {
 		panic(fmt.Errorf("RequestSQLMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_RequestSQLMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_request_sql"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_RequestSQLMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_request_sql"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_RequestSQLMgr) GetTableName() string {
-	return "eg_request_sql"
+	return "ps_request_sql"
 }
 
 // Get 获取

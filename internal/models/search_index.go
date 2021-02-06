@@ -17,12 +17,12 @@ func SearchIndexMgr(db *gorm.DB) *_SearchIndexMgr {
 		panic(fmt.Errorf("SearchIndexMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_SearchIndexMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_search_index"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_SearchIndexMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_search_index"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_SearchIndexMgr) GetTableName() string {
-	return "eg_search_index"
+	return "ps_search_index"
 }
 
 // Get 获取

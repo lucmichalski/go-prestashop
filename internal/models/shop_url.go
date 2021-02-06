@@ -17,12 +17,12 @@ func ShopURLMgr(db *gorm.DB) *_ShopURLMgr {
 		panic(fmt.Errorf("ShopURLMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ShopURLMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_shop_url"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ShopURLMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_shop_url"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ShopURLMgr) GetTableName() string {
-	return "eg_shop_url"
+	return "ps_shop_url"
 }
 
 // Get 获取

@@ -18,12 +18,12 @@ func ConnectionsPageMgr(db *gorm.DB) *_ConnectionsPageMgr {
 		panic(fmt.Errorf("ConnectionsPageMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ConnectionsPageMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_connections_page"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ConnectionsPageMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_connections_page"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ConnectionsPageMgr) GetTableName() string {
-	return "eg_connections_page"
+	return "ps_connections_page"
 }
 
 // Get 获取

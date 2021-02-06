@@ -17,12 +17,12 @@ func ProductCommentGradeMgr(db *gorm.DB) *_ProductCommentGradeMgr {
 		panic(fmt.Errorf("ProductCommentGradeMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ProductCommentGradeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_product_comment_grade"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ProductCommentGradeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_product_comment_grade"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ProductCommentGradeMgr) GetTableName() string {
-	return "eg_product_comment_grade"
+	return "ps_product_comment_grade"
 }
 
 // Get 获取

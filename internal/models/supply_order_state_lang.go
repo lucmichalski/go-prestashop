@@ -17,12 +17,12 @@ func SupplyOrderStateLangMgr(db *gorm.DB) *_SupplyOrderStateLangMgr {
 		panic(fmt.Errorf("SupplyOrderStateLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_SupplyOrderStateLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_supply_order_state_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_SupplyOrderStateLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_supply_order_state_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_SupplyOrderStateLangMgr) GetTableName() string {
-	return "eg_supply_order_state_lang"
+	return "ps_supply_order_state_lang"
 }
 
 // Get 获取

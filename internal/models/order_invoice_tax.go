@@ -17,12 +17,12 @@ func OrderInvoiceTaxMgr(db *gorm.DB) *_OrderInvoiceTaxMgr {
 		panic(fmt.Errorf("OrderInvoiceTaxMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_OrderInvoiceTaxMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_order_invoice_tax"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_OrderInvoiceTaxMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_order_invoice_tax"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_OrderInvoiceTaxMgr) GetTableName() string {
-	return "eg_order_invoice_tax"
+	return "ps_order_invoice_tax"
 }
 
 // Get 获取

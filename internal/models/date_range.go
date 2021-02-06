@@ -18,12 +18,12 @@ func DateRangeMgr(db *gorm.DB) *_DateRangeMgr {
 		panic(fmt.Errorf("DateRangeMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_DateRangeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_date_range"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_DateRangeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_date_range"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_DateRangeMgr) GetTableName() string {
-	return "eg_date_range"
+	return "ps_date_range"
 }
 
 // Get 获取

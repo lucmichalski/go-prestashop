@@ -17,12 +17,12 @@ func LayeredFilterBlockMgr(db *gorm.DB) *_LayeredFilterBlockMgr {
 		panic(fmt.Errorf("LayeredFilterBlockMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_LayeredFilterBlockMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_layered_filter_block"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_LayeredFilterBlockMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_layered_filter_block"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_LayeredFilterBlockMgr) GetTableName() string {
-	return "eg_layered_filter_block"
+	return "ps_layered_filter_block"
 }
 
 // Get 获取

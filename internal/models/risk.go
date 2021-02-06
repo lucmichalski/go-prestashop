@@ -17,12 +17,12 @@ func RiskMgr(db *gorm.DB) *_RiskMgr {
 		panic(fmt.Errorf("RiskMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_RiskMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_risk"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_RiskMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_risk"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_RiskMgr) GetTableName() string {
-	return "eg_risk"
+	return "ps_risk"
 }
 
 // Get 获取

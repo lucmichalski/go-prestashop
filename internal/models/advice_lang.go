@@ -17,12 +17,12 @@ func AdviceLangMgr(db *gorm.DB) *_AdviceLangMgr {
 		panic(fmt.Errorf("AdviceLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_AdviceLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_advice_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_AdviceLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_advice_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_AdviceLangMgr) GetTableName() string {
-	return "eg_advice_lang"
+	return "ps_advice_lang"
 }
 
 // Get 获取

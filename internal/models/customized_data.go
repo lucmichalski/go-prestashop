@@ -17,12 +17,12 @@ func CustomizedDataMgr(db *gorm.DB) *_CustomizedDataMgr {
 		panic(fmt.Errorf("CustomizedDataMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_CustomizedDataMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_customized_data"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_CustomizedDataMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_customized_data"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_CustomizedDataMgr) GetTableName() string {
-	return "eg_customized_data"
+	return "ps_customized_data"
 }
 
 // Get 获取

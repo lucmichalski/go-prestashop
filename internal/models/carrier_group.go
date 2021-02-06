@@ -17,12 +17,12 @@ func CarrierGroupMgr(db *gorm.DB) *_CarrierGroupMgr {
 		panic(fmt.Errorf("CarrierGroupMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_CarrierGroupMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_carrier_group"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_CarrierGroupMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_carrier_group"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_CarrierGroupMgr) GetTableName() string {
-	return "eg_carrier_group"
+	return "ps_carrier_group"
 }
 
 // Get 获取

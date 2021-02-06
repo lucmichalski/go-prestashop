@@ -17,12 +17,12 @@ func ModuleCurrencyMgr(db *gorm.DB) *_ModuleCurrencyMgr {
 		panic(fmt.Errorf("ModuleCurrencyMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ModuleCurrencyMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_module_currency"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ModuleCurrencyMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_module_currency"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ModuleCurrencyMgr) GetTableName() string {
-	return "eg_module_currency"
+	return "ps_module_currency"
 }
 
 // Get 获取

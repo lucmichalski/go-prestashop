@@ -17,12 +17,12 @@ func PscheckoutOrderMatriceMgr(db *gorm.DB) *_PscheckoutOrderMatriceMgr {
 		panic(fmt.Errorf("PscheckoutOrderMatriceMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_PscheckoutOrderMatriceMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_pscheckout_order_matrice"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_PscheckoutOrderMatriceMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_pscheckout_order_matrice"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_PscheckoutOrderMatriceMgr) GetTableName() string {
-	return "eg_pscheckout_order_matrice"
+	return "ps_pscheckout_order_matrice"
 }
 
 // Get 获取

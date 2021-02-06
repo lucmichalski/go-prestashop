@@ -18,12 +18,12 @@ func PsreassuranceMgr(db *gorm.DB) *_PsreassuranceMgr {
 		panic(fmt.Errorf("PsreassuranceMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_PsreassuranceMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_psreassurance"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_PsreassuranceMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_psreassurance"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_PsreassuranceMgr) GetTableName() string {
-	return "eg_psreassurance"
+	return "ps_psreassurance"
 }
 
 // Get 获取

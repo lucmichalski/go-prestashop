@@ -17,12 +17,12 @@ func TabModulePreferenceMgr(db *gorm.DB) *_TabModulePreferenceMgr {
 		panic(fmt.Errorf("TabModulePreferenceMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_TabModulePreferenceMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_tab_module_preference"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_TabModulePreferenceMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_tab_module_preference"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_TabModulePreferenceMgr) GetTableName() string {
-	return "eg_tab_module_preference"
+	return "ps_tab_module_preference"
 }
 
 // Get 获取

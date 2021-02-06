@@ -17,12 +17,12 @@ func PscheckoutFundingSourceMgr(db *gorm.DB) *_PscheckoutFundingSourceMgr {
 		panic(fmt.Errorf("PscheckoutFundingSourceMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_PscheckoutFundingSourceMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_pscheckout_funding_source"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_PscheckoutFundingSourceMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_pscheckout_funding_source"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_PscheckoutFundingSourceMgr) GetTableName() string {
-	return "eg_pscheckout_funding_source"
+	return "ps_pscheckout_funding_source"
 }
 
 // Get 获取

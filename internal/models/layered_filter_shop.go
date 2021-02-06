@@ -17,12 +17,12 @@ func LayeredFilterShopMgr(db *gorm.DB) *_LayeredFilterShopMgr {
 		panic(fmt.Errorf("LayeredFilterShopMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_LayeredFilterShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_layered_filter_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_LayeredFilterShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_layered_filter_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_LayeredFilterShopMgr) GetTableName() string {
-	return "eg_layered_filter_shop"
+	return "ps_layered_filter_shop"
 }
 
 // Get 获取

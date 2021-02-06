@@ -17,12 +17,12 @@ func ProfileLangMgr(db *gorm.DB) *_ProfileLangMgr {
 		panic(fmt.Errorf("ProfileLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ProfileLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_profile_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ProfileLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_profile_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ProfileLangMgr) GetTableName() string {
-	return "eg_profile_lang"
+	return "ps_profile_lang"
 }
 
 // Get 获取

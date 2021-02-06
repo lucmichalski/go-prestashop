@@ -17,12 +17,12 @@ func TagCountMgr(db *gorm.DB) *_TagCountMgr {
 		panic(fmt.Errorf("TagCountMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_TagCountMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_tag_count"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_TagCountMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_tag_count"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_TagCountMgr) GetTableName() string {
-	return "eg_tag_count"
+	return "ps_tag_count"
 }
 
 // Get 获取

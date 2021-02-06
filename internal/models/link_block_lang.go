@@ -17,12 +17,12 @@ func LinkBlockLangMgr(db *gorm.DB) *_LinkBlockLangMgr {
 		panic(fmt.Errorf("LinkBlockLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_LinkBlockLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_link_block_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_LinkBlockLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_link_block_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_LinkBlockLangMgr) GetTableName() string {
-	return "eg_link_block_lang"
+	return "ps_link_block_lang"
 }
 
 // Get 获取

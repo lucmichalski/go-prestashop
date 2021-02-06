@@ -17,12 +17,12 @@ func SpecificPriceRuleConditionMgr(db *gorm.DB) *_SpecificPriceRuleConditionMgr 
 		panic(fmt.Errorf("SpecificPriceRuleConditionMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_SpecificPriceRuleConditionMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_specific_price_rule_condition"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_SpecificPriceRuleConditionMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_specific_price_rule_condition"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_SpecificPriceRuleConditionMgr) GetTableName() string {
-	return "eg_specific_price_rule_condition"
+	return "ps_specific_price_rule_condition"
 }
 
 // Get 获取

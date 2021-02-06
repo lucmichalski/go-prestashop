@@ -17,12 +17,12 @@ func GroupReductionMgr(db *gorm.DB) *_GroupReductionMgr {
 		panic(fmt.Errorf("GroupReductionMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_GroupReductionMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_group_reduction"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_GroupReductionMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_group_reduction"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_GroupReductionMgr) GetTableName() string {
-	return "eg_group_reduction"
+	return "ps_group_reduction"
 }
 
 // Get 获取

@@ -17,12 +17,12 @@ func ReferrerCacheMgr(db *gorm.DB) *_ReferrerCacheMgr {
 		panic(fmt.Errorf("ReferrerCacheMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ReferrerCacheMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_referrer_cache"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ReferrerCacheMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_referrer_cache"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ReferrerCacheMgr) GetTableName() string {
-	return "eg_referrer_cache"
+	return "ps_referrer_cache"
 }
 
 // Get 获取

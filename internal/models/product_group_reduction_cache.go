@@ -17,12 +17,12 @@ func ProductGroupReductionCacheMgr(db *gorm.DB) *_ProductGroupReductionCacheMgr 
 		panic(fmt.Errorf("ProductGroupReductionCacheMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ProductGroupReductionCacheMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_product_group_reduction_cache"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ProductGroupReductionCacheMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_product_group_reduction_cache"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ProductGroupReductionCacheMgr) GetTableName() string {
-	return "eg_product_group_reduction_cache"
+	return "ps_product_group_reduction_cache"
 }
 
 // Get 获取

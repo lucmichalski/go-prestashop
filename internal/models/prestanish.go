@@ -2245,7 +2245,7 @@ type ReferrerShop struct {
 	CacheRegistrations int     `gorm:"column:cache_registrations;type:int(11)"`
 	CacheOrders        int     `gorm:"column:cache_orders;type:int(11)"`
 	CacheSales         float64 `gorm:"column:cache_sales;type:decimal(17,2)"`
-	CacheRegRate       float64 `gorm:"column:cache_reg_rate;type:decimal(5,4)"`
+	CacheRegRate       float64 `gorm:"column:cache_rps_rate;type:decimal(5,4)"`
 	CacheOrderRate     float64 `gorm:"column:cache_order_rate;type:decimal(5,4)"`
 }
 

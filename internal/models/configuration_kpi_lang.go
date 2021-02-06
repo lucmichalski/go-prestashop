@@ -18,12 +18,12 @@ func ConfigurationKpiLangMgr(db *gorm.DB) *_ConfigurationKpiLangMgr {
 		panic(fmt.Errorf("ConfigurationKpiLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ConfigurationKpiLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_configuration_kpi_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ConfigurationKpiLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_configuration_kpi_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ConfigurationKpiLangMgr) GetTableName() string {
-	return "eg_configuration_kpi_lang"
+	return "ps_configuration_kpi_lang"
 }
 
 // Get 获取

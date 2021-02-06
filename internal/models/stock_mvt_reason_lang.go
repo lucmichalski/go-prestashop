@@ -17,12 +17,12 @@ func StockMvtReasonLangMgr(db *gorm.DB) *_StockMvtReasonLangMgr {
 		panic(fmt.Errorf("StockMvtReasonLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_StockMvtReasonLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_stock_mvt_reason_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_StockMvtReasonLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_stock_mvt_reason_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_StockMvtReasonLangMgr) GetTableName() string {
-	return "eg_stock_mvt_reason_lang"
+	return "ps_stock_mvt_reason_lang"
 }
 
 // Get 获取

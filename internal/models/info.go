@@ -17,12 +17,12 @@ func InfoMgr(db *gorm.DB) *_InfoMgr {
 		panic(fmt.Errorf("InfoMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_InfoMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_info"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_InfoMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_info"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_InfoMgr) GetTableName() string {
-	return "eg_info"
+	return "ps_info"
 }
 
 // Get 获取

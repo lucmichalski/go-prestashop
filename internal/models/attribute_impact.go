@@ -17,12 +17,12 @@ func AttributeImpactMgr(db *gorm.DB) *_AttributeImpactMgr {
 		panic(fmt.Errorf("AttributeImpactMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_AttributeImpactMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_attribute_impact"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_AttributeImpactMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_attribute_impact"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_AttributeImpactMgr) GetTableName() string {
-	return "eg_attribute_impact"
+	return "ps_attribute_impact"
 }
 
 // Get 获取

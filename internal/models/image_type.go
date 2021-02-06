@@ -17,12 +17,12 @@ func ImageTypeMgr(db *gorm.DB) *_ImageTypeMgr {
 		panic(fmt.Errorf("ImageTypeMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ImageTypeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_image_type"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ImageTypeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_image_type"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ImageTypeMgr) GetTableName() string {
-	return "eg_image_type"
+	return "ps_image_type"
 }
 
 // Get 获取

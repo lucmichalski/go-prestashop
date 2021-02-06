@@ -17,12 +17,12 @@ func PsgdprConsentLangMgr(db *gorm.DB) *_PsgdprConsentLangMgr {
 		panic(fmt.Errorf("PsgdprConsentLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_PsgdprConsentLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_psgdpr_consent_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_PsgdprConsentLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_psgdpr_consent_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_PsgdprConsentLangMgr) GetTableName() string {
-	return "eg_psgdpr_consent_lang"
+	return "ps_psgdpr_consent_lang"
 }
 
 // Get 获取

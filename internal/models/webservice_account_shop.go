@@ -17,12 +17,12 @@ func WebserviceAccountShopMgr(db *gorm.DB) *_WebserviceAccountShopMgr {
 		panic(fmt.Errorf("WebserviceAccountShopMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_WebserviceAccountShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_webservice_account_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_WebserviceAccountShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_webservice_account_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_WebserviceAccountShopMgr) GetTableName() string {
-	return "eg_webservice_account_shop"
+	return "ps_webservice_account_shop"
 }
 
 // Get 获取

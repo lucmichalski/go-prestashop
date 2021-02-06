@@ -17,12 +17,12 @@ func CmsRoleLangMgr(db *gorm.DB) *_CmsRoleLangMgr {
 		panic(fmt.Errorf("CmsRoleLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_CmsRoleLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_cms_role_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_CmsRoleLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_cms_role_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_CmsRoleLangMgr) GetTableName() string {
-	return "eg_cms_role_lang"
+	return "ps_cms_role_lang"
 }
 
 // Get 获取

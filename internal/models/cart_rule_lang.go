@@ -17,12 +17,12 @@ func CartRuleLangMgr(db *gorm.DB) *_CartRuleLangMgr {
 		panic(fmt.Errorf("CartRuleLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_CartRuleLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_cart_rule_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_CartRuleLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_cart_rule_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_CartRuleLangMgr) GetTableName() string {
-	return "eg_cart_rule_lang"
+	return "ps_cart_rule_lang"
 }
 
 // Get 获取

@@ -18,12 +18,12 @@ func PsgdprLogMgr(db *gorm.DB) *_PsgdprLogMgr {
 		panic(fmt.Errorf("PsgdprLogMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_PsgdprLogMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_psgdpr_log"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_PsgdprLogMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_psgdpr_log"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_PsgdprLogMgr) GetTableName() string {
-	return "eg_psgdpr_log"
+	return "ps_psgdpr_log"
 }
 
 // Get 获取

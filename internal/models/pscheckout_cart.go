@@ -18,12 +18,12 @@ func PscheckoutCartMgr(db *gorm.DB) *_PscheckoutCartMgr {
 		panic(fmt.Errorf("PscheckoutCartMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_PscheckoutCartMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_pscheckout_cart"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_PscheckoutCartMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_pscheckout_cart"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_PscheckoutCartMgr) GetTableName() string {
-	return "eg_pscheckout_cart"
+	return "ps_pscheckout_cart"
 }
 
 // Get 获取

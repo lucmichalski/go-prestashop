@@ -17,12 +17,12 @@ func ImportMatchMgr(db *gorm.DB) *_ImportMatchMgr {
 		panic(fmt.Errorf("ImportMatchMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ImportMatchMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_import_match"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ImportMatchMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_import_match"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ImportMatchMgr) GetTableName() string {
-	return "eg_import_match"
+	return "ps_import_match"
 }
 
 // Get 获取

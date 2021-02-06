@@ -17,12 +17,12 @@ func CountryShopMgr(db *gorm.DB) *_CountryShopMgr {
 		panic(fmt.Errorf("CountryShopMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_CountryShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_country_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_CountryShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_country_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_CountryShopMgr) GetTableName() string {
-	return "eg_country_shop"
+	return "ps_country_shop"
 }
 
 // Get 获取

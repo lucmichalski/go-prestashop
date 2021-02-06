@@ -17,12 +17,12 @@ func ReferrerShopMgr(db *gorm.DB) *_ReferrerShopMgr {
 		panic(fmt.Errorf("ReferrerShopMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ReferrerShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_referrer_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ReferrerShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_referrer_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ReferrerShopMgr) GetTableName() string {
-	return "eg_referrer_shop"
+	return "ps_referrer_shop"
 }
 
 // Get 获取
@@ -81,9 +81,9 @@ func (obj *_ReferrerShopMgr) WithCacheSales(cacheSales float64) Option {
 	return optionFunc(func(o *options) { o.query["cache_sales"] = cacheSales })
 }
 
-// WithCacheRegRate cache_reg_rate获取
+// WithCacheRegRate cache_rps_rate获取
 func (obj *_ReferrerShopMgr) WithCacheRegRate(cacheRegRate float64) Option {
-	return optionFunc(func(o *options) { o.query["cache_reg_rate"] = cacheRegRate })
+	return optionFunc(func(o *options) { o.query["cache_rps_rate"] = cacheRegRate })
 }
 
 // WithCacheOrderRate cache_order_rate获取
@@ -233,16 +233,16 @@ func (obj *_ReferrerShopMgr) GetBatchFromCacheSales(cacheSaless []float64) (resu
 	return
 }
 
-// GetFromCacheRegRate 通过cache_reg_rate获取内容
+// GetFromCacheRegRate 通过cache_rps_rate获取内容
 func (obj *_ReferrerShopMgr) GetFromCacheRegRate(cacheRegRate float64) (results []*ReferrerShop, err error) {
-	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("cache_reg_rate = ?", cacheRegRate).Find(&results).Error
+	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("cache_rps_rate = ?", cacheRegRate).Find(&results).Error
 
 	return
 }
 
 // GetBatchFromCacheRegRate 批量唯一主键查找
 func (obj *_ReferrerShopMgr) GetBatchFromCacheRegRate(cacheRegRates []float64) (results []*ReferrerShop, err error) {
-	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("cache_reg_rate IN (?)", cacheRegRates).Find(&results).Error
+	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("cache_rps_rate IN (?)", cacheRegRates).Find(&results).Error
 
 	return
 }

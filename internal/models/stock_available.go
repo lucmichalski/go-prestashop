@@ -17,12 +17,12 @@ func StockAvailableMgr(db *gorm.DB) *_StockAvailableMgr {
 		panic(fmt.Errorf("StockAvailableMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_StockAvailableMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_stock_available"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_StockAvailableMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_stock_available"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_StockAvailableMgr) GetTableName() string {
-	return "eg_stock_available"
+	return "ps_stock_available"
 }
 
 // Get 获取

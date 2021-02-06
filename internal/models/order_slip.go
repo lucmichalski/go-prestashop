@@ -18,12 +18,12 @@ func OrderSlipMgr(db *gorm.DB) *_OrderSlipMgr {
 		panic(fmt.Errorf("OrderSlipMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_OrderSlipMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_order_slip"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_OrderSlipMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_order_slip"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_OrderSlipMgr) GetTableName() string {
-	return "eg_order_slip"
+	return "ps_order_slip"
 }
 
 // Get 获取

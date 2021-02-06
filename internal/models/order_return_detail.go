@@ -17,12 +17,12 @@ func OrderReturnDetailMgr(db *gorm.DB) *_OrderReturnDetailMgr {
 		panic(fmt.Errorf("OrderReturnDetailMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_OrderReturnDetailMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_order_return_detail"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_OrderReturnDetailMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_order_return_detail"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_OrderReturnDetailMgr) GetTableName() string {
-	return "eg_order_return_detail"
+	return "ps_order_return_detail"
 }
 
 // Get 获取

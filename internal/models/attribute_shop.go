@@ -17,12 +17,12 @@ func AttributeShopMgr(db *gorm.DB) *_AttributeShopMgr {
 		panic(fmt.Errorf("AttributeShopMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_AttributeShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_attribute_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_AttributeShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_attribute_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_AttributeShopMgr) GetTableName() string {
-	return "eg_attribute_shop"
+	return "ps_attribute_shop"
 }
 
 // Get 获取

@@ -17,12 +17,12 @@ func RequiredFieldMgr(db *gorm.DB) *_RequiredFieldMgr {
 		panic(fmt.Errorf("RequiredFieldMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_RequiredFieldMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_required_field"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_RequiredFieldMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_required_field"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_RequiredFieldMgr) GetTableName() string {
-	return "eg_required_field"
+	return "ps_required_field"
 }
 
 // Get 获取

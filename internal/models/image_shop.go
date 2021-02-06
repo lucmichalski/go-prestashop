@@ -17,12 +17,12 @@ func ImageShopMgr(db *gorm.DB) *_ImageShopMgr {
 		panic(fmt.Errorf("ImageShopMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_ImageShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_image_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_ImageShopMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_image_shop"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_ImageShopMgr) GetTableName() string {
-	return "eg_image_shop"
+	return "ps_image_shop"
 }
 
 // Get 获取

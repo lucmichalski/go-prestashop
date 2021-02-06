@@ -17,12 +17,12 @@ func CarrierLangMgr(db *gorm.DB) *_CarrierLangMgr {
 		panic(fmt.Errorf("CarrierLangMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_CarrierLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_carrier_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
+	return &_CarrierLangMgr{_BaseMgr: &_BaseMgr{DB: db.Table("ps_carrier_lang"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_CarrierLangMgr) GetTableName() string {
-	return "eg_carrier_lang"
+	return "ps_carrier_lang"
 }
 
 // Get 获取
