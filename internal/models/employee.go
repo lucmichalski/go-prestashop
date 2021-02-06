@@ -1,189 +1,190 @@
-package	model	
-import (	
-"time"	
-"gorm.io/datatypes"	
-"fmt"	
-"context"	
-"gorm.io/gorm"	
-)	
+package model
 
-type _EgEmployeeMgr struct {
+import (
+	"context"
+	"fmt"
+	"time"
+
+	"gorm.io/datatypes"
+	"gorm.io/gorm"
+)
+
+type _EmployeeMgr struct {
 	*_BaseMgr
 }
 
-// EgEmployeeMgr open func
-func EgEmployeeMgr(db *gorm.DB) *_EgEmployeeMgr {
+// EmployeeMgr open func
+func EmployeeMgr(db *gorm.DB) *_EmployeeMgr {
 	if db == nil {
-		panic(fmt.Errorf("EgEmployeeMgr need init by db"))
+		panic(fmt.Errorf("EmployeeMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_EgEmployeeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_employee"), isRelated: globalIsRelated,ctx:ctx,cancel:cancel,timeout:-1}}
+	return &_EmployeeMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_employee"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
-func (obj *_EgEmployeeMgr) GetTableName() string {
+func (obj *_EmployeeMgr) GetTableName() string {
 	return "eg_employee"
 }
 
 // Get 获取
-func (obj *_EgEmployeeMgr) Get() (result EgEmployee, err error) {
+func (obj *_EmployeeMgr) Get() (result Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&result).Error
-	
+
 	return
 }
 
 // Gets 获取批量结果
-func (obj *_EgEmployeeMgr) Gets() (results []*EgEmployee, err error) {
+func (obj *_EmployeeMgr) Gets() (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&results).Error
-	
+
 	return
 }
 
 //////////////////////////option case ////////////////////////////////////////////
 
-// WithIDEmployee id_employee获取 
-func (obj *_EgEmployeeMgr) WithIDEmployee(idEmployee uint32) Option {
+// WithIDEmployee id_employee获取
+func (obj *_EmployeeMgr) WithIDEmployee(idEmployee uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_employee"] = idEmployee })
 }
 
-// WithIDProfile id_profile获取 
-func (obj *_EgEmployeeMgr) WithIDProfile(idProfile uint32) Option {
+// WithIDProfile id_profile获取
+func (obj *_EmployeeMgr) WithIDProfile(idProfile uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_profile"] = idProfile })
 }
 
-// WithIDLang id_lang获取 
-func (obj *_EgEmployeeMgr) WithIDLang(idLang uint32) Option {
+// WithIDLang id_lang获取
+func (obj *_EmployeeMgr) WithIDLang(idLang uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_lang"] = idLang })
 }
 
-// WithLastname lastname获取 
-func (obj *_EgEmployeeMgr) WithLastname(lastname string) Option {
+// WithLastname lastname获取
+func (obj *_EmployeeMgr) WithLastname(lastname string) Option {
 	return optionFunc(func(o *options) { o.query["lastname"] = lastname })
 }
 
-// WithFirstname firstname获取 
-func (obj *_EgEmployeeMgr) WithFirstname(firstname string) Option {
+// WithFirstname firstname获取
+func (obj *_EmployeeMgr) WithFirstname(firstname string) Option {
 	return optionFunc(func(o *options) { o.query["firstname"] = firstname })
 }
 
-// WithEmail email获取 
-func (obj *_EgEmployeeMgr) WithEmail(email string) Option {
+// WithEmail email获取
+func (obj *_EmployeeMgr) WithEmail(email string) Option {
 	return optionFunc(func(o *options) { o.query["email"] = email })
 }
 
-// WithPasswd passwd获取 
-func (obj *_EgEmployeeMgr) WithPasswd(passwd string) Option {
+// WithPasswd passwd获取
+func (obj *_EmployeeMgr) WithPasswd(passwd string) Option {
 	return optionFunc(func(o *options) { o.query["passwd"] = passwd })
 }
 
-// WithLastPasswdGen last_passwd_gen获取 
-func (obj *_EgEmployeeMgr) WithLastPasswdGen(lastPasswdGen time.Time) Option {
+// WithLastPasswdGen last_passwd_gen获取
+func (obj *_EmployeeMgr) WithLastPasswdGen(lastPasswdGen time.Time) Option {
 	return optionFunc(func(o *options) { o.query["last_passwd_gen"] = lastPasswdGen })
 }
 
-// WithStatsDateFrom stats_date_from获取 
-func (obj *_EgEmployeeMgr) WithStatsDateFrom(statsDateFrom datatypes.Date) Option {
+// WithStatsDateFrom stats_date_from获取
+func (obj *_EmployeeMgr) WithStatsDateFrom(statsDateFrom datatypes.Date) Option {
 	return optionFunc(func(o *options) { o.query["stats_date_from"] = statsDateFrom })
 }
 
-// WithStatsDateTo stats_date_to获取 
-func (obj *_EgEmployeeMgr) WithStatsDateTo(statsDateTo datatypes.Date) Option {
+// WithStatsDateTo stats_date_to获取
+func (obj *_EmployeeMgr) WithStatsDateTo(statsDateTo datatypes.Date) Option {
 	return optionFunc(func(o *options) { o.query["stats_date_to"] = statsDateTo })
 }
 
-// WithStatsCompareFrom stats_compare_from获取 
-func (obj *_EgEmployeeMgr) WithStatsCompareFrom(statsCompareFrom datatypes.Date) Option {
+// WithStatsCompareFrom stats_compare_from获取
+func (obj *_EmployeeMgr) WithStatsCompareFrom(statsCompareFrom datatypes.Date) Option {
 	return optionFunc(func(o *options) { o.query["stats_compare_from"] = statsCompareFrom })
 }
 
-// WithStatsCompareTo stats_compare_to获取 
-func (obj *_EgEmployeeMgr) WithStatsCompareTo(statsCompareTo datatypes.Date) Option {
+// WithStatsCompareTo stats_compare_to获取
+func (obj *_EmployeeMgr) WithStatsCompareTo(statsCompareTo datatypes.Date) Option {
 	return optionFunc(func(o *options) { o.query["stats_compare_to"] = statsCompareTo })
 }
 
-// WithStatsCompareOption stats_compare_option获取 
-func (obj *_EgEmployeeMgr) WithStatsCompareOption(statsCompareOption uint32) Option {
+// WithStatsCompareOption stats_compare_option获取
+func (obj *_EmployeeMgr) WithStatsCompareOption(statsCompareOption uint32) Option {
 	return optionFunc(func(o *options) { o.query["stats_compare_option"] = statsCompareOption })
 }
 
-// WithPreselectDateRange preselect_date_range获取 
-func (obj *_EgEmployeeMgr) WithPreselectDateRange(preselectDateRange string) Option {
+// WithPreselectDateRange preselect_date_range获取
+func (obj *_EmployeeMgr) WithPreselectDateRange(preselectDateRange string) Option {
 	return optionFunc(func(o *options) { o.query["preselect_date_range"] = preselectDateRange })
 }
 
-// WithBoColor bo_color获取 
-func (obj *_EgEmployeeMgr) WithBoColor(boColor string) Option {
+// WithBoColor bo_color获取
+func (obj *_EmployeeMgr) WithBoColor(boColor string) Option {
 	return optionFunc(func(o *options) { o.query["bo_color"] = boColor })
 }
 
-// WithBoTheme bo_theme获取 
-func (obj *_EgEmployeeMgr) WithBoTheme(boTheme string) Option {
+// WithBoTheme bo_theme获取
+func (obj *_EmployeeMgr) WithBoTheme(boTheme string) Option {
 	return optionFunc(func(o *options) { o.query["bo_theme"] = boTheme })
 }
 
-// WithBoCSS bo_css获取 
-func (obj *_EgEmployeeMgr) WithBoCSS(boCSS string) Option {
+// WithBoCSS bo_css获取
+func (obj *_EmployeeMgr) WithBoCSS(boCSS string) Option {
 	return optionFunc(func(o *options) { o.query["bo_css"] = boCSS })
 }
 
-// WithDefaultTab default_tab获取 
-func (obj *_EgEmployeeMgr) WithDefaultTab(defaultTab uint32) Option {
+// WithDefaultTab default_tab获取
+func (obj *_EmployeeMgr) WithDefaultTab(defaultTab uint32) Option {
 	return optionFunc(func(o *options) { o.query["default_tab"] = defaultTab })
 }
 
-// WithBoWidth bo_width获取 
-func (obj *_EgEmployeeMgr) WithBoWidth(boWidth uint32) Option {
+// WithBoWidth bo_width获取
+func (obj *_EmployeeMgr) WithBoWidth(boWidth uint32) Option {
 	return optionFunc(func(o *options) { o.query["bo_width"] = boWidth })
 }
 
-// WithBoMenu bo_menu获取 
-func (obj *_EgEmployeeMgr) WithBoMenu(boMenu bool) Option {
+// WithBoMenu bo_menu获取
+func (obj *_EmployeeMgr) WithBoMenu(boMenu bool) Option {
 	return optionFunc(func(o *options) { o.query["bo_menu"] = boMenu })
 }
 
-// WithActive active获取 
-func (obj *_EgEmployeeMgr) WithActive(active bool) Option {
+// WithActive active获取
+func (obj *_EmployeeMgr) WithActive(active bool) Option {
 	return optionFunc(func(o *options) { o.query["active"] = active })
 }
 
-// WithOptin optin获取 
-func (obj *_EgEmployeeMgr) WithOptin(optin bool) Option {
+// WithOptin optin获取
+func (obj *_EmployeeMgr) WithOptin(optin bool) Option {
 	return optionFunc(func(o *options) { o.query["optin"] = optin })
 }
 
-// WithIDLastOrder id_last_order获取 
-func (obj *_EgEmployeeMgr) WithIDLastOrder(idLastOrder uint32) Option {
+// WithIDLastOrder id_last_order获取
+func (obj *_EmployeeMgr) WithIDLastOrder(idLastOrder uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_last_order"] = idLastOrder })
 }
 
-// WithIDLastCustomerMessage id_last_customer_message获取 
-func (obj *_EgEmployeeMgr) WithIDLastCustomerMessage(idLastCustomerMessage uint32) Option {
+// WithIDLastCustomerMessage id_last_customer_message获取
+func (obj *_EmployeeMgr) WithIDLastCustomerMessage(idLastCustomerMessage uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_last_customer_message"] = idLastCustomerMessage })
 }
 
-// WithIDLastCustomer id_last_customer获取 
-func (obj *_EgEmployeeMgr) WithIDLastCustomer(idLastCustomer uint32) Option {
+// WithIDLastCustomer id_last_customer获取
+func (obj *_EmployeeMgr) WithIDLastCustomer(idLastCustomer uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_last_customer"] = idLastCustomer })
 }
 
-// WithLastConnectionDate last_connection_date获取 
-func (obj *_EgEmployeeMgr) WithLastConnectionDate(lastConnectionDate datatypes.Date) Option {
+// WithLastConnectionDate last_connection_date获取
+func (obj *_EmployeeMgr) WithLastConnectionDate(lastConnectionDate datatypes.Date) Option {
 	return optionFunc(func(o *options) { o.query["last_connection_date"] = lastConnectionDate })
 }
 
-// WithResetPasswordToken reset_password_token获取 
-func (obj *_EgEmployeeMgr) WithResetPasswordToken(resetPasswordToken string) Option {
+// WithResetPasswordToken reset_password_token获取
+func (obj *_EmployeeMgr) WithResetPasswordToken(resetPasswordToken string) Option {
 	return optionFunc(func(o *options) { o.query["reset_password_token"] = resetPasswordToken })
 }
 
-// WithResetPasswordValidity reset_password_validity获取 
-func (obj *_EgEmployeeMgr) WithResetPasswordValidity(resetPasswordValidity time.Time) Option {
+// WithResetPasswordValidity reset_password_validity获取
+func (obj *_EmployeeMgr) WithResetPasswordValidity(resetPasswordValidity time.Time) Option {
 	return optionFunc(func(o *options) { o.query["reset_password_validity"] = resetPasswordValidity })
 }
 
-
 // GetByOption 功能选项模式获取
-func (obj *_EgEmployeeMgr) GetByOption(opts ...Option) (result EgEmployee, err error) {
+func (obj *_EmployeeMgr) GetByOption(opts ...Option) (result Employee, err error) {
 	options := options{
 		query: make(map[string]interface{}, len(opts)),
 	}
@@ -192,12 +193,12 @@ func (obj *_EgEmployeeMgr) GetByOption(opts ...Option) (result EgEmployee, err e
 	}
 
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&result).Error
-	
+
 	return
 }
 
 // GetByOptions 批量功能选项模式获取
-func (obj *_EgEmployeeMgr) GetByOptions(opts ...Option) (results []*EgEmployee, err error) {
+func (obj *_EmployeeMgr) GetByOptions(opts ...Option) (results []*Employee, err error) {
 	options := options{
 		query: make(map[string]interface{}, len(opts)),
 	}
@@ -206,436 +207,430 @@ func (obj *_EgEmployeeMgr) GetByOptions(opts ...Option) (results []*EgEmployee, 
 	}
 
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&results).Error
-	
+
 	return
 }
+
 //////////////////////////enume case ////////////////////////////////////////////
 
-
-// GetFromIDEmployee 通过id_employee获取内容  
-func (obj *_EgEmployeeMgr)  GetFromIDEmployee(idEmployee uint32) (result EgEmployee, err error) {
+// GetFromIDEmployee 通过id_employee获取内容
+func (obj *_EmployeeMgr) GetFromIDEmployee(idEmployee uint32) (result Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_employee = ?", idEmployee).Find(&result).Error
-	
+
 	return
 }
 
-// GetBatchFromIDEmployee 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromIDEmployee(idEmployees []uint32) (results []*EgEmployee, err error) {
+// GetBatchFromIDEmployee 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromIDEmployee(idEmployees []uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_employee IN (?)", idEmployees).Find(&results).Error
-	
-	return
-}
- 
-// GetFromIDProfile 通过id_profile获取内容  
-func (obj *_EgEmployeeMgr) GetFromIDProfile(idProfile uint32) (results []*EgEmployee, err error) {
-	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_profile = ?", idProfile).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromIDProfile 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromIDProfile(idProfiles []uint32) (results []*EgEmployee, err error) {
+// GetFromIDProfile 通过id_profile获取内容
+func (obj *_EmployeeMgr) GetFromIDProfile(idProfile uint32) (results []*Employee, err error) {
+	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_profile = ?", idProfile).Find(&results).Error
+
+	return
+}
+
+// GetBatchFromIDProfile 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromIDProfile(idProfiles []uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_profile IN (?)", idProfiles).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromIDLang 通过id_lang获取内容  
-func (obj *_EgEmployeeMgr) GetFromIDLang(idLang uint32) (results []*EgEmployee, err error) {
+
+// GetFromIDLang 通过id_lang获取内容
+func (obj *_EmployeeMgr) GetFromIDLang(idLang uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_lang = ?", idLang).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromIDLang 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromIDLang(idLangs []uint32) (results []*EgEmployee, err error) {
+// GetBatchFromIDLang 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromIDLang(idLangs []uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_lang IN (?)", idLangs).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromLastname 通过lastname获取内容  
-func (obj *_EgEmployeeMgr) GetFromLastname(lastname string) (results []*EgEmployee, err error) {
+
+// GetFromLastname 通过lastname获取内容
+func (obj *_EmployeeMgr) GetFromLastname(lastname string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("lastname = ?", lastname).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromLastname 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromLastname(lastnames []string) (results []*EgEmployee, err error) {
+// GetBatchFromLastname 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromLastname(lastnames []string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("lastname IN (?)", lastnames).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromFirstname 通过firstname获取内容  
-func (obj *_EgEmployeeMgr) GetFromFirstname(firstname string) (results []*EgEmployee, err error) {
+
+// GetFromFirstname 通过firstname获取内容
+func (obj *_EmployeeMgr) GetFromFirstname(firstname string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("firstname = ?", firstname).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromFirstname 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromFirstname(firstnames []string) (results []*EgEmployee, err error) {
+// GetBatchFromFirstname 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromFirstname(firstnames []string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("firstname IN (?)", firstnames).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromEmail 通过email获取内容  
-func (obj *_EgEmployeeMgr) GetFromEmail(email string) (results []*EgEmployee, err error) {
+
+// GetFromEmail 通过email获取内容
+func (obj *_EmployeeMgr) GetFromEmail(email string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("email = ?", email).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromEmail 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromEmail(emails []string) (results []*EgEmployee, err error) {
+// GetBatchFromEmail 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromEmail(emails []string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("email IN (?)", emails).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromPasswd 通过passwd获取内容  
-func (obj *_EgEmployeeMgr) GetFromPasswd(passwd string) (results []*EgEmployee, err error) {
+
+// GetFromPasswd 通过passwd获取内容
+func (obj *_EmployeeMgr) GetFromPasswd(passwd string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("passwd = ?", passwd).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromPasswd 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromPasswd(passwds []string) (results []*EgEmployee, err error) {
+// GetBatchFromPasswd 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromPasswd(passwds []string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("passwd IN (?)", passwds).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromLastPasswdGen 通过last_passwd_gen获取内容  
-func (obj *_EgEmployeeMgr) GetFromLastPasswdGen(lastPasswdGen time.Time) (results []*EgEmployee, err error) {
+
+// GetFromLastPasswdGen 通过last_passwd_gen获取内容
+func (obj *_EmployeeMgr) GetFromLastPasswdGen(lastPasswdGen time.Time) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("last_passwd_gen = ?", lastPasswdGen).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromLastPasswdGen 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromLastPasswdGen(lastPasswdGens []time.Time) (results []*EgEmployee, err error) {
+// GetBatchFromLastPasswdGen 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromLastPasswdGen(lastPasswdGens []time.Time) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("last_passwd_gen IN (?)", lastPasswdGens).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromStatsDateFrom 通过stats_date_from获取内容  
-func (obj *_EgEmployeeMgr) GetFromStatsDateFrom(statsDateFrom datatypes.Date) (results []*EgEmployee, err error) {
+
+// GetFromStatsDateFrom 通过stats_date_from获取内容
+func (obj *_EmployeeMgr) GetFromStatsDateFrom(statsDateFrom datatypes.Date) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("stats_date_from = ?", statsDateFrom).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromStatsDateFrom 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromStatsDateFrom(statsDateFroms []datatypes.Date) (results []*EgEmployee, err error) {
+// GetBatchFromStatsDateFrom 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromStatsDateFrom(statsDateFroms []datatypes.Date) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("stats_date_from IN (?)", statsDateFroms).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromStatsDateTo 通过stats_date_to获取内容  
-func (obj *_EgEmployeeMgr) GetFromStatsDateTo(statsDateTo datatypes.Date) (results []*EgEmployee, err error) {
+
+// GetFromStatsDateTo 通过stats_date_to获取内容
+func (obj *_EmployeeMgr) GetFromStatsDateTo(statsDateTo datatypes.Date) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("stats_date_to = ?", statsDateTo).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromStatsDateTo 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromStatsDateTo(statsDateTos []datatypes.Date) (results []*EgEmployee, err error) {
+// GetBatchFromStatsDateTo 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromStatsDateTo(statsDateTos []datatypes.Date) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("stats_date_to IN (?)", statsDateTos).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromStatsCompareFrom 通过stats_compare_from获取内容  
-func (obj *_EgEmployeeMgr) GetFromStatsCompareFrom(statsCompareFrom datatypes.Date) (results []*EgEmployee, err error) {
+
+// GetFromStatsCompareFrom 通过stats_compare_from获取内容
+func (obj *_EmployeeMgr) GetFromStatsCompareFrom(statsCompareFrom datatypes.Date) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("stats_compare_from = ?", statsCompareFrom).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromStatsCompareFrom 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromStatsCompareFrom(statsCompareFroms []datatypes.Date) (results []*EgEmployee, err error) {
+// GetBatchFromStatsCompareFrom 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromStatsCompareFrom(statsCompareFroms []datatypes.Date) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("stats_compare_from IN (?)", statsCompareFroms).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromStatsCompareTo 通过stats_compare_to获取内容  
-func (obj *_EgEmployeeMgr) GetFromStatsCompareTo(statsCompareTo datatypes.Date) (results []*EgEmployee, err error) {
+
+// GetFromStatsCompareTo 通过stats_compare_to获取内容
+func (obj *_EmployeeMgr) GetFromStatsCompareTo(statsCompareTo datatypes.Date) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("stats_compare_to = ?", statsCompareTo).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromStatsCompareTo 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromStatsCompareTo(statsCompareTos []datatypes.Date) (results []*EgEmployee, err error) {
+// GetBatchFromStatsCompareTo 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromStatsCompareTo(statsCompareTos []datatypes.Date) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("stats_compare_to IN (?)", statsCompareTos).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromStatsCompareOption 通过stats_compare_option获取内容  
-func (obj *_EgEmployeeMgr) GetFromStatsCompareOption(statsCompareOption uint32) (results []*EgEmployee, err error) {
+
+// GetFromStatsCompareOption 通过stats_compare_option获取内容
+func (obj *_EmployeeMgr) GetFromStatsCompareOption(statsCompareOption uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("stats_compare_option = ?", statsCompareOption).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromStatsCompareOption 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromStatsCompareOption(statsCompareOptions []uint32) (results []*EgEmployee, err error) {
+// GetBatchFromStatsCompareOption 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromStatsCompareOption(statsCompareOptions []uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("stats_compare_option IN (?)", statsCompareOptions).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromPreselectDateRange 通过preselect_date_range获取内容  
-func (obj *_EgEmployeeMgr) GetFromPreselectDateRange(preselectDateRange string) (results []*EgEmployee, err error) {
+
+// GetFromPreselectDateRange 通过preselect_date_range获取内容
+func (obj *_EmployeeMgr) GetFromPreselectDateRange(preselectDateRange string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("preselect_date_range = ?", preselectDateRange).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromPreselectDateRange 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromPreselectDateRange(preselectDateRanges []string) (results []*EgEmployee, err error) {
+// GetBatchFromPreselectDateRange 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromPreselectDateRange(preselectDateRanges []string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("preselect_date_range IN (?)", preselectDateRanges).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromBoColor 通过bo_color获取内容  
-func (obj *_EgEmployeeMgr) GetFromBoColor(boColor string) (results []*EgEmployee, err error) {
+
+// GetFromBoColor 通过bo_color获取内容
+func (obj *_EmployeeMgr) GetFromBoColor(boColor string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("bo_color = ?", boColor).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromBoColor 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromBoColor(boColors []string) (results []*EgEmployee, err error) {
+// GetBatchFromBoColor 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromBoColor(boColors []string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("bo_color IN (?)", boColors).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromBoTheme 通过bo_theme获取内容  
-func (obj *_EgEmployeeMgr) GetFromBoTheme(boTheme string) (results []*EgEmployee, err error) {
+
+// GetFromBoTheme 通过bo_theme获取内容
+func (obj *_EmployeeMgr) GetFromBoTheme(boTheme string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("bo_theme = ?", boTheme).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromBoTheme 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromBoTheme(boThemes []string) (results []*EgEmployee, err error) {
+// GetBatchFromBoTheme 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromBoTheme(boThemes []string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("bo_theme IN (?)", boThemes).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromBoCSS 通过bo_css获取内容  
-func (obj *_EgEmployeeMgr) GetFromBoCSS(boCSS string) (results []*EgEmployee, err error) {
+
+// GetFromBoCSS 通过bo_css获取内容
+func (obj *_EmployeeMgr) GetFromBoCSS(boCSS string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("bo_css = ?", boCSS).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromBoCSS 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromBoCSS(boCSSs []string) (results []*EgEmployee, err error) {
+// GetBatchFromBoCSS 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromBoCSS(boCSSs []string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("bo_css IN (?)", boCSSs).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromDefaultTab 通过default_tab获取内容  
-func (obj *_EgEmployeeMgr) GetFromDefaultTab(defaultTab uint32) (results []*EgEmployee, err error) {
+
+// GetFromDefaultTab 通过default_tab获取内容
+func (obj *_EmployeeMgr) GetFromDefaultTab(defaultTab uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("default_tab = ?", defaultTab).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromDefaultTab 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromDefaultTab(defaultTabs []uint32) (results []*EgEmployee, err error) {
+// GetBatchFromDefaultTab 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromDefaultTab(defaultTabs []uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("default_tab IN (?)", defaultTabs).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromBoWidth 通过bo_width获取内容  
-func (obj *_EgEmployeeMgr) GetFromBoWidth(boWidth uint32) (results []*EgEmployee, err error) {
+
+// GetFromBoWidth 通过bo_width获取内容
+func (obj *_EmployeeMgr) GetFromBoWidth(boWidth uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("bo_width = ?", boWidth).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromBoWidth 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromBoWidth(boWidths []uint32) (results []*EgEmployee, err error) {
+// GetBatchFromBoWidth 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromBoWidth(boWidths []uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("bo_width IN (?)", boWidths).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromBoMenu 通过bo_menu获取内容  
-func (obj *_EgEmployeeMgr) GetFromBoMenu(boMenu bool) (results []*EgEmployee, err error) {
+
+// GetFromBoMenu 通过bo_menu获取内容
+func (obj *_EmployeeMgr) GetFromBoMenu(boMenu bool) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("bo_menu = ?", boMenu).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromBoMenu 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromBoMenu(boMenus []bool) (results []*EgEmployee, err error) {
+// GetBatchFromBoMenu 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromBoMenu(boMenus []bool) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("bo_menu IN (?)", boMenus).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromActive 通过active获取内容  
-func (obj *_EgEmployeeMgr) GetFromActive(active bool) (results []*EgEmployee, err error) {
+
+// GetFromActive 通过active获取内容
+func (obj *_EmployeeMgr) GetFromActive(active bool) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("active = ?", active).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromActive 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromActive(actives []bool) (results []*EgEmployee, err error) {
+// GetBatchFromActive 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromActive(actives []bool) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("active IN (?)", actives).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromOptin 通过optin获取内容  
-func (obj *_EgEmployeeMgr) GetFromOptin(optin bool) (results []*EgEmployee, err error) {
+
+// GetFromOptin 通过optin获取内容
+func (obj *_EmployeeMgr) GetFromOptin(optin bool) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("optin = ?", optin).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromOptin 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromOptin(optins []bool) (results []*EgEmployee, err error) {
+// GetBatchFromOptin 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromOptin(optins []bool) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("optin IN (?)", optins).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromIDLastOrder 通过id_last_order获取内容  
-func (obj *_EgEmployeeMgr) GetFromIDLastOrder(idLastOrder uint32) (results []*EgEmployee, err error) {
+
+// GetFromIDLastOrder 通过id_last_order获取内容
+func (obj *_EmployeeMgr) GetFromIDLastOrder(idLastOrder uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_last_order = ?", idLastOrder).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromIDLastOrder 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromIDLastOrder(idLastOrders []uint32) (results []*EgEmployee, err error) {
+// GetBatchFromIDLastOrder 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromIDLastOrder(idLastOrders []uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_last_order IN (?)", idLastOrders).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromIDLastCustomerMessage 通过id_last_customer_message获取内容  
-func (obj *_EgEmployeeMgr) GetFromIDLastCustomerMessage(idLastCustomerMessage uint32) (results []*EgEmployee, err error) {
+
+// GetFromIDLastCustomerMessage 通过id_last_customer_message获取内容
+func (obj *_EmployeeMgr) GetFromIDLastCustomerMessage(idLastCustomerMessage uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_last_customer_message = ?", idLastCustomerMessage).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromIDLastCustomerMessage 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromIDLastCustomerMessage(idLastCustomerMessages []uint32) (results []*EgEmployee, err error) {
+// GetBatchFromIDLastCustomerMessage 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromIDLastCustomerMessage(idLastCustomerMessages []uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_last_customer_message IN (?)", idLastCustomerMessages).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromIDLastCustomer 通过id_last_customer获取内容  
-func (obj *_EgEmployeeMgr) GetFromIDLastCustomer(idLastCustomer uint32) (results []*EgEmployee, err error) {
+
+// GetFromIDLastCustomer 通过id_last_customer获取内容
+func (obj *_EmployeeMgr) GetFromIDLastCustomer(idLastCustomer uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_last_customer = ?", idLastCustomer).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromIDLastCustomer 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromIDLastCustomer(idLastCustomers []uint32) (results []*EgEmployee, err error) {
+// GetBatchFromIDLastCustomer 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromIDLastCustomer(idLastCustomers []uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_last_customer IN (?)", idLastCustomers).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromLastConnectionDate 通过last_connection_date获取内容  
-func (obj *_EgEmployeeMgr) GetFromLastConnectionDate(lastConnectionDate datatypes.Date) (results []*EgEmployee, err error) {
+
+// GetFromLastConnectionDate 通过last_connection_date获取内容
+func (obj *_EmployeeMgr) GetFromLastConnectionDate(lastConnectionDate datatypes.Date) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("last_connection_date = ?", lastConnectionDate).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromLastConnectionDate 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromLastConnectionDate(lastConnectionDates []datatypes.Date) (results []*EgEmployee, err error) {
+// GetBatchFromLastConnectionDate 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromLastConnectionDate(lastConnectionDates []datatypes.Date) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("last_connection_date IN (?)", lastConnectionDates).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromResetPasswordToken 通过reset_password_token获取内容  
-func (obj *_EgEmployeeMgr) GetFromResetPasswordToken(resetPasswordToken string) (results []*EgEmployee, err error) {
+
+// GetFromResetPasswordToken 通过reset_password_token获取内容
+func (obj *_EmployeeMgr) GetFromResetPasswordToken(resetPasswordToken string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("reset_password_token = ?", resetPasswordToken).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromResetPasswordToken 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromResetPasswordToken(resetPasswordTokens []string) (results []*EgEmployee, err error) {
+// GetBatchFromResetPasswordToken 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromResetPasswordToken(resetPasswordTokens []string) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("reset_password_token IN (?)", resetPasswordTokens).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromResetPasswordValidity 通过reset_password_validity获取内容  
-func (obj *_EgEmployeeMgr) GetFromResetPasswordValidity(resetPasswordValidity time.Time) (results []*EgEmployee, err error) {
+
+// GetFromResetPasswordValidity 通过reset_password_validity获取内容
+func (obj *_EmployeeMgr) GetFromResetPasswordValidity(resetPasswordValidity time.Time) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("reset_password_validity = ?", resetPasswordValidity).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromResetPasswordValidity 批量唯一主键查找 
-func (obj *_EgEmployeeMgr) GetBatchFromResetPasswordValidity(resetPasswordValiditys []time.Time) (results []*EgEmployee, err error) {
+// GetBatchFromResetPasswordValidity 批量唯一主键查找
+func (obj *_EmployeeMgr) GetBatchFromResetPasswordValidity(resetPasswordValiditys []time.Time) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("reset_password_validity IN (?)", resetPasswordValiditys).Find(&results).Error
-	
+
 	return
 }
- 
- //////////////////////////primary index case ////////////////////////////////////////////
- 
- // FetchByPrimaryKey primay or index 获取唯一内容
- func (obj *_EgEmployeeMgr) FetchByPrimaryKey(idEmployee uint32 ) (result EgEmployee, err error) {
+
+//////////////////////////primary index case ////////////////////////////////////////////
+
+// FetchByPrimaryKey primay or index 获取唯一内容
+func (obj *_EmployeeMgr) FetchByPrimaryKey(idEmployee uint32) (result Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_employee = ?", idEmployee).Find(&result).Error
-	
-	return
-}
- 
 
- 
- // FetchIndexByIDEmployeePasswd  获取多个内容
- func (obj *_EgEmployeeMgr) FetchIndexByIDEmployeePasswd(idEmployee uint32 ,passwd string ) (results []*EgEmployee, err error) {
-	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_employee = ? AND passwd = ?", idEmployee , passwd).Find(&results).Error
-	
 	return
 }
- 
- // FetchIndexByIDProfile  获取多个内容
- func (obj *_EgEmployeeMgr) FetchIndexByIDProfile(idProfile uint32 ) (results []*EgEmployee, err error) {
+
+// FetchIndexByIDEmployeePasswd  获取多个内容
+func (obj *_EmployeeMgr) FetchIndexByIDEmployeePasswd(idEmployee uint32, passwd string) (results []*Employee, err error) {
+	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_employee = ? AND passwd = ?", idEmployee, passwd).Find(&results).Error
+
+	return
+}
+
+// FetchIndexByIDProfile  获取多个内容
+func (obj *_EmployeeMgr) FetchIndexByIDProfile(idProfile uint32) (results []*Employee, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_profile = ?", idProfile).Find(&results).Error
-	
+
 	return
 }
- 
- // FetchIndexByEmployeeLogin  获取多个内容
- func (obj *_EgEmployeeMgr) FetchIndexByEmployeeLogin(email string ,passwd string ) (results []*EgEmployee, err error) {
-	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("email = ? AND passwd = ?", email , passwd).Find(&results).Error
-	
+
+// FetchIndexByEmployeeLogin  获取多个内容
+func (obj *_EmployeeMgr) FetchIndexByEmployeeLogin(email string, passwd string) (results []*Employee, err error) {
+	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("email = ? AND passwd = ?", email, passwd).Find(&results).Error
+
 	return
 }
- 
-
-	
-

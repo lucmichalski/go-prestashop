@@ -1,62 +1,63 @@
-package	model	
-import (	
-"gorm.io/gorm"	
-"fmt"	
-"context"	
-)	
+package model
 
-type _EgPscheckoutOrderMatriceMgr struct {
+import (
+	"context"
+	"fmt"
+
+	"gorm.io/gorm"
+)
+
+type _PscheckoutOrderMatriceMgr struct {
 	*_BaseMgr
 }
 
-// EgPscheckoutOrderMatriceMgr open func
-func EgPscheckoutOrderMatriceMgr(db *gorm.DB) *_EgPscheckoutOrderMatriceMgr {
+// PscheckoutOrderMatriceMgr open func
+func PscheckoutOrderMatriceMgr(db *gorm.DB) *_PscheckoutOrderMatriceMgr {
 	if db == nil {
-		panic(fmt.Errorf("EgPscheckoutOrderMatriceMgr need init by db"))
+		panic(fmt.Errorf("PscheckoutOrderMatriceMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_EgPscheckoutOrderMatriceMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_pscheckout_order_matrice"), isRelated: globalIsRelated,ctx:ctx,cancel:cancel,timeout:-1}}
+	return &_PscheckoutOrderMatriceMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_pscheckout_order_matrice"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
-func (obj *_EgPscheckoutOrderMatriceMgr) GetTableName() string {
+func (obj *_PscheckoutOrderMatriceMgr) GetTableName() string {
 	return "eg_pscheckout_order_matrice"
 }
 
 // Get 获取
-func (obj *_EgPscheckoutOrderMatriceMgr) Get() (result EgPscheckoutOrderMatrice, err error) {
+func (obj *_PscheckoutOrderMatriceMgr) Get() (result PscheckoutOrderMatrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&result).Error
-	
+
 	return
 }
 
 // Gets 获取批量结果
-func (obj *_EgPscheckoutOrderMatriceMgr) Gets() (results []*EgPscheckoutOrderMatrice, err error) {
+func (obj *_PscheckoutOrderMatriceMgr) Gets() (results []*PscheckoutOrderMatrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&results).Error
-	
+
 	return
 }
 
 //////////////////////////option case ////////////////////////////////////////////
 
-// WithIDOrderMatrice id_order_matrice获取 
-func (obj *_EgPscheckoutOrderMatriceMgr) WithIDOrderMatrice(idOrderMatrice uint32) Option {
+// WithIDOrderMatrice id_order_matrice获取
+func (obj *_PscheckoutOrderMatriceMgr) WithIDOrderMatrice(idOrderMatrice uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_order_matrice"] = idOrderMatrice })
 }
 
-// WithIDOrderPrestashop id_order_prestashop获取 
-func (obj *_EgPscheckoutOrderMatriceMgr) WithIDOrderPrestashop(idOrderPrestashop uint32) Option {
+// WithIDOrderPrestashop id_order_prestashop获取
+func (obj *_PscheckoutOrderMatriceMgr) WithIDOrderPrestashop(idOrderPrestashop uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_order_prestashop"] = idOrderPrestashop })
 }
 
-// WithIDOrderPaypal id_order_paypal获取 
-func (obj *_EgPscheckoutOrderMatriceMgr) WithIDOrderPaypal(idOrderPaypal string) Option {
+// WithIDOrderPaypal id_order_paypal获取
+func (obj *_PscheckoutOrderMatriceMgr) WithIDOrderPaypal(idOrderPaypal string) Option {
 	return optionFunc(func(o *options) { o.query["id_order_paypal"] = idOrderPaypal })
 }
 
-
 // GetByOption 功能选项模式获取
-func (obj *_EgPscheckoutOrderMatriceMgr) GetByOption(opts ...Option) (result EgPscheckoutOrderMatrice, err error) {
+func (obj *_PscheckoutOrderMatriceMgr) GetByOption(opts ...Option) (result PscheckoutOrderMatrice, err error) {
 	options := options{
 		query: make(map[string]interface{}, len(opts)),
 	}
@@ -65,12 +66,12 @@ func (obj *_EgPscheckoutOrderMatriceMgr) GetByOption(opts ...Option) (result EgP
 	}
 
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&result).Error
-	
+
 	return
 }
 
 // GetByOptions 批量功能选项模式获取
-func (obj *_EgPscheckoutOrderMatriceMgr) GetByOptions(opts ...Option) (results []*EgPscheckoutOrderMatrice, err error) {
+func (obj *_PscheckoutOrderMatriceMgr) GetByOptions(opts ...Option) (results []*PscheckoutOrderMatrice, err error) {
 	options := options{
 		query: make(map[string]interface{}, len(opts)),
 	}
@@ -79,65 +80,59 @@ func (obj *_EgPscheckoutOrderMatriceMgr) GetByOptions(opts ...Option) (results [
 	}
 
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&results).Error
-	
+
 	return
 }
+
 //////////////////////////enume case ////////////////////////////////////////////
 
-
-// GetFromIDOrderMatrice 通过id_order_matrice获取内容  
-func (obj *_EgPscheckoutOrderMatriceMgr)  GetFromIDOrderMatrice(idOrderMatrice uint32) (result EgPscheckoutOrderMatrice, err error) {
+// GetFromIDOrderMatrice 通过id_order_matrice获取内容
+func (obj *_PscheckoutOrderMatriceMgr) GetFromIDOrderMatrice(idOrderMatrice uint32) (result PscheckoutOrderMatrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_matrice = ?", idOrderMatrice).Find(&result).Error
-	
+
 	return
 }
 
-// GetBatchFromIDOrderMatrice 批量唯一主键查找 
-func (obj *_EgPscheckoutOrderMatriceMgr) GetBatchFromIDOrderMatrice(idOrderMatrices []uint32) (results []*EgPscheckoutOrderMatrice, err error) {
+// GetBatchFromIDOrderMatrice 批量唯一主键查找
+func (obj *_PscheckoutOrderMatriceMgr) GetBatchFromIDOrderMatrice(idOrderMatrices []uint32) (results []*PscheckoutOrderMatrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_matrice IN (?)", idOrderMatrices).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromIDOrderPrestashop 通过id_order_prestashop获取内容  
-func (obj *_EgPscheckoutOrderMatriceMgr) GetFromIDOrderPrestashop(idOrderPrestashop uint32) (results []*EgPscheckoutOrderMatrice, err error) {
+
+// GetFromIDOrderPrestashop 通过id_order_prestashop获取内容
+func (obj *_PscheckoutOrderMatriceMgr) GetFromIDOrderPrestashop(idOrderPrestashop uint32) (results []*PscheckoutOrderMatrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_prestashop = ?", idOrderPrestashop).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromIDOrderPrestashop 批量唯一主键查找 
-func (obj *_EgPscheckoutOrderMatriceMgr) GetBatchFromIDOrderPrestashop(idOrderPrestashops []uint32) (results []*EgPscheckoutOrderMatrice, err error) {
+// GetBatchFromIDOrderPrestashop 批量唯一主键查找
+func (obj *_PscheckoutOrderMatriceMgr) GetBatchFromIDOrderPrestashop(idOrderPrestashops []uint32) (results []*PscheckoutOrderMatrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_prestashop IN (?)", idOrderPrestashops).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromIDOrderPaypal 通过id_order_paypal获取内容  
-func (obj *_EgPscheckoutOrderMatriceMgr) GetFromIDOrderPaypal(idOrderPaypal string) (results []*EgPscheckoutOrderMatrice, err error) {
+
+// GetFromIDOrderPaypal 通过id_order_paypal获取内容
+func (obj *_PscheckoutOrderMatriceMgr) GetFromIDOrderPaypal(idOrderPaypal string) (results []*PscheckoutOrderMatrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_paypal = ?", idOrderPaypal).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromIDOrderPaypal 批量唯一主键查找 
-func (obj *_EgPscheckoutOrderMatriceMgr) GetBatchFromIDOrderPaypal(idOrderPaypals []string) (results []*EgPscheckoutOrderMatrice, err error) {
+// GetBatchFromIDOrderPaypal 批量唯一主键查找
+func (obj *_PscheckoutOrderMatriceMgr) GetBatchFromIDOrderPaypal(idOrderPaypals []string) (results []*PscheckoutOrderMatrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_paypal IN (?)", idOrderPaypals).Find(&results).Error
-	
+
 	return
 }
- 
- //////////////////////////primary index case ////////////////////////////////////////////
- 
- // FetchByPrimaryKey primay or index 获取唯一内容
- func (obj *_EgPscheckoutOrderMatriceMgr) FetchByPrimaryKey(idOrderMatrice uint32 ) (result EgPscheckoutOrderMatrice, err error) {
+
+//////////////////////////primary index case ////////////////////////////////////////////
+
+// FetchByPrimaryKey primay or index 获取唯一内容
+func (obj *_PscheckoutOrderMatriceMgr) FetchByPrimaryKey(idOrderMatrice uint32) (result PscheckoutOrderMatrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_matrice = ?", idOrderMatrice).Find(&result).Error
-	
+
 	return
 }
- 
-
- 
-
-	
-

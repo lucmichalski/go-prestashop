@@ -1,67 +1,68 @@
-package	model	
-import (	
-"fmt"	
-"context"	
-"gorm.io/gorm"	
-)	
+package model
 
-type _EgLayeredIndexableFeatureLangValueMgr struct {
+import (
+	"context"
+	"fmt"
+
+	"gorm.io/gorm"
+)
+
+type _LayeredIndexableFeatureLangValueMgr struct {
 	*_BaseMgr
 }
 
-// EgLayeredIndexableFeatureLangValueMgr open func
-func EgLayeredIndexableFeatureLangValueMgr(db *gorm.DB) *_EgLayeredIndexableFeatureLangValueMgr {
+// LayeredIndexableFeatureLangValueMgr open func
+func LayeredIndexableFeatureLangValueMgr(db *gorm.DB) *_LayeredIndexableFeatureLangValueMgr {
 	if db == nil {
-		panic(fmt.Errorf("EgLayeredIndexableFeatureLangValueMgr need init by db"))
+		panic(fmt.Errorf("LayeredIndexableFeatureLangValueMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_EgLayeredIndexableFeatureLangValueMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_layered_indexable_feature_lang_value"), isRelated: globalIsRelated,ctx:ctx,cancel:cancel,timeout:-1}}
+	return &_LayeredIndexableFeatureLangValueMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_layered_indexable_feature_lang_value"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) GetTableName() string {
+func (obj *_LayeredIndexableFeatureLangValueMgr) GetTableName() string {
 	return "eg_layered_indexable_feature_lang_value"
 }
 
 // Get 获取
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) Get() (result EgLayeredIndexableFeatureLangValue, err error) {
+func (obj *_LayeredIndexableFeatureLangValueMgr) Get() (result LayeredIndexableFeatureLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&result).Error
-	
+
 	return
 }
 
 // Gets 获取批量结果
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) Gets() (results []*EgLayeredIndexableFeatureLangValue, err error) {
+func (obj *_LayeredIndexableFeatureLangValueMgr) Gets() (results []*LayeredIndexableFeatureLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&results).Error
-	
+
 	return
 }
 
 //////////////////////////option case ////////////////////////////////////////////
 
-// WithIDFeature id_feature获取 
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) WithIDFeature(idFeature int) Option {
+// WithIDFeature id_feature获取
+func (obj *_LayeredIndexableFeatureLangValueMgr) WithIDFeature(idFeature int) Option {
 	return optionFunc(func(o *options) { o.query["id_feature"] = idFeature })
 }
 
-// WithIDLang id_lang获取 
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) WithIDLang(idLang int) Option {
+// WithIDLang id_lang获取
+func (obj *_LayeredIndexableFeatureLangValueMgr) WithIDLang(idLang int) Option {
 	return optionFunc(func(o *options) { o.query["id_lang"] = idLang })
 }
 
-// WithURLName url_name获取 
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) WithURLName(urlName string) Option {
+// WithURLName url_name获取
+func (obj *_LayeredIndexableFeatureLangValueMgr) WithURLName(urlName string) Option {
 	return optionFunc(func(o *options) { o.query["url_name"] = urlName })
 }
 
-// WithMetaTitle meta_title获取 
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) WithMetaTitle(metaTitle string) Option {
+// WithMetaTitle meta_title获取
+func (obj *_LayeredIndexableFeatureLangValueMgr) WithMetaTitle(metaTitle string) Option {
 	return optionFunc(func(o *options) { o.query["meta_title"] = metaTitle })
 }
 
-
 // GetByOption 功能选项模式获取
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) GetByOption(opts ...Option) (result EgLayeredIndexableFeatureLangValue, err error) {
+func (obj *_LayeredIndexableFeatureLangValueMgr) GetByOption(opts ...Option) (result LayeredIndexableFeatureLangValue, err error) {
 	options := options{
 		query: make(map[string]interface{}, len(opts)),
 	}
@@ -70,12 +71,12 @@ func (obj *_EgLayeredIndexableFeatureLangValueMgr) GetByOption(opts ...Option) (
 	}
 
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&result).Error
-	
+
 	return
 }
 
 // GetByOptions 批量功能选项模式获取
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) GetByOptions(opts ...Option) (results []*EgLayeredIndexableFeatureLangValue, err error) {
+func (obj *_LayeredIndexableFeatureLangValueMgr) GetByOptions(opts ...Option) (results []*LayeredIndexableFeatureLangValue, err error) {
 	options := options{
 		query: make(map[string]interface{}, len(opts)),
 	}
@@ -84,79 +85,73 @@ func (obj *_EgLayeredIndexableFeatureLangValueMgr) GetByOptions(opts ...Option) 
 	}
 
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&results).Error
-	
+
 	return
 }
+
 //////////////////////////enume case ////////////////////////////////////////////
 
-
-// GetFromIDFeature 通过id_feature获取内容  
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) GetFromIDFeature(idFeature int) (results []*EgLayeredIndexableFeatureLangValue, err error) {
+// GetFromIDFeature 通过id_feature获取内容
+func (obj *_LayeredIndexableFeatureLangValueMgr) GetFromIDFeature(idFeature int) (results []*LayeredIndexableFeatureLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_feature = ?", idFeature).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromIDFeature 批量唯一主键查找 
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) GetBatchFromIDFeature(idFeatures []int) (results []*EgLayeredIndexableFeatureLangValue, err error) {
+// GetBatchFromIDFeature 批量唯一主键查找
+func (obj *_LayeredIndexableFeatureLangValueMgr) GetBatchFromIDFeature(idFeatures []int) (results []*LayeredIndexableFeatureLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_feature IN (?)", idFeatures).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromIDLang 通过id_lang获取内容  
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) GetFromIDLang(idLang int) (results []*EgLayeredIndexableFeatureLangValue, err error) {
+
+// GetFromIDLang 通过id_lang获取内容
+func (obj *_LayeredIndexableFeatureLangValueMgr) GetFromIDLang(idLang int) (results []*LayeredIndexableFeatureLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_lang = ?", idLang).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromIDLang 批量唯一主键查找 
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) GetBatchFromIDLang(idLangs []int) (results []*EgLayeredIndexableFeatureLangValue, err error) {
+// GetBatchFromIDLang 批量唯一主键查找
+func (obj *_LayeredIndexableFeatureLangValueMgr) GetBatchFromIDLang(idLangs []int) (results []*LayeredIndexableFeatureLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_lang IN (?)", idLangs).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromURLName 通过url_name获取内容  
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) GetFromURLName(urlName string) (results []*EgLayeredIndexableFeatureLangValue, err error) {
+
+// GetFromURLName 通过url_name获取内容
+func (obj *_LayeredIndexableFeatureLangValueMgr) GetFromURLName(urlName string) (results []*LayeredIndexableFeatureLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("url_name = ?", urlName).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromURLName 批量唯一主键查找 
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) GetBatchFromURLName(urlNames []string) (results []*EgLayeredIndexableFeatureLangValue, err error) {
+// GetBatchFromURLName 批量唯一主键查找
+func (obj *_LayeredIndexableFeatureLangValueMgr) GetBatchFromURLName(urlNames []string) (results []*LayeredIndexableFeatureLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("url_name IN (?)", urlNames).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromMetaTitle 通过meta_title获取内容  
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) GetFromMetaTitle(metaTitle string) (results []*EgLayeredIndexableFeatureLangValue, err error) {
+
+// GetFromMetaTitle 通过meta_title获取内容
+func (obj *_LayeredIndexableFeatureLangValueMgr) GetFromMetaTitle(metaTitle string) (results []*LayeredIndexableFeatureLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("meta_title = ?", metaTitle).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromMetaTitle 批量唯一主键查找 
-func (obj *_EgLayeredIndexableFeatureLangValueMgr) GetBatchFromMetaTitle(metaTitles []string) (results []*EgLayeredIndexableFeatureLangValue, err error) {
+// GetBatchFromMetaTitle 批量唯一主键查找
+func (obj *_LayeredIndexableFeatureLangValueMgr) GetBatchFromMetaTitle(metaTitles []string) (results []*LayeredIndexableFeatureLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("meta_title IN (?)", metaTitles).Find(&results).Error
-	
+
 	return
 }
- 
- //////////////////////////primary index case ////////////////////////////////////////////
- 
- // FetchByPrimaryKey primay or index 获取唯一内容
- func (obj *_EgLayeredIndexableFeatureLangValueMgr) FetchByPrimaryKey(idFeature int ,idLang int ) (result EgLayeredIndexableFeatureLangValue, err error) {
-	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_feature = ? AND id_lang = ?", idFeature , idLang).Find(&result).Error
-	
+
+//////////////////////////primary index case ////////////////////////////////////////////
+
+// FetchByPrimaryKey primay or index 获取唯一内容
+func (obj *_LayeredIndexableFeatureLangValueMgr) FetchByPrimaryKey(idFeature int, idLang int) (result LayeredIndexableFeatureLangValue, err error) {
+	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_feature = ? AND id_lang = ?", idFeature, idLang).Find(&result).Error
+
 	return
 }
- 
-
- 
-
-	
-

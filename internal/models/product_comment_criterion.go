@@ -1,62 +1,63 @@
-package	model	
-import (	
-"fmt"	
-"context"	
-"gorm.io/gorm"	
-)	
+package model
 
-type _EgProductCommentCriterionMgr struct {
+import (
+	"context"
+	"fmt"
+
+	"gorm.io/gorm"
+)
+
+type _ProductCommentCriterionMgr struct {
 	*_BaseMgr
 }
 
-// EgProductCommentCriterionMgr open func
-func EgProductCommentCriterionMgr(db *gorm.DB) *_EgProductCommentCriterionMgr {
+// ProductCommentCriterionMgr open func
+func ProductCommentCriterionMgr(db *gorm.DB) *_ProductCommentCriterionMgr {
 	if db == nil {
-		panic(fmt.Errorf("EgProductCommentCriterionMgr need init by db"))
+		panic(fmt.Errorf("ProductCommentCriterionMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_EgProductCommentCriterionMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_product_comment_criterion"), isRelated: globalIsRelated,ctx:ctx,cancel:cancel,timeout:-1}}
+	return &_ProductCommentCriterionMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_product_comment_criterion"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
-func (obj *_EgProductCommentCriterionMgr) GetTableName() string {
+func (obj *_ProductCommentCriterionMgr) GetTableName() string {
 	return "eg_product_comment_criterion"
 }
 
 // Get 获取
-func (obj *_EgProductCommentCriterionMgr) Get() (result EgProductCommentCriterion, err error) {
+func (obj *_ProductCommentCriterionMgr) Get() (result ProductCommentCriterion, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&result).Error
-	
+
 	return
 }
 
 // Gets 获取批量结果
-func (obj *_EgProductCommentCriterionMgr) Gets() (results []*EgProductCommentCriterion, err error) {
+func (obj *_ProductCommentCriterionMgr) Gets() (results []*ProductCommentCriterion, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&results).Error
-	
+
 	return
 }
 
 //////////////////////////option case ////////////////////////////////////////////
 
-// WithIDProductCommentCriterion id_product_comment_criterion获取 
-func (obj *_EgProductCommentCriterionMgr) WithIDProductCommentCriterion(idProductCommentCriterion int) Option {
+// WithIDProductCommentCriterion id_product_comment_criterion获取
+func (obj *_ProductCommentCriterionMgr) WithIDProductCommentCriterion(idProductCommentCriterion int) Option {
 	return optionFunc(func(o *options) { o.query["id_product_comment_criterion"] = idProductCommentCriterion })
 }
 
-// WithIDProductCommentCriterionType id_product_comment_criterion_type获取 
-func (obj *_EgProductCommentCriterionMgr) WithIDProductCommentCriterionType(idProductCommentCriterionType int) Option {
+// WithIDProductCommentCriterionType id_product_comment_criterion_type获取
+func (obj *_ProductCommentCriterionMgr) WithIDProductCommentCriterionType(idProductCommentCriterionType int) Option {
 	return optionFunc(func(o *options) { o.query["id_product_comment_criterion_type"] = idProductCommentCriterionType })
 }
 
-// WithActive active获取 
-func (obj *_EgProductCommentCriterionMgr) WithActive(active bool) Option {
+// WithActive active获取
+func (obj *_ProductCommentCriterionMgr) WithActive(active bool) Option {
 	return optionFunc(func(o *options) { o.query["active"] = active })
 }
 
-
 // GetByOption 功能选项模式获取
-func (obj *_EgProductCommentCriterionMgr) GetByOption(opts ...Option) (result EgProductCommentCriterion, err error) {
+func (obj *_ProductCommentCriterionMgr) GetByOption(opts ...Option) (result ProductCommentCriterion, err error) {
 	options := options{
 		query: make(map[string]interface{}, len(opts)),
 	}
@@ -65,12 +66,12 @@ func (obj *_EgProductCommentCriterionMgr) GetByOption(opts ...Option) (result Eg
 	}
 
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&result).Error
-	
+
 	return
 }
 
 // GetByOptions 批量功能选项模式获取
-func (obj *_EgProductCommentCriterionMgr) GetByOptions(opts ...Option) (results []*EgProductCommentCriterion, err error) {
+func (obj *_ProductCommentCriterionMgr) GetByOptions(opts ...Option) (results []*ProductCommentCriterion, err error) {
 	options := options{
 		query: make(map[string]interface{}, len(opts)),
 	}
@@ -79,65 +80,59 @@ func (obj *_EgProductCommentCriterionMgr) GetByOptions(opts ...Option) (results 
 	}
 
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&results).Error
-	
+
 	return
 }
+
 //////////////////////////enume case ////////////////////////////////////////////
 
-
-// GetFromIDProductCommentCriterion 通过id_product_comment_criterion获取内容  
-func (obj *_EgProductCommentCriterionMgr)  GetFromIDProductCommentCriterion(idProductCommentCriterion int) (result EgProductCommentCriterion, err error) {
+// GetFromIDProductCommentCriterion 通过id_product_comment_criterion获取内容
+func (obj *_ProductCommentCriterionMgr) GetFromIDProductCommentCriterion(idProductCommentCriterion int) (result ProductCommentCriterion, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_comment_criterion = ?", idProductCommentCriterion).Find(&result).Error
-	
+
 	return
 }
 
-// GetBatchFromIDProductCommentCriterion 批量唯一主键查找 
-func (obj *_EgProductCommentCriterionMgr) GetBatchFromIDProductCommentCriterion(idProductCommentCriterions []int) (results []*EgProductCommentCriterion, err error) {
+// GetBatchFromIDProductCommentCriterion 批量唯一主键查找
+func (obj *_ProductCommentCriterionMgr) GetBatchFromIDProductCommentCriterion(idProductCommentCriterions []int) (results []*ProductCommentCriterion, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_comment_criterion IN (?)", idProductCommentCriterions).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromIDProductCommentCriterionType 通过id_product_comment_criterion_type获取内容  
-func (obj *_EgProductCommentCriterionMgr) GetFromIDProductCommentCriterionType(idProductCommentCriterionType int) (results []*EgProductCommentCriterion, err error) {
+
+// GetFromIDProductCommentCriterionType 通过id_product_comment_criterion_type获取内容
+func (obj *_ProductCommentCriterionMgr) GetFromIDProductCommentCriterionType(idProductCommentCriterionType int) (results []*ProductCommentCriterion, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_comment_criterion_type = ?", idProductCommentCriterionType).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromIDProductCommentCriterionType 批量唯一主键查找 
-func (obj *_EgProductCommentCriterionMgr) GetBatchFromIDProductCommentCriterionType(idProductCommentCriterionTypes []int) (results []*EgProductCommentCriterion, err error) {
+// GetBatchFromIDProductCommentCriterionType 批量唯一主键查找
+func (obj *_ProductCommentCriterionMgr) GetBatchFromIDProductCommentCriterionType(idProductCommentCriterionTypes []int) (results []*ProductCommentCriterion, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_comment_criterion_type IN (?)", idProductCommentCriterionTypes).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromActive 通过active获取内容  
-func (obj *_EgProductCommentCriterionMgr) GetFromActive(active bool) (results []*EgProductCommentCriterion, err error) {
+
+// GetFromActive 通过active获取内容
+func (obj *_ProductCommentCriterionMgr) GetFromActive(active bool) (results []*ProductCommentCriterion, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("active = ?", active).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromActive 批量唯一主键查找 
-func (obj *_EgProductCommentCriterionMgr) GetBatchFromActive(actives []bool) (results []*EgProductCommentCriterion, err error) {
+// GetBatchFromActive 批量唯一主键查找
+func (obj *_ProductCommentCriterionMgr) GetBatchFromActive(actives []bool) (results []*ProductCommentCriterion, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("active IN (?)", actives).Find(&results).Error
-	
+
 	return
 }
- 
- //////////////////////////primary index case ////////////////////////////////////////////
- 
- // FetchByPrimaryKey primay or index 获取唯一内容
- func (obj *_EgProductCommentCriterionMgr) FetchByPrimaryKey(idProductCommentCriterion int ) (result EgProductCommentCriterion, err error) {
+
+//////////////////////////primary index case ////////////////////////////////////////////
+
+// FetchByPrimaryKey primay or index 获取唯一内容
+func (obj *_ProductCommentCriterionMgr) FetchByPrimaryKey(idProductCommentCriterion int) (result ProductCommentCriterion, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_comment_criterion = ?", idProductCommentCriterion).Find(&result).Error
-	
+
 	return
 }
- 
-
- 
-
-	
-

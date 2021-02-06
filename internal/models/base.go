@@ -1,5 +1,5 @@
-
 package models
+
 import (
 	"context"
 	"time"
@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var globalIsRelated bool = true  // 全局预加载
+var globalIsRelated bool = true // 全局预加载
 
 // prepare for other
 type _BaseMgr struct {
@@ -63,7 +63,7 @@ func (obj *_BaseMgr) SetIsRelated(b bool) {
 
 // New new gorm.新gorm
 func (obj *_BaseMgr) New() *gorm.DB {
-	return obj.DB.Session(&gorm.Session{ Context: obj.ctx})
+	return obj.DB.Session(&gorm.Session{Context: obj.ctx})
 }
 
 type options struct {
@@ -81,7 +81,6 @@ func (f optionFunc) apply(o *options) {
 	f(o)
 }
 
-
 // OpenRelated 打开全局预加载
 func OpenRelated() {
 	globalIsRelated = true
@@ -91,5 +90,3 @@ func OpenRelated() {
 func CloseRelated() {
 	globalIsRelated = true
 }
-
-	

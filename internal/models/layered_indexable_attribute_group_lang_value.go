@@ -1,67 +1,68 @@
-package	model	
-import (	
-"fmt"	
-"context"	
-"gorm.io/gorm"	
-)	
+package model
 
-type _EgLayeredIndexableAttributeGroupLangValueMgr struct {
+import (
+	"context"
+	"fmt"
+
+	"gorm.io/gorm"
+)
+
+type _LayeredIndexableAttributeGroupLangValueMgr struct {
 	*_BaseMgr
 }
 
-// EgLayeredIndexableAttributeGroupLangValueMgr open func
-func EgLayeredIndexableAttributeGroupLangValueMgr(db *gorm.DB) *_EgLayeredIndexableAttributeGroupLangValueMgr {
+// LayeredIndexableAttributeGroupLangValueMgr open func
+func LayeredIndexableAttributeGroupLangValueMgr(db *gorm.DB) *_LayeredIndexableAttributeGroupLangValueMgr {
 	if db == nil {
-		panic(fmt.Errorf("EgLayeredIndexableAttributeGroupLangValueMgr need init by db"))
+		panic(fmt.Errorf("LayeredIndexableAttributeGroupLangValueMgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_EgLayeredIndexableAttributeGroupLangValueMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_layered_indexable_attribute_group_lang_value"), isRelated: globalIsRelated,ctx:ctx,cancel:cancel,timeout:-1}}
+	return &_LayeredIndexableAttributeGroupLangValueMgr{_BaseMgr: &_BaseMgr{DB: db.Table("eg_layered_indexable_attribute_group_lang_value"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) GetTableName() string {
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetTableName() string {
 	return "eg_layered_indexable_attribute_group_lang_value"
 }
 
 // Get 获取
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) Get() (result EgLayeredIndexableAttributeGroupLangValue, err error) {
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) Get() (result LayeredIndexableAttributeGroupLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&result).Error
-	
+
 	return
 }
 
 // Gets 获取批量结果
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) Gets() (results []*EgLayeredIndexableAttributeGroupLangValue, err error) {
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) Gets() (results []*LayeredIndexableAttributeGroupLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&results).Error
-	
+
 	return
 }
 
 //////////////////////////option case ////////////////////////////////////////////
 
-// WithIDAttributeGroup id_attribute_group获取 
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) WithIDAttributeGroup(idAttributeGroup int) Option {
+// WithIDAttributeGroup id_attribute_group获取
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) WithIDAttributeGroup(idAttributeGroup int) Option {
 	return optionFunc(func(o *options) { o.query["id_attribute_group"] = idAttributeGroup })
 }
 
-// WithIDLang id_lang获取 
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) WithIDLang(idLang int) Option {
+// WithIDLang id_lang获取
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) WithIDLang(idLang int) Option {
 	return optionFunc(func(o *options) { o.query["id_lang"] = idLang })
 }
 
-// WithURLName url_name获取 
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) WithURLName(urlName string) Option {
+// WithURLName url_name获取
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) WithURLName(urlName string) Option {
 	return optionFunc(func(o *options) { o.query["url_name"] = urlName })
 }
 
-// WithMetaTitle meta_title获取 
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) WithMetaTitle(metaTitle string) Option {
+// WithMetaTitle meta_title获取
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) WithMetaTitle(metaTitle string) Option {
 	return optionFunc(func(o *options) { o.query["meta_title"] = metaTitle })
 }
 
-
 // GetByOption 功能选项模式获取
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) GetByOption(opts ...Option) (result EgLayeredIndexableAttributeGroupLangValue, err error) {
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetByOption(opts ...Option) (result LayeredIndexableAttributeGroupLangValue, err error) {
 	options := options{
 		query: make(map[string]interface{}, len(opts)),
 	}
@@ -70,12 +71,12 @@ func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) GetByOption(opts ...Op
 	}
 
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&result).Error
-	
+
 	return
 }
 
 // GetByOptions 批量功能选项模式获取
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) GetByOptions(opts ...Option) (results []*EgLayeredIndexableAttributeGroupLangValue, err error) {
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetByOptions(opts ...Option) (results []*LayeredIndexableAttributeGroupLangValue, err error) {
 	options := options{
 		query: make(map[string]interface{}, len(opts)),
 	}
@@ -84,79 +85,73 @@ func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) GetByOptions(opts ...O
 	}
 
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&results).Error
-	
+
 	return
 }
+
 //////////////////////////enume case ////////////////////////////////////////////
 
-
-// GetFromIDAttributeGroup 通过id_attribute_group获取内容  
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) GetFromIDAttributeGroup(idAttributeGroup int) (results []*EgLayeredIndexableAttributeGroupLangValue, err error) {
+// GetFromIDAttributeGroup 通过id_attribute_group获取内容
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetFromIDAttributeGroup(idAttributeGroup int) (results []*LayeredIndexableAttributeGroupLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_group = ?", idAttributeGroup).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromIDAttributeGroup 批量唯一主键查找 
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) GetBatchFromIDAttributeGroup(idAttributeGroups []int) (results []*EgLayeredIndexableAttributeGroupLangValue, err error) {
+// GetBatchFromIDAttributeGroup 批量唯一主键查找
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetBatchFromIDAttributeGroup(idAttributeGroups []int) (results []*LayeredIndexableAttributeGroupLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_group IN (?)", idAttributeGroups).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromIDLang 通过id_lang获取内容  
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) GetFromIDLang(idLang int) (results []*EgLayeredIndexableAttributeGroupLangValue, err error) {
+
+// GetFromIDLang 通过id_lang获取内容
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetFromIDLang(idLang int) (results []*LayeredIndexableAttributeGroupLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_lang = ?", idLang).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromIDLang 批量唯一主键查找 
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) GetBatchFromIDLang(idLangs []int) (results []*EgLayeredIndexableAttributeGroupLangValue, err error) {
+// GetBatchFromIDLang 批量唯一主键查找
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetBatchFromIDLang(idLangs []int) (results []*LayeredIndexableAttributeGroupLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_lang IN (?)", idLangs).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromURLName 通过url_name获取内容  
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) GetFromURLName(urlName string) (results []*EgLayeredIndexableAttributeGroupLangValue, err error) {
+
+// GetFromURLName 通过url_name获取内容
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetFromURLName(urlName string) (results []*LayeredIndexableAttributeGroupLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("url_name = ?", urlName).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromURLName 批量唯一主键查找 
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) GetBatchFromURLName(urlNames []string) (results []*EgLayeredIndexableAttributeGroupLangValue, err error) {
+// GetBatchFromURLName 批量唯一主键查找
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetBatchFromURLName(urlNames []string) (results []*LayeredIndexableAttributeGroupLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("url_name IN (?)", urlNames).Find(&results).Error
-	
+
 	return
 }
- 
-// GetFromMetaTitle 通过meta_title获取内容  
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) GetFromMetaTitle(metaTitle string) (results []*EgLayeredIndexableAttributeGroupLangValue, err error) {
+
+// GetFromMetaTitle 通过meta_title获取内容
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetFromMetaTitle(metaTitle string) (results []*LayeredIndexableAttributeGroupLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("meta_title = ?", metaTitle).Find(&results).Error
-	
+
 	return
 }
 
-// GetBatchFromMetaTitle 批量唯一主键查找 
-func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) GetBatchFromMetaTitle(metaTitles []string) (results []*EgLayeredIndexableAttributeGroupLangValue, err error) {
+// GetBatchFromMetaTitle 批量唯一主键查找
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetBatchFromMetaTitle(metaTitles []string) (results []*LayeredIndexableAttributeGroupLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("meta_title IN (?)", metaTitles).Find(&results).Error
-	
+
 	return
 }
- 
- //////////////////////////primary index case ////////////////////////////////////////////
- 
- // FetchByPrimaryKey primay or index 获取唯一内容
- func (obj *_EgLayeredIndexableAttributeGroupLangValueMgr) FetchByPrimaryKey(idAttributeGroup int ,idLang int ) (result EgLayeredIndexableAttributeGroupLangValue, err error) {
-	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_group = ? AND id_lang = ?", idAttributeGroup , idLang).Find(&result).Error
-	
+
+//////////////////////////primary index case ////////////////////////////////////////////
+
+// FetchByPrimaryKey primay or index 获取唯一内容
+func (obj *_LayeredIndexableAttributeGroupLangValueMgr) FetchByPrimaryKey(idAttributeGroup int, idLang int) (result LayeredIndexableAttributeGroupLangValue, err error) {
+	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_group = ? AND id_lang = ?", idAttributeGroup, idLang).Find(&result).Error
+
 	return
 }
- 
-
- 
-
-	
-
