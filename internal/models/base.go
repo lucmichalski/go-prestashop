@@ -1,5 +1,5 @@
 
-package model
+package models
 import (
 	"context"
 	"time"
