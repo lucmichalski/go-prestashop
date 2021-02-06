@@ -1,0 +1,125 @@
+---
+version: "3.8"
+services:
+
+  prestashop:
+    image: lucmichalski/prestashop:${PRESTASHOP_VERSION}-alpine
+    container_name: ${NAMESPACE}-ps${PRESTASHOP_VERSION}
+    build:
+      context: .docker/prestashop 
+      dockerfile: Dockerfile
+      args:
+        PRESTASHOP_VERSION: ${PRESTASHOP_VERSION}
+    logging: *default-logging
+    environment:
+      DB_SERVER: mariadb
+      DB_PORT: 3306
+      DB_USER: "${MARIADB_USER_NAME}"
+      DB_PASSWORD: "${MARIADB_USER_PASSWORD}"
+      DB_NAME: "${MARIADB_USER_DATABASE}"
+      DB_CLEAR: ${PS_DB_CLEAR}
+      DB_CREATE: ${PS_DB_CREATE}
+      DB_PREFIX: ${PS_DB_PREFIX}
+      PS_DOMAIN: ${DOMAIN}
+      PS_DIR_INSTALL: ${PS_DIR_INSTALL}
+      PS_DIR_ADMIN: ${PS_DIR_ADMIN}
+      PS_LANGUAGE: ${PS_LANGUAGE}
+      PS_TIMEZONE: ${TZ}
+      PS_SHOP_NAME: ${PS_SHOP_NAME}
+      PS_SHOP_COUNTRY: ${PS_SHOP_COUNTRY}
+      PS_FIRSTNAME: ${PS_FIRSTNAME}
+      PS_LASTNAME: ${PS_LASTNAME}
+      PS_PASSWORD: ${PS_PASSWORD}
+      PS_EMAIL: ${PS_EMAIL}
+      PS_NEWSLETTER: ${PS_NEWSLETTER}
+      PS_SSL: ${PS_SSL}
+      PS_REWRITE: ${PS_REWRITE}
+      PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
+      PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME}
+      PHP_MAX_INPUT_TIME: ${PHP_MAX_INPUT_TIME}      
+      PHP_DISPLAY_ERRORS: ${PHP_DISPLAY_ERRORS}
+    expose:
+    - 9000
+    networks:
+    - internal
+    depends_on:
+    - mariadb
+    - manticore
+    volumes:
+    - prestashop-data:/app
+    - prestashop-cache:/app/var/cache
+    - prestashop-logs:/app/var/logs
+
+  mariadb:
+    image: lucmichalski/mariadb:latest
+    container_name: ${NAMESPACE}-mariadb
+    build:
+      context: .docker/mariadb 
+      dockerfile: Dockerfile
+    expose:
+    - 80
+    - 3306
+    ports:
+    - 3306:3306
+    - 80:80
+    logging: *default-logging
+    environment:
+      ROOT_NAME: ${MARIADB_ROOT_NAME}
+      ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      ROOT_HOST: "%"
+      USER_NAME: ${MARIADB_USER_NAME}
+      USER_PASSWORD: ${MARIADB_USER_PASSWORD}
+      USER_DATABASE: ${MARIADB_USER_DATABASE}
+      AUTO_LETS_ENCRYPT: ${MARIADB_AUTO_LETS_ENCRYPT}
+      SERVER_NAME: ${MARIADB_SERVER_NAME}
+      # SSL_CERT: /etc/letsencrypt/live/${DOMAIN}/fullchain.pem
+      # SSL_KEY: /etc/letsencrypt/live/${DOMAIN}/privkey.pem
+      # SSL_CA: /etc/letsencrypt/live/${DOMAIN}/chain.pem
+      REQUIRE_SSL: ${MARIADB_REQUIRE_SSL}
+    networks:
+    - internal
+    volumes:
+    - mariadb-logs:/var/log/mariadb
+    - mariadb-data:/var/lib/mysql
+    - certs-data:/etc/letsencrypt
+    - ./shared/config/mariadb/prestashop.cnf:/custom.cnf.d/prestashop.cnf
+
+networks:
+  internal:
+    driver: bridge
+  web:
+    external: true
+
+volumes:
+  prestashop-cache:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: /app/var/cache
+  prestashop-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/shared/www
+  prestashop-logs:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/shared/logs/prestashop
+  certs-data:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/shared/certs
+  certs-logs:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/shared/logs/letsencrypt
+  mariadb-data:
+  mariadb-logs:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/shared/logs/mariadb

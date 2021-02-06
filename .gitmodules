@@ -4,3 +4,6 @@
 [submodule "makefiles"]
 	path = makefiles
 	url = https://github.com/lucmichalski/makefiles
+[submodule ".docker/mariadb"]
+	path = .docker/mariadb
+	url = https://github.com/lucmichalski/bunkerized-mariadb
