@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// Manufacturer was generated 2021-02-06 11:16:01 by evolutive on eg-cdn.gsi-network.com.
+// Manufacturer was generated 2021-02-06 11:37:24 by evolutive on eg-cdn.gsi-network.com.
 type Manufacturer struct {
 	XMLName xml.Name `xml:"manufacturer"`
 	Text    string   `xml:",chardata"`

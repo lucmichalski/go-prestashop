@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// OrderDetail was generated 2021-02-06 11:17:08 by evolutive on eg-cdn.gsi-network.com.
+// OrderDetail was generated 2021-02-06 11:38:30 by evolutive on eg-cdn.gsi-network.com.
 type OrderDetail struct {
 	XMLName xml.Name `xml:"order_detail"`
 	Text    string   `xml:",chardata"`

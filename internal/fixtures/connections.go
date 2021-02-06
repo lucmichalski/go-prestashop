@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// Connections was generated 2021-02-06 11:19:17 by evolutive on eg-cdn.gsi-network.com.
+// Connections was generated 2021-02-06 11:40:35 by evolutive on eg-cdn.gsi-network.com.
 type Connections struct {
 	XMLName xml.Name `xml:"connections"`
 	Text    string   `xml:",chardata"`

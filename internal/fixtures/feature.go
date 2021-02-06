@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// Feature was generated 2021-02-06 11:19:06 by evolutive on eg-cdn.gsi-network.com.
+// Feature was generated 2021-02-06 11:40:25 by evolutive on eg-cdn.gsi-network.com.
 type Feature struct {
 	XMLName xml.Name `xml:"feature"`
 	Text    string   `xml:",chardata"`

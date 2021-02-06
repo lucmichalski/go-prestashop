@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// Delivery was generated 2021-02-06 11:19:06 by evolutive on eg-cdn.gsi-network.com.
+// Delivery was generated 2021-02-06 11:40:25 by evolutive on eg-cdn.gsi-network.com.
 type Delivery struct {
 	XMLName xml.Name `xml:"delivery"`
 	Text    string   `xml:",chardata"`

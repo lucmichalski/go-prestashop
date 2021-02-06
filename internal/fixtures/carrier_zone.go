@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// CarrierZone was generated 2021-02-06 11:16:01 by evolutive on eg-cdn.gsi-network.com.
+// CarrierZone was generated 2021-02-06 11:37:24 by evolutive on eg-cdn.gsi-network.com.
 type CarrierZone struct {
 	XMLName xml.Name `xml:"carrier_zone"`
 	Text    string   `xml:",chardata"`

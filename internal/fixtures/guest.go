@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// Guest was generated 2021-02-06 11:17:19 by evolutive on eg-cdn.gsi-network.com.
+// Guest was generated 2021-02-06 11:38:40 by evolutive on eg-cdn.gsi-network.com.
 type Guest struct {
 	XMLName xml.Name `xml:"guest"`
 	Text    string   `xml:",chardata"`

@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// Category was generated 2021-02-06 11:15:35 by evolutive on eg-cdn.gsi-network.com.
+// Category was generated 2021-02-06 11:37:00 by evolutive on eg-cdn.gsi-network.com.
 type Category struct {
 	XMLName xml.Name `xml:"category"`
 	Text    string   `xml:",chardata"`

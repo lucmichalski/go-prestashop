@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// RangeWeight was generated 2021-02-06 11:19:17 by evolutive on eg-cdn.gsi-network.com.
+// RangeWeight was generated 2021-02-06 11:40:35 by evolutive on eg-cdn.gsi-network.com.
 type RangeWeight struct {
 	XMLName xml.Name `xml:"range_weight"`
 	Text    string   `xml:",chardata"`

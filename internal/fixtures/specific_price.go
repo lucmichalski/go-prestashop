@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// SpecificPrice was generated 2021-02-06 11:19:02 by evolutive on eg-cdn.gsi-network.com.
+// SpecificPrice was generated 2021-02-06 11:40:20 by evolutive on eg-cdn.gsi-network.com.
 type SpecificPrice struct {
 	XMLName xml.Name `xml:"specific_price"`
 	Text    string   `xml:",chardata"`

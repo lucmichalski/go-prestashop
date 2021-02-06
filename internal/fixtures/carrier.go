@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// Carrier was generated 2021-02-06 11:17:19 by evolutive on eg-cdn.gsi-network.com.
+// Carrier was generated 2021-02-06 11:38:40 by evolutive on eg-cdn.gsi-network.com.
 type Carrier struct {
 	XMLName xml.Name `xml:"carrier"`
 	Text    string   `xml:",chardata"`

@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// ProductAttribute was generated 2021-02-06 11:19:17 by evolutive on eg-cdn.gsi-network.com.
+// ProductAttribute was generated 2021-02-06 11:40:35 by evolutive on eg-cdn.gsi-network.com.
 type ProductAttribute struct {
 	XMLName xml.Name `xml:"product_attribute"`
 	Text    string   `xml:",chardata"`

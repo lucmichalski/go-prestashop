@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// Address was generated 2021-02-06 11:16:01 by evolutive on eg-cdn.gsi-network.com.
+// Address was generated 2021-02-06 11:37:24 by evolutive on eg-cdn.gsi-network.com.
 type Address struct {
 	XMLName xml.Name `xml:"address"`
 	Text    string   `xml:",chardata"`

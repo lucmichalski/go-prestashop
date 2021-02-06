@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// RangePrice was generated 2021-02-06 11:18:51 by evolutive on eg-cdn.gsi-network.com.
+// RangePrice was generated 2021-02-06 11:40:10 by evolutive on eg-cdn.gsi-network.com.
 type RangePrice struct {
 	XMLName xml.Name `xml:"range_price"`
 	Text    string   `xml:",chardata"`

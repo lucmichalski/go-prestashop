@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// StockAvailable was generated 2021-02-06 11:19:02 by evolutive on eg-cdn.gsi-network.com.
+// StockAvailable was generated 2021-02-06 11:40:20 by evolutive on eg-cdn.gsi-network.com.
 type StockAvailable struct {
 	XMLName xml.Name `xml:"stock_available"`
 	Text    string   `xml:",chardata"`

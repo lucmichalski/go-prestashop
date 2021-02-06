@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// Attribute was generated 2021-02-06 11:18:56 by evolutive on eg-cdn.gsi-network.com.
+// Attribute was generated 2021-02-06 11:40:15 by evolutive on eg-cdn.gsi-network.com.
 type Attribute struct {
 	XMLName xml.Name `xml:"attribute"`
 	Text    string   `xml:",chardata"`

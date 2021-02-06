@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 )
 
-// Profile was generated 2021-02-06 11:19:02 by evolutive on eg-cdn.gsi-network.com.
+// Profile was generated 2021-02-06 11:40:20 by evolutive on eg-cdn.gsi-network.com.
 type Profile struct {
 	XMLName xml.Name `xml:"profile"`
 	Text    string   `xml:",chardata"`
