@@ -7,3 +7,6 @@
 [submodule ".docker/mariadb"]
 	path = .docker/mariadb
 	url = https://github.com/lucmichalski/bunkerized-mariadb
+[submodule ".docker/nginx"]
+	path = .docker/nginx
+	url = https://github.com/lucmichalski/bunkerized-nginx

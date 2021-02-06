@@ -2,6 +2,31 @@
 version: "3.8"
 services:
 
+  nginx:
+    image: lucmichalski/bunkerized-nginx:1.2.1
+    build:
+      context: .docker/nginx 
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+    - 80:8080
+    - 443:8443
+    volumes:
+    - prestashop-files:/www:ro
+    - certs-data:/etc/letsencrypt
+    - ./shared/config/nginx:/server-confs:ro         # custom confs at server context for prestashop
+    environment:
+    - SERVER_NAME=localhost           # replace by your domain
+    - AUTO_LETS_ENCRYPT=no
+    - REDIRECT_HTTP_TO_HTTPS=no
+    - DISABLE_DEFAULT_SERVER=yes
+    - MAX_CLIENT_SIZE=50m
+    - USE_CLIENT_CACHE=yes
+    - USE_GZIP=yes
+    - USE_BROTLI=yes
+    - REMOTE_PHP=prestashop
+    - REMOTE_PHP_PATH=/var/www/html
+
   prestashop:
     image: lucmichalski/prestashop:${PRESTASHOP_VERSION}-alpine
     container_name: ${NAMESPACE}-ps${PRESTASHOP_VERSION}
@@ -10,7 +35,6 @@ services:
       dockerfile: Dockerfile
       args:
         PRESTASHOP_VERSION: ${PRESTASHOP_VERSION}
-    logging: *default-logging
     environment:
       DB_SERVER: mariadb
       DB_PORT: 3306
@@ -44,9 +68,8 @@ services:
     - internal
     depends_on:
     - mariadb
-    - manticore
     volumes:
-    - prestashop-data:/app
+    - prestashop-files:/app
     - prestashop-cache:/app/var/cache
     - prestashop-logs:/app/var/logs
 
@@ -61,8 +84,6 @@ services:
     - 3306
     ports:
     - 3306:3306
-    - 80:80
-    logging: *default-logging
     environment:
       ROOT_NAME: ${MARIADB_ROOT_NAME}
       ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
@@ -96,7 +117,7 @@ volumes:
     driver_opts:
       type: tmpfs
       device: /app/var/cache
-  prestashop-data:
+  prestashop-files:
     driver: local
     driver_opts:
       type: none
