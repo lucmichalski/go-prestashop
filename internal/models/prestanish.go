@@ -6,19 +6,16 @@ import (
 	"gorm.io/datatypes"
 )
 
-// Access [...]
 type Access struct {
 	IDProfile           uint32 `gorm:"primaryKey;column:id_profile;type:int(10) unsigned;not null"`
 	IDAuthorizationRole uint32 `gorm:"primaryKey;column:id_authorization_role;type:int(10) unsigned;not null"`
 }
 
-// Accessory [...]
 type Accessory struct {
 	IDProduct1 uint32 `gorm:"index:accessory_product;column:id_product_1;type:int(10) unsigned;not null"`
 	IDProduct2 uint32 `gorm:"index:accessory_product;column:id_product_2;type:int(10) unsigned;not null"`
 }
 
-// Address [...]
 type Address struct {
 	IDAddress      uint32    `gorm:"primaryKey;column:id_address;type:int(10) unsigned;not null"`
 	IDCountry      uint32    `gorm:"index:id_country;column:id_country;type:int(10) unsigned;not null"`
@@ -46,13 +43,11 @@ type Address struct {
 	Deleted        bool      `gorm:"column:deleted;type:tinyint(1) unsigned;not null;default:0"`
 }
 
-// AddressFormat [...]
 type AddressFormat struct {
 	IDCountry uint32 `gorm:"primaryKey;column:id_country;type:int(10) unsigned;not null"`
 	Format    string `gorm:"column:format;type:varchar(255);not null;default:''"`
 }
 
-// AdminFilter [...]
 type AdminFilter struct {
 	ID         int    `gorm:"primaryKey;column:id;type:int(11);not null"`
 	Employee   int    `gorm:"uniqueIndex:admin_filter_search_id_idx;column:employee;type:int(11);not null"`
@@ -63,7 +58,6 @@ type AdminFilter struct {
 	FilterID   string `gorm:"uniqueIndex:admin_filter_search_id_idx;column:filter_id;type:varchar(191);not null"`
 }
 
-// Advice [...]
 type Advice struct {
 	IDAdvice   int    `gorm:"primaryKey;column:id_advice;type:int(11);not null"`
 	IDPsAdvice int    `gorm:"column:id_ps_advice;type:int(11);not null"`
@@ -78,14 +72,12 @@ type Advice struct {
 	Weight     int    `gorm:"column:weight;type:int(11);default:1"`
 }
 
-// AdviceLang [...]
 type AdviceLang struct {
 	IDAdvice int    `gorm:"primaryKey;column:id_advice;type:int(11);not null"`
 	IDLang   int    `gorm:"primaryKey;column:id_lang;type:int(11);not null"`
 	HTML     string `gorm:"column:html;type:text"`
 }
 
-// Alias [...]
 type Alias struct {
 	IDAlias uint32 `gorm:"primaryKey;column:id_alias;type:int(10) unsigned;not null"`
 	Alias   string `gorm:"unique;column:alias;type:varchar(191);not null"`
@@ -93,7 +85,6 @@ type Alias struct {
 	Active  bool   `gorm:"column:active;type:tinyint(1);not null;default:1"`
 }
 
-// Attachment [...]
 type Attachment struct {
 	IDAttachment uint32 `gorm:"primaryKey;column:id_attachment;type:int(10) unsigned;not null"`
 	File         string `gorm:"column:file;type:varchar(40);not null"`
@@ -102,7 +93,6 @@ type Attachment struct {
 	Mime         string `gorm:"column:mime;type:varchar(128);not null"`
 }
 
-// AttachmentLang [...]
 type AttachmentLang struct {
 	IDAttachment uint32 `gorm:"primaryKey;column:id_attachment;type:int(10) unsigned;not null"`
 	IDLang       uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -110,7 +100,6 @@ type AttachmentLang struct {
 	Description  string `gorm:"column:description;type:text"`
 }
 
-// Attribute [...]
 type Attribute struct {
 	IDAttribute      int    `gorm:"primaryKey;column:id_attribute;type:int(11);not null"`
 	IDAttributeGroup int    `gorm:"index:attribute_group;column:id_attribute_group;type:int(11);not null"`
@@ -118,7 +107,6 @@ type Attribute struct {
 	Position         int    `gorm:"column:position;type:int(11);not null"`
 }
 
-// AttributeGroup [...]
 type AttributeGroup struct {
 	IDAttributeGroup int    `gorm:"primaryKey;column:id_attribute_group;type:int(11);not null"`
 	IsColorGroup     bool   `gorm:"column:is_color_group;type:tinyint(1);not null"`
@@ -126,7 +114,6 @@ type AttributeGroup struct {
 	Position         int    `gorm:"column:position;type:int(11);not null"`
 }
 
-// AttributeGroupLang [...]
 type AttributeGroupLang struct {
 	IDAttributeGroup int    `gorm:"primaryKey;index:IDX_2958662667A664FB;column:id_attribute_group;type:int(11);not null"`
 	IDLang           int    `gorm:"primaryKey;index:IDX_29586626BA299860;column:id_lang;type:int(11);not null"`
@@ -134,13 +121,11 @@ type AttributeGroupLang struct {
 	PublicName       string `gorm:"column:public_name;type:varchar(64);not null"`
 }
 
-// AttributeGroupShop [...]
 type AttributeGroupShop struct {
 	IDAttributeGroup int `gorm:"primaryKey;index:IDX_B43BAEE667A664FB;column:id_attribute_group;type:int(11);not null"`
 	IDShop           int `gorm:"primaryKey;index:IDX_B43BAEE6274A50A0;column:id_shop;type:int(11);not null"`
 }
 
-// AttributeImpact [...]
 type AttributeImpact struct {
 	IDAttributeImpact uint32  `gorm:"primaryKey;column:id_attribute_impact;type:int(10) unsigned;not null"`
 	IDProduct         uint32  `gorm:"uniqueIndex:id_product;column:id_product;type:int(11) unsigned;not null"`
@@ -149,26 +134,22 @@ type AttributeImpact struct {
 	Price             float64 `gorm:"column:price;type:decimal(20,6);not null"`
 }
 
-// AttributeLang [...]
 type AttributeLang struct {
 	IDAttribute int    `gorm:"primaryKey;index:IDX_EB57414F7A4F53DC;column:id_attribute;type:int(11);not null"`
 	IDLang      int    `gorm:"primaryKey;index:IDX_EB57414FBA299860;column:id_lang;type:int(11);not null"`
 	Name        string `gorm:"column:name;type:varchar(128);not null"`
 }
 
-// AttributeShop [...]
 type AttributeShop struct {
 	IDAttribute int `gorm:"primaryKey;index:IDX_7634898F7A4F53DC;column:id_attribute;type:int(11);not null"`
 	IDShop      int `gorm:"primaryKey;index:IDX_7634898F274A50A0;column:id_shop;type:int(11);not null"`
 }
 
-// AuthorizationRole [...]
 type AuthorizationRole struct {
 	IDAuthorizationRole uint32 `gorm:"primaryKey;column:id_authorization_role;type:int(10) unsigned;not null"`
 	Slug                string `gorm:"unique;column:slug;type:varchar(191);not null"`
 }
 
-// Badge [...]
 type Badge struct {
 	IDBadge       int    `gorm:"primaryKey;column:id_badge;type:int(11);not null"`
 	IDPsBadge     int    `gorm:"column:id_ps_badge;type:int(11);not null"`
@@ -180,7 +161,6 @@ type Badge struct {
 	Validated     bool   `gorm:"column:validated;type:tinyint(1) unsigned;not null;default:0"`
 }
 
-// BadgeLang [...]
 type BadgeLang struct {
 	IDBadge     int    `gorm:"primaryKey;column:id_badge;type:int(11);not null"`
 	IDLang      int    `gorm:"primaryKey;column:id_lang;type:int(11);not null"`
@@ -189,7 +169,6 @@ type BadgeLang struct {
 	GroupName   string `gorm:"column:group_name;type:varchar(255)"`
 }
 
-// Carrier [...]
 type Carrier struct {
 	IDCarrier          uint32  `gorm:"primaryKey;column:id_carrier;type:int(10) unsigned;not null"`
 	IDReference        uint32  `gorm:"index:reference;column:id_reference;type:int(10) unsigned;not null"`
@@ -214,13 +193,11 @@ type Carrier struct {
 	Grade              int     `gorm:"column:grade;type:int(10);default:0"`
 }
 
-// CarrierGroup [...]
 type CarrierGroup struct {
 	IDCarrier uint32 `gorm:"primaryKey;column:id_carrier;type:int(10) unsigned;not null"`
 	IDGroup   uint32 `gorm:"primaryKey;column:id_group;type:int(10) unsigned;not null"`
 }
 
-// CarrierLang [...]
 type CarrierLang struct {
 	IDCarrier uint32 `gorm:"primaryKey;column:id_carrier;type:int(10) unsigned;not null"`
 	IDShop    uint32 `gorm:"primaryKey;column:id_shop;type:int(11) unsigned;not null;default:1"`
@@ -228,26 +205,22 @@ type CarrierLang struct {
 	Delay     string `gorm:"column:delay;type:varchar(512)"`
 }
 
-// CarrierShop [...]
 type CarrierShop struct {
 	IDCarrier uint32 `gorm:"primaryKey;column:id_carrier;type:int(11) unsigned;not null"`
 	IDShop    uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// CarrierTaxRulesGroupShop [...]
 type CarrierTaxRulesGroupShop struct {
 	IDCarrier       uint32 `gorm:"primaryKey;column:id_carrier;type:int(11) unsigned;not null"`
 	IDTaxRulesGroup uint32 `gorm:"primaryKey;column:id_tax_rules_group;type:int(11) unsigned;not null"`
 	IDShop          uint32 `gorm:"primaryKey;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// CarrierZone [...]
 type CarrierZone struct {
 	IDCarrier uint32 `gorm:"primaryKey;column:id_carrier;type:int(10) unsigned;not null"`
 	IDZone    uint32 `gorm:"primaryKey;column:id_zone;type:int(10) unsigned;not null"`
 }
 
-// Cart [...]
 type Cart struct {
 	IDCart                uint32    `gorm:"primaryKey;column:id_cart;type:int(10) unsigned;not null"`
 	IDShopGroup           uint32    `gorm:"index:id_shop_group;column:id_shop_group;type:int(11) unsigned;not null;default:1"`
@@ -271,13 +244,11 @@ type Cart struct {
 	CheckoutSessionData   string    `gorm:"column:checkout_session_data;type:mediumtext"`
 }
 
-// CartCartRule [...]
 type CartCartRule struct {
 	IDCart     uint32 `gorm:"primaryKey;column:id_cart;type:int(10) unsigned;not null"`
 	IDCartRule uint32 `gorm:"primaryKey;index:id_cart_rule;column:id_cart_rule;type:int(10) unsigned;not null"`
 }
 
-// CartProduct [...]
 type CartProduct struct {
 	IDCart             uint32    `gorm:"primaryKey;index:id_cart_order;column:id_cart;type:int(10) unsigned;not null"`
 	IDProduct          uint32    `gorm:"primaryKey;index:id_cart_order;column:id_product;type:int(10) unsigned;not null"`
@@ -289,7 +260,6 @@ type CartProduct struct {
 	DateAdd            time.Time `gorm:"index:id_cart_order;column:date_add;type:datetime;not null"`
 }
 
-// CartRule [...]
 type CartRule struct {
 	IDCartRule              uint32    `gorm:"primaryKey;column:id_cart_rule;type:int(10) unsigned;not null"`
 	IDCustomer              uint32    `gorm:"index:id_customer;index:id_customer_2;column:id_customer;type:int(10) unsigned;not null;default:0"`
@@ -326,64 +296,54 @@ type CartRule struct {
 	DateUpd                 time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// CartRuleCarrier [...]
 type CartRuleCarrier struct {
 	IDCartRule uint32 `gorm:"primaryKey;column:id_cart_rule;type:int(10) unsigned;not null"`
 	IDCarrier  uint32 `gorm:"primaryKey;column:id_carrier;type:int(10) unsigned;not null"`
 }
 
-// CartRuleCombination [...]
 type CartRuleCombination struct {
 	IDCartRule1 uint32 `gorm:"primaryKey;index:id_cart_rule_1;column:id_cart_rule_1;type:int(10) unsigned;not null"`
 	IDCartRule2 uint32 `gorm:"primaryKey;index:id_cart_rule_2;column:id_cart_rule_2;type:int(10) unsigned;not null"`
 }
 
-// CartRuleCountry [...]
 type CartRuleCountry struct {
 	IDCartRule uint32 `gorm:"primaryKey;column:id_cart_rule;type:int(10) unsigned;not null"`
 	IDCountry  uint32 `gorm:"primaryKey;column:id_country;type:int(10) unsigned;not null"`
 }
 
-// CartRuleGroup [...]
 type CartRuleGroup struct {
 	IDCartRule uint32 `gorm:"primaryKey;column:id_cart_rule;type:int(10) unsigned;not null"`
 	IDGroup    uint32 `gorm:"primaryKey;column:id_group;type:int(10) unsigned;not null"`
 }
 
-// CartRuleLang [...]
 type CartRuleLang struct {
 	IDCartRule uint32 `gorm:"primaryKey;column:id_cart_rule;type:int(10) unsigned;not null"`
 	IDLang     uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
 	Name       string `gorm:"column:name;type:varchar(254);not null"`
 }
 
-// CartRuleProductRule [...]
 type CartRuleProductRule struct {
 	IDProductRule      uint32 `gorm:"primaryKey;column:id_product_rule;type:int(10) unsigned;not null"`
 	IDProductRuleGroup uint32 `gorm:"column:id_product_rule_group;type:int(10) unsigned;not null"`
 	Type               string `gorm:"column:type;type:enum('products','categories','attributes','manufacturers','suppliers');not null"`
 }
 
-// CartRuleProductRuleGroup [...]
 type CartRuleProductRuleGroup struct {
 	IDProductRuleGroup uint32 `gorm:"primaryKey;column:id_product_rule_group;type:int(10) unsigned;not null"`
 	IDCartRule         uint32 `gorm:"column:id_cart_rule;type:int(10) unsigned;not null"`
 	Quantity           uint32 `gorm:"column:quantity;type:int(10) unsigned;not null;default:1"`
 }
 
-// CartRuleProductRuleValue [...]
 type CartRuleProductRuleValue struct {
 	IDProductRule uint32 `gorm:"primaryKey;column:id_product_rule;type:int(10) unsigned;not null"`
 	IDItem        uint32 `gorm:"primaryKey;column:id_item;type:int(10) unsigned;not null"`
 }
 
-// CartRuleShop [...]
 type CartRuleShop struct {
 	IDCartRule uint32 `gorm:"primaryKey;column:id_cart_rule;type:int(10) unsigned;not null"`
 	IDShop     uint32 `gorm:"primaryKey;column:id_shop;type:int(10) unsigned;not null"`
 }
 
-// Category [...]
 type Category struct {
 	IDCategory     uint32    `gorm:"primaryKey;column:id_category;type:int(10) unsigned;not null"`
 	IDParent       uint32    `gorm:"index:category_parent;column:id_parent;type:int(10) unsigned;not null"`
@@ -398,13 +358,11 @@ type Category struct {
 	IsRootCategory bool      `gorm:"column:is_root_category;type:tinyint(1);not null;default:0"`
 }
 
-// CategoryGroup [...]
 type CategoryGroup struct {
 	IDCategory uint32 `gorm:"primaryKey;index:id_category;column:id_category;type:int(10) unsigned;not null"`
 	IDGroup    uint32 `gorm:"primaryKey;index:id_group;column:id_group;type:int(10) unsigned;not null"`
 }
 
-// CategoryLang [...]
 type CategoryLang struct {
 	IDCategory      uint32 `gorm:"primaryKey;column:id_category;type:int(10) unsigned;not null"`
 	IDShop          uint32 `gorm:"primaryKey;column:id_shop;type:int(11) unsigned;not null;default:1"`
@@ -417,21 +375,18 @@ type CategoryLang struct {
 	MetaDescription string `gorm:"column:meta_description;type:varchar(512)"`
 }
 
-// CategoryProduct [...]
 type CategoryProduct struct {
 	IDCategory uint32 `gorm:"primaryKey;index:id_category;column:id_category;type:int(10) unsigned;not null"`
 	IDProduct  uint32 `gorm:"primaryKey;index:id_product;column:id_product;type:int(10) unsigned;not null"`
 	Position   uint32 `gorm:"index:id_category;column:position;type:int(10) unsigned;not null;default:0"`
 }
 
-// CategoryShop [...]
 type CategoryShop struct {
 	IDCategory int    `gorm:"primaryKey;column:id_category;type:int(11);not null"`
 	IDShop     int    `gorm:"primaryKey;column:id_shop;type:int(11);not null"`
 	Position   uint32 `gorm:"column:position;type:int(10) unsigned;not null;default:0"`
 }
 
-// Cms [...]
 type Cms struct {
 	IDCms         uint32 `gorm:"primaryKey;column:id_cms;type:int(10) unsigned;not null"`
 	IDCmsCategory uint32 `gorm:"column:id_cms_category;type:int(10) unsigned;not null"`
@@ -440,7 +395,6 @@ type Cms struct {
 	Indexation    bool   `gorm:"column:indexation;type:tinyint(1) unsigned;not null;default:1"`
 }
 
-// CmsCategory [...]
 type CmsCategory struct {
 	IDCmsCategory uint32    `gorm:"primaryKey;column:id_cms_category;type:int(10) unsigned;not null"`
 	IDParent      uint32    `gorm:"index:category_parent;column:id_parent;type:int(10) unsigned;not null"`
@@ -451,7 +405,6 @@ type CmsCategory struct {
 	Position      uint32    `gorm:"column:position;type:int(10) unsigned;not null;default:0"`
 }
 
-// CmsCategoryLang [...]
 type CmsCategoryLang struct {
 	IDCmsCategory   uint32 `gorm:"primaryKey;column:id_cms_category;type:int(10) unsigned;not null"`
 	IDLang          uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -464,13 +417,11 @@ type CmsCategoryLang struct {
 	MetaDescription string `gorm:"column:meta_description;type:varchar(512)"`
 }
 
-// CmsCategoryShop [...]
 type CmsCategoryShop struct {
 	IDCmsCategory uint32 `gorm:"primaryKey;column:id_cms_category;type:int(10) unsigned;not null"`
 	IDShop        uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// CmsLang [...]
 type CmsLang struct {
 	IDCms           uint32 `gorm:"primaryKey;column:id_cms;type:int(10) unsigned;not null"`
 	IDLang          uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -483,14 +434,12 @@ type CmsLang struct {
 	LinkRewrite     string `gorm:"column:link_rewrite;type:varchar(128);not null"`
 }
 
-// CmsRole [...]
 type CmsRole struct {
 	IDCmsRole uint32 `gorm:"primaryKey;column:id_cms_role;type:int(11) unsigned;not null"`
 	Name      string `gorm:"unique;column:name;type:varchar(50);not null"`
 	IDCms     uint32 `gorm:"primaryKey;column:id_cms;type:int(11) unsigned;not null"`
 }
 
-// CmsRoleLang [...]
 type CmsRoleLang struct {
 	IDCmsRole uint32 `gorm:"primaryKey;column:id_cms_role;type:int(11) unsigned;not null"`
 	IDLang    uint32 `gorm:"primaryKey;column:id_lang;type:int(11) unsigned;not null"`
@@ -498,13 +447,11 @@ type CmsRoleLang struct {
 	Name      string `gorm:"column:name;type:varchar(128)"`
 }
 
-// CmsShop [...]
 type CmsShop struct {
 	IDCms  uint32 `gorm:"primaryKey;column:id_cms;type:int(11) unsigned;not null"`
 	IDShop uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// Condition [...]
 type Condition struct {
 	IDCondition       int       `gorm:"primaryKey;column:id_condition;type:int(11);not null"`
 	IDPsCondition     int       `gorm:"primaryKey;column:id_ps_condition;type:int(11);not null"`
@@ -520,20 +467,17 @@ type Condition struct {
 	DateUpd           time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// ConditionAdvice [...]
 type ConditionAdvice struct {
 	IDCondition int  `gorm:"primaryKey;column:id_condition;type:int(11);not null"`
 	IDAdvice    int  `gorm:"primaryKey;column:id_advice;type:int(11);not null"`
 	Display     bool `gorm:"column:display;type:tinyint(1) unsigned;not null;default:0"`
 }
 
-// ConditionBadge [...]
 type ConditionBadge struct {
 	IDCondition int `gorm:"primaryKey;column:id_condition;type:int(11);not null"`
 	IDBadge     int `gorm:"primaryKey;column:id_badge;type:int(11);not null"`
 }
 
-// Configuration [...]
 type Configuration struct {
 	IDConfiguration uint32    `gorm:"primaryKey;column:id_configuration;type:int(10) unsigned;not null"`
 	IDShopGroup     uint32    `gorm:"index:id_shop_group;column:id_shop_group;type:int(11) unsigned"`
@@ -544,7 +488,6 @@ type Configuration struct {
 	DateUpd         time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// ConfigurationKpi [...]
 type ConfigurationKpi struct {
 	IDConfigurationKpi uint32    `gorm:"primaryKey;column:id_configuration_kpi;type:int(10) unsigned;not null"`
 	IDShopGroup        uint32    `gorm:"index:id_shop_group;column:id_shop_group;type:int(11) unsigned"`
@@ -555,7 +498,6 @@ type ConfigurationKpi struct {
 	DateUpd            time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// ConfigurationKpiLang [...]
 type ConfigurationKpiLang struct {
 	IDConfigurationKpi uint32    `gorm:"primaryKey;column:id_configuration_kpi;type:int(10) unsigned;not null"`
 	IDLang             uint32    `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -563,7 +505,6 @@ type ConfigurationKpiLang struct {
 	DateUpd            time.Time `gorm:"column:date_upd;type:datetime"`
 }
 
-// ConfigurationLang [...]
 type ConfigurationLang struct {
 	IDConfiguration uint32    `gorm:"primaryKey;column:id_configuration;type:int(10) unsigned;not null"`
 	IDLang          uint32    `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -571,7 +512,6 @@ type ConfigurationLang struct {
 	DateUpd         time.Time `gorm:"column:date_upd;type:datetime"`
 }
 
-// Connections [...]
 type Connections struct {
 	IDConnections uint32    `gorm:"primaryKey;column:id_connections;type:int(10) unsigned;not null"`
 	IDShopGroup   uint32    `gorm:"column:id_shop_group;type:int(11) unsigned;not null;default:1"`
@@ -583,7 +523,6 @@ type Connections struct {
 	HTTPReferer   string    `gorm:"column:http_referer;type:varchar(255)"`
 }
 
-// ConnectionsPage [...]
 type ConnectionsPage struct {
 	IDConnections uint32    `gorm:"primaryKey;column:id_connections;type:int(10) unsigned;not null"`
 	IDPage        uint32    `gorm:"primaryKey;column:id_page;type:int(10) unsigned;not null"`
@@ -591,7 +530,6 @@ type ConnectionsPage struct {
 	TimeEnd       time.Time `gorm:"column:time_end;type:datetime"`
 }
 
-// ConnectionsSource [...]
 type ConnectionsSource struct {
 	IDConnectionsSource uint32    `gorm:"primaryKey;column:id_connections_source;type:int(10) unsigned;not null"`
 	IDConnections       uint32    `gorm:"index:connections;column:id_connections;type:int(10) unsigned;not null"`
@@ -601,7 +539,6 @@ type ConnectionsSource struct {
 	DateAdd             time.Time `gorm:"index:orderby;column:date_add;type:datetime;not null"`
 }
 
-// Contact [...]
 type Contact struct {
 	IDContact       uint32 `gorm:"primaryKey;column:id_contact;type:int(10) unsigned;not null"`
 	Email           string `gorm:"column:email;type:varchar(255);not null"`
@@ -609,7 +546,6 @@ type Contact struct {
 	Position        uint8  `gorm:"column:position;type:tinyint(2) unsigned;not null;default:0"`
 }
 
-// ContactLang [...]
 type ContactLang struct {
 	IDContact   uint32 `gorm:"primaryKey;column:id_contact;type:int(10) unsigned;not null"`
 	IDLang      uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -617,13 +553,11 @@ type ContactLang struct {
 	Description string `gorm:"column:description;type:text"`
 }
 
-// ContactShop [...]
 type ContactShop struct {
 	IDContact uint32 `gorm:"primaryKey;column:id_contact;type:int(11) unsigned;not null"`
 	IDShop    uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// Country [...]
 type Country struct {
 	IDCountry                uint32 `gorm:"primaryKey;column:id_country;type:int(10) unsigned;not null"`
 	IDZone                   uint32 `gorm:"index:country_;column:id_zone;type:int(10) unsigned;not null"`
@@ -638,20 +572,17 @@ type Country struct {
 	DisplayTaxLabel          bool   `gorm:"column:display_tax_label;type:tinyint(1);not null"`
 }
 
-// CountryLang [...]
 type CountryLang struct {
 	IDCountry uint32 `gorm:"primaryKey;column:id_country;type:int(10) unsigned;not null"`
 	IDLang    uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
 	Name      string `gorm:"column:name;type:varchar(64);not null"`
 }
 
-// CountryShop [...]
 type CountryShop struct {
 	IDCountry uint32 `gorm:"primaryKey;column:id_country;type:int(11) unsigned;not null"`
 	IDShop    uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// Currency [...]
 type Currency struct {
 	IDCurrency     uint32  `gorm:"primaryKey;column:id_currency;type:int(10) unsigned;not null"`
 	Name           string  `gorm:"column:name;type:varchar(64);not null"`
@@ -665,7 +596,6 @@ type Currency struct {
 	Modified       bool    `gorm:"column:modified;type:tinyint(1) unsigned;not null;default:0"`
 }
 
-// CurrencyLang [...]
 type CurrencyLang struct {
 	IDCurrency uint32 `gorm:"primaryKey;column:id_currency;type:int(10) unsigned;not null"`
 	IDLang     uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -674,14 +604,12 @@ type CurrencyLang struct {
 	Pattern    string `gorm:"column:pattern;type:varchar(255)"`
 }
 
-// CurrencyShop [...]
 type CurrencyShop struct {
 	IDCurrency     uint32  `gorm:"primaryKey;column:id_currency;type:int(11) unsigned;not null"`
 	IDShop         uint32  `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 	ConversionRate float64 `gorm:"column:conversion_rate;type:decimal(13,6);not null"`
 }
 
-// Customer [...]
 type Customer struct {
 	IDCustomer               uint32         `gorm:"primaryKey;index:id_customer_passwd;column:id_customer;type:int(10) unsigned;not null"`
 	IDShopGroup              uint32         `gorm:"index:id_shop_group;column:id_shop_group;type:int(11) unsigned;not null;default:1"`
@@ -718,13 +646,11 @@ type Customer struct {
 	ResetPasswordValidity    time.Time      `gorm:"column:reset_password_validity;type:datetime"`
 }
 
-// CustomerGroup [...]
 type CustomerGroup struct {
 	IDCustomer uint32 `gorm:"primaryKey;index:id_customer;column:id_customer;type:int(10) unsigned;not null"`
 	IDGroup    uint32 `gorm:"primaryKey;index:customer_login;column:id_group;type:int(10) unsigned;not null"`
 }
 
-// CustomerMessage [...]
 type CustomerMessage struct {
 	IDCustomerMessage uint32    `gorm:"primaryKey;column:id_customer_message;type:int(10) unsigned;not null"`
 	IDCustomerThread  int       `gorm:"index:id_customer_thread;column:id_customer_thread;type:int(11)"`
@@ -739,19 +665,16 @@ type CustomerMessage struct {
 	Read              bool      `gorm:"column:read;type:tinyint(1);not null;default:0"`
 }
 
-// CustomerMessageSyncImap [...]
 type CustomerMessageSyncImap struct {
 	Md5Header []byte `gorm:"index:md5_header_index;column:md5_header;type:varbinary(32);not null"`
 }
 
-// CustomerSession [...]
 type CustomerSession struct {
 	IDCustomerSession uint32 `gorm:"primaryKey;column:id_customer_session;type:int(11) unsigned;not null"`
 	IDCustomer        uint32 `gorm:"column:id_customer;type:int(10) unsigned"`
 	Token             string `gorm:"column:token;type:varchar(40)"`
 }
 
-// CustomerThread [...]
 type CustomerThread struct {
 	IDCustomerThread uint32    `gorm:"primaryKey;column:id_customer_thread;type:int(11) unsigned;not null"`
 	IDShop           uint32    `gorm:"index:id_shop;column:id_shop;type:int(11) unsigned;not null;default:1"`
@@ -767,7 +690,6 @@ type CustomerThread struct {
 	DateUpd          time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// Customization [...]
 type Customization struct {
 	IDCustomization    uint32 `gorm:"primaryKey;column:id_customization;type:int(10) unsigned;not null"`
 	IDProductAttribute uint32 `gorm:"index:id_product_attribute;index:id_cart_product;column:id_product_attribute;type:int(10) unsigned;not null;default:0"`
@@ -780,7 +702,6 @@ type Customization struct {
 	InCart             bool   `gorm:"column:in_cart;type:tinyint(1) unsigned;not null;default:0"`
 }
 
-// CustomizationField [...]
 type CustomizationField struct {
 	IDCustomizationField uint32 `gorm:"primaryKey;column:id_customization_field;type:int(10) unsigned;not null"`
 	IDProduct            uint32 `gorm:"index:id_product;column:id_product;type:int(10) unsigned;not null"`
@@ -790,7 +711,6 @@ type CustomizationField struct {
 	IsDeleted            bool   `gorm:"column:is_deleted;type:tinyint(1);not null;default:0"`
 }
 
-// CustomizationFieldLang [...]
 type CustomizationFieldLang struct {
 	IDCustomizationField uint32 `gorm:"primaryKey;column:id_customization_field;type:int(10) unsigned;not null"`
 	IDLang               uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -798,7 +718,6 @@ type CustomizationFieldLang struct {
 	Name                 string `gorm:"column:name;type:varchar(255);not null"`
 }
 
-// CustomizedData [...]
 type CustomizedData struct {
 	IDCustomization uint32  `gorm:"primaryKey;column:id_customization;type:int(10) unsigned;not null"`
 	Type            bool    `gorm:"primaryKey;column:type;type:tinyint(1);not null"`
@@ -809,14 +728,12 @@ type CustomizedData struct {
 	Weight          float64 `gorm:"column:weight;type:decimal(20,6);not null;default:0.000000"`
 }
 
-// DateRange [...]
 type DateRange struct {
 	IDDateRange uint32    `gorm:"primaryKey;column:id_date_range;type:int(10) unsigned;not null"`
 	TimeStart   time.Time `gorm:"column:time_start;type:datetime;not null"`
 	TimeEnd     time.Time `gorm:"column:time_end;type:datetime;not null"`
 }
 
-// Delivery [...]
 type Delivery struct {
 	IDDelivery    uint32  `gorm:"primaryKey;column:id_delivery;type:int(10) unsigned;not null"`
 	IDShop        uint32  `gorm:"column:id_shop;type:int(10) unsigned"`
@@ -828,7 +745,6 @@ type Delivery struct {
 	Price         float64 `gorm:"column:price;type:decimal(20,6);not null"`
 }
 
-// Mailsubscription [...]
 type Mailsubscription struct {
 	ID                       int       `gorm:"primaryKey;column:id;type:int(6);not null"`
 	IDShop                   uint32    `gorm:"column:id_shop;type:int(10) unsigned;not null;default:1"`
@@ -841,7 +757,6 @@ type Mailsubscription struct {
 	IDLang                   int       `gorm:"column:id_lang;type:int(10);not null;default:0"`
 }
 
-// Mployee [...]
 type Mployee struct {
 	IDEmployee            uint32         `gorm:"primaryKey;index:id_employee_passwd;column:id_employee;type:int(10) unsigned;not null"`
 	IDProfile             uint32         `gorm:"index:id_profile;column:id_profile;type:int(10) unsigned;not null"`
@@ -873,73 +788,62 @@ type Mployee struct {
 	ResetPasswordValidity time.Time      `gorm:"column:reset_password_validity;type:datetime"`
 }
 
-// MployeeSession [...]
 type MployeeSession struct {
 	IDEmployeeSession uint32 `gorm:"primaryKey;column:id_employee_session;type:int(11) unsigned;not null"`
 	IDEmployee        uint32 `gorm:"column:id_employee;type:int(10) unsigned"`
 	Token             string `gorm:"column:token;type:varchar(40)"`
 }
 
-// MployeeShop [...]
 type MployeeShop struct {
 	IDEmployee uint32 `gorm:"primaryKey;column:id_employee;type:int(11) unsigned;not null"`
 	IDShop     uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// Feature [...]
 type Feature struct {
 	IDFeature uint32 `gorm:"primaryKey;column:id_feature;type:int(10) unsigned;not null"`
 	Position  uint32 `gorm:"column:position;type:int(10) unsigned;not null;default:0"`
 }
 
-// FeatureLang [...]
 type FeatureLang struct {
 	IDFeature uint32 `gorm:"primaryKey;column:id_feature;type:int(10) unsigned;not null"`
 	IDLang    uint32 `gorm:"primaryKey;index:id_lang;column:id_lang;type:int(10) unsigned;not null"`
 	Name      string `gorm:"index:id_lang;column:name;type:varchar(128)"`
 }
 
-// FeatureProduct [...]
 type FeatureProduct struct {
 	IDFeature      uint32 `gorm:"primaryKey;column:id_feature;type:int(10) unsigned;not null"`
 	IDProduct      uint32 `gorm:"primaryKey;index:id_product;column:id_product;type:int(10) unsigned;not null"`
 	IDFeatureValue uint32 `gorm:"primaryKey;index:id_feature_value;column:id_feature_value;type:int(10) unsigned;not null"`
 }
 
-// FeatureShop [...]
 type FeatureShop struct {
 	IDFeature uint32 `gorm:"primaryKey;column:id_feature;type:int(11) unsigned;not null"`
 	IDShop    uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// FeatureValue [...]
 type FeatureValue struct {
 	IDFeatureValue uint32 `gorm:"primaryKey;column:id_feature_value;type:int(10) unsigned;not null"`
 	IDFeature      uint32 `gorm:"index:feature;column:id_feature;type:int(10) unsigned;not null"`
 	Custom         uint8  `gorm:"column:custom;type:tinyint(3) unsigned"`
 }
 
-// FeatureValueLang [...]
 type FeatureValueLang struct {
 	IDFeatureValue uint32 `gorm:"primaryKey;column:id_feature_value;type:int(10) unsigned;not null"`
 	IDLang         uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
 	Value          string `gorm:"column:value;type:varchar(255)"`
 }
 
-// Nder [...]
 type Nder struct {
 	IDGender int  `gorm:"primaryKey;column:id_gender;type:int(11);not null"`
 	Type     bool `gorm:"column:type;type:tinyint(1);not null"`
 }
 
-// NderLang [...]
 type NderLang struct {
 	IDGender uint32 `gorm:"primaryKey;index:id_gender;column:id_gender;type:int(10) unsigned;not null"`
 	IDLang   uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
 	Name     string `gorm:"column:name;type:varchar(20);not null"`
 }
 
-// Roup [...]
 type Roup struct {
 	IDGroup            uint32    `gorm:"primaryKey;column:id_group;type:int(10) unsigned;not null"`
 	Reduction          float64   `gorm:"column:reduction;type:decimal(5,2);not null;default:0.00"`
@@ -949,14 +853,12 @@ type Roup struct {
 	DateUpd            time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// RoupLang [...]
 type RoupLang struct {
 	IDGroup uint32 `gorm:"primaryKey;column:id_group;type:int(10) unsigned;not null"`
 	IDLang  uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
 	Name    string `gorm:"column:name;type:varchar(32);not null"`
 }
 
-// RoupReduction [...]
 type RoupReduction struct {
 	IDGroupReduction string  `gorm:"primaryKey;column:id_group_reduction;type:mediumint(8) unsigned;not null"`
 	IDGroup          uint32  `gorm:"uniqueIndex:id_group;column:id_group;type:int(10) unsigned;not null"`
@@ -964,19 +866,16 @@ type RoupReduction struct {
 	Reduction        float64 `gorm:"column:reduction;type:decimal(5,4);not null"`
 }
 
-// RoupShop [...]
 type RoupShop struct {
 	IDGroup uint32 `gorm:"primaryKey;column:id_group;type:int(11) unsigned;not null"`
 	IDShop  uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// SitemapSitemap [...]
 type SitemapSitemap struct {
 	Link   string `gorm:"column:link;type:varchar(255)"`
 	IDShop int    `gorm:"column:id_shop;type:int(11);default:0"`
 }
 
-// Uest [...]
 type Uest struct {
 	IDGuest           uint32 `gorm:"primaryKey;column:id_guest;type:int(10) unsigned;not null"`
 	IDOperatingSystem uint32 `gorm:"index:id_operating_system;column:id_operating_system;type:int(10) unsigned"`
@@ -996,20 +895,17 @@ type Uest struct {
 	MobileTheme       bool   `gorm:"column:mobile_theme;type:tinyint(1);not null;default:0"`
 }
 
-// Homeslider [...]
 type Homeslider struct {
 	IDHomesliderSlides uint32 `gorm:"primaryKey;column:id_homeslider_slides;type:int(10) unsigned;not null"`
 	IDShop             uint32 `gorm:"primaryKey;column:id_shop;type:int(10) unsigned;not null"`
 }
 
-// HomesliderSlides [...]
 type HomesliderSlides struct {
 	IDHomesliderSlides uint32 `gorm:"primaryKey;column:id_homeslider_slides;type:int(10) unsigned;not null"`
 	Position           uint32 `gorm:"column:position;type:int(10) unsigned;not null;default:0"`
 	Active             bool   `gorm:"column:active;type:tinyint(1) unsigned;not null;default:0"`
 }
 
-// HomesliderSlidesLang [...]
 type HomesliderSlidesLang struct {
 	IDHomesliderSlides uint32 `gorm:"primaryKey;column:id_homeslider_slides;type:int(10) unsigned;not null"`
 	IDLang             uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -1020,7 +916,6 @@ type HomesliderSlidesLang struct {
 	Image              string `gorm:"column:image;type:varchar(255);not null"`
 }
 
-// Hook [...]
 type Hook struct {
 	IDHook      uint32 `gorm:"primaryKey;column:id_hook;type:int(10) unsigned;not null"`
 	Name        string `gorm:"unique;column:name;type:varchar(191);not null"`
@@ -1029,14 +924,12 @@ type Hook struct {
 	Position    bool   `gorm:"column:position;type:tinyint(1);not null;default:1"`
 }
 
-// HookAlias [...]
 type HookAlias struct {
 	IDHookAlias uint32 `gorm:"primaryKey;column:id_hook_alias;type:int(10) unsigned;not null"`
 	Alias       string `gorm:"unique;column:alias;type:varchar(191);not null"`
 	Name        string `gorm:"column:name;type:varchar(191);not null"`
 }
 
-// HookModule [...]
 type HookModule struct {
 	IDModule uint32 `gorm:"primaryKey;index:id_module;column:id_module;type:int(10) unsigned;not null"`
 	IDShop   uint32 `gorm:"primaryKey;index:position;column:id_shop;type:int(11) unsigned;not null;default:1"`
@@ -1044,7 +937,6 @@ type HookModule struct {
 	Position uint8  `gorm:"index:position;column:position;type:tinyint(2) unsigned;not null"`
 }
 
-// HookModuleExceptions [...]
 type HookModuleExceptions struct {
 	IDHookModuleExceptions uint32 `gorm:"primaryKey;column:id_hook_module_exceptions;type:int(10) unsigned;not null"`
 	IDShop                 uint32 `gorm:"column:id_shop;type:int(11) unsigned;not null;default:1"`
@@ -1053,7 +945,6 @@ type HookModuleExceptions struct {
 	FileName               string `gorm:"column:file_name;type:varchar(255)"`
 }
 
-// Image [...]
 type Image struct {
 	IDImage   uint32 `gorm:"primaryKey;uniqueIndex:idx_product_image;column:id_image;type:int(10) unsigned;not null"`
 	IDProduct uint32 `gorm:"uniqueIndex:id_product_cover;uniqueIndex:idx_product_image;index:image_product;column:id_product;type:int(10) unsigned;not null"`
@@ -1061,14 +952,12 @@ type Image struct {
 	Cover     bool   `gorm:"uniqueIndex:id_product_cover;uniqueIndex:idx_product_image;column:cover;type:tinyint(1) unsigned"`
 }
 
-// ImageLang [...]
 type ImageLang struct {
 	IDImage uint32 `gorm:"primaryKey;index:id_image;column:id_image;type:int(10) unsigned;not null"`
 	IDLang  uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
 	Legend  string `gorm:"column:legend;type:varchar(128)"`
 }
 
-// ImageShop [...]
 type ImageShop struct {
 	IDProduct uint32 `gorm:"uniqueIndex:id_product;column:id_product;type:int(10) unsigned;not null"`
 	IDImage   uint32 `gorm:"primaryKey;column:id_image;type:int(11) unsigned;not null"`
@@ -1076,7 +965,6 @@ type ImageShop struct {
 	Cover     bool   `gorm:"uniqueIndex:id_product;column:cover;type:tinyint(1) unsigned"`
 }
 
-// ImageType [...]
 type ImageType struct {
 	IDImageType   uint32 `gorm:"primaryKey;column:id_image_type;type:int(10) unsigned;not null"`
 	Name          string `gorm:"index:image_type_name;column:name;type:varchar(64);not null"`
@@ -1089,7 +977,6 @@ type ImageType struct {
 	Stores        bool   `gorm:"column:stores;type:tinyint(1);not null;default:1"`
 }
 
-// ImportMatch [...]
 type ImportMatch struct {
 	IDImportMatch int    `gorm:"primaryKey;column:id_import_match;type:int(10);not null"`
 	Name          string `gorm:"column:name;type:varchar(32);not null"`
@@ -1097,12 +984,10 @@ type ImportMatch struct {
 	Skip          int    `gorm:"column:skip;type:int(2);not null"`
 }
 
-// Info [...]
 type Info struct {
 	IDInfo uint32 `gorm:"primaryKey;column:id_info;type:int(10) unsigned;not null"`
 }
 
-// InfoLang [...]
 type InfoLang struct {
 	IDInfo uint32 `gorm:"primaryKey;column:id_info;type:int(10) unsigned;not null"`
 	IDShop uint32 `gorm:"primaryKey;column:id_shop;type:int(10) unsigned;not null"`
@@ -1110,13 +995,11 @@ type InfoLang struct {
 	Text   string `gorm:"column:text;type:text;not null"`
 }
 
-// InfoShop [...]
 type InfoShop struct {
 	IDInfo uint32 `gorm:"primaryKey;column:id_info;type:int(10) unsigned;not null"`
 	IDShop uint32 `gorm:"primaryKey;column:id_shop;type:int(10) unsigned;not null"`
 }
 
-// Lang [...]
 type Lang struct {
 	IDLang         int    `gorm:"primaryKey;column:id_lang;type:int(11);not null"`
 	Name           string `gorm:"column:name;type:varchar(32);not null"`
@@ -1129,13 +1012,11 @@ type Lang struct {
 	IsRtl          bool   `gorm:"column:is_rtl;type:tinyint(1);not null"`
 }
 
-// LangShop [...]
 type LangShop struct {
 	IDLang int `gorm:"primaryKey;index:IDX_A5D79262BA299860;column:id_lang;type:int(11);not null"`
 	IDShop int `gorm:"primaryKey;index:IDX_A5D79262274A50A0;column:id_shop;type:int(11);not null"`
 }
 
-// LayeredCategory [...]
 type LayeredCategory struct {
 	IDLayeredCategory uint32 `gorm:"primaryKey;column:id_layered_category;type:int(10) unsigned;not null"`
 	IDShop            uint32 `gorm:"index:id_category_shop;column:id_shop;type:int(11) unsigned;not null"`
@@ -1147,7 +1028,6 @@ type LayeredCategory struct {
 	FilterShowLimit   uint32 `gorm:"column:filter_show_limit;type:int(10) unsigned;not null;default:0"`
 }
 
-// LayeredFilter [...]
 type LayeredFilter struct {
 	IDLayeredFilter uint32    `gorm:"primaryKey;column:id_layered_filter;type:int(10) unsigned;not null"`
 	Name            string    `gorm:"column:name;type:varchar(64);not null"`
@@ -1156,25 +1036,21 @@ type LayeredFilter struct {
 	DateAdd         time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// LayeredFilterBlock [...]
 type LayeredFilterBlock struct {
 	Hash string `gorm:"primaryKey;column:hash;type:char(32);not null;default:''"`
 	Data string `gorm:"column:data;type:text"`
 }
 
-// LayeredFilterShop [...]
 type LayeredFilterShop struct {
 	IDLayeredFilter uint32 `gorm:"primaryKey;column:id_layered_filter;type:int(10) unsigned;not null"`
 	IDShop          uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// LayeredIndexableAttributeGroup [...]
 type LayeredIndexableAttributeGroup struct {
 	IDAttributeGroup int  `gorm:"primaryKey;column:id_attribute_group;type:int(11);not null"`
 	Indexable        bool `gorm:"column:indexable;type:tinyint(1);not null;default:0"`
 }
 
-// LayeredIndexableAttributeGroupLangValue [...]
 type LayeredIndexableAttributeGroupLangValue struct {
 	IDAttributeGroup int    `gorm:"primaryKey;column:id_attribute_group;type:int(11);not null"`
 	IDLang           int    `gorm:"primaryKey;column:id_lang;type:int(11);not null"`
@@ -1182,7 +1058,6 @@ type LayeredIndexableAttributeGroupLangValue struct {
 	MetaTitle        string `gorm:"column:meta_title;type:varchar(128)"`
 }
 
-// LayeredIndexableAttributeLangValue [...]
 type LayeredIndexableAttributeLangValue struct {
 	IDAttribute int    `gorm:"primaryKey;column:id_attribute;type:int(11);not null"`
 	IDLang      int    `gorm:"primaryKey;column:id_lang;type:int(11);not null"`
@@ -1190,13 +1065,11 @@ type LayeredIndexableAttributeLangValue struct {
 	MetaTitle   string `gorm:"column:meta_title;type:varchar(128)"`
 }
 
-// LayeredIndexableFeature [...]
 type LayeredIndexableFeature struct {
 	IDFeature int  `gorm:"primaryKey;column:id_feature;type:int(11);not null"`
 	Indexable bool `gorm:"column:indexable;type:tinyint(1);not null;default:0"`
 }
 
-// LayeredIndexableFeatureLangValue [...]
 type LayeredIndexableFeatureLangValue struct {
 	IDFeature int    `gorm:"primaryKey;column:id_feature;type:int(11);not null"`
 	IDLang    int    `gorm:"primaryKey;column:id_lang;type:int(11);not null"`
@@ -1204,7 +1077,6 @@ type LayeredIndexableFeatureLangValue struct {
 	MetaTitle string `gorm:"column:meta_title;type:varchar(128)"`
 }
 
-// LayeredIndexableFeatureValueLangValue [...]
 type LayeredIndexableFeatureValueLangValue struct {
 	IDFeatureValue int    `gorm:"primaryKey;column:id_feature_value;type:int(11);not null"`
 	IDLang         int    `gorm:"primaryKey;column:id_lang;type:int(11);not null"`
@@ -1212,7 +1084,6 @@ type LayeredIndexableFeatureValueLangValue struct {
 	MetaTitle      string `gorm:"column:meta_title;type:varchar(128)"`
 }
 
-// LayeredPriceIndex [...]
 type LayeredPriceIndex struct {
 	IDProduct  int     `gorm:"primaryKey;column:id_product;type:int(11);not null"`
 	IDCurrency int     `gorm:"primaryKey;index:id_currency;column:id_currency;type:int(11);not null"`
@@ -1222,7 +1093,6 @@ type LayeredPriceIndex struct {
 	IDCountry  int     `gorm:"primaryKey;column:id_country;type:int(11);not null"`
 }
 
-// LayeredProductAttribute [...]
 type LayeredProductAttribute struct {
 	IDAttribute      uint32 `gorm:"primaryKey;uniqueIndex:id_attribute_group;column:id_attribute;type:int(10) unsigned;not null"`
 	IDProduct        uint32 `gorm:"primaryKey;uniqueIndex:id_attribute_group;column:id_product;type:int(10) unsigned;not null"`
@@ -1230,7 +1100,6 @@ type LayeredProductAttribute struct {
 	IDShop           uint32 `gorm:"primaryKey;uniqueIndex:id_attribute_group;column:id_shop;type:int(10) unsigned;not null;default:1"`
 }
 
-// LinkBlock [...]
 type LinkBlock struct {
 	IDLinkBlock uint32 `gorm:"primaryKey;column:id_link_block;type:int(10) unsigned;not null"`
 	IDHook      uint32 `gorm:"column:id_hook;type:int(1) unsigned"`
@@ -1238,7 +1107,6 @@ type LinkBlock struct {
 	Content     string `gorm:"column:content;type:text"`
 }
 
-// LinkBlockLang [...]
 type LinkBlockLang struct {
 	IDLinkBlock   uint32 `gorm:"primaryKey;column:id_link_block;type:int(10) unsigned;not null"`
 	IDLang        uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -1246,20 +1114,17 @@ type LinkBlockLang struct {
 	CustomContent string `gorm:"column:custom_content;type:text"`
 }
 
-// LinkBlockShop [...]
 type LinkBlockShop struct {
 	IDLinkBlock uint32 `gorm:"primaryKey;column:id_link_block;type:int(10) unsigned;not null"`
 	IDShop      uint32 `gorm:"primaryKey;column:id_shop;type:int(10) unsigned;not null"`
 }
 
-// Linksmenutop [...]
 type Linksmenutop struct {
 	IDLinksmenutop uint32 `gorm:"primaryKey;column:id_linksmenutop;type:int(10) unsigned;not null"`
 	IDShop         uint32 `gorm:"index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 	NewWindow      bool   `gorm:"column:new_window;type:tinyint(1);not null"`
 }
 
-// LinksmenutopLang [...]
 type LinksmenutopLang struct {
 	IDLinksmenutop uint32 `gorm:"index:id_linksmenutop;column:id_linksmenutop;type:int(11) unsigned;not null"`
 	IDLang         uint32 `gorm:"index:id_linksmenutop;column:id_lang;type:int(11) unsigned;not null"`
@@ -1268,7 +1133,6 @@ type LinksmenutopLang struct {
 	Link           string `gorm:"column:link;type:varchar(128);not null"`
 }
 
-// Log [...]
 type Log struct {
 	IDLog      uint32    `gorm:"primaryKey;column:id_log;type:int(10) unsigned;not null"`
 	Severity   bool      `gorm:"column:severity;type:tinyint(1);not null"`
@@ -1281,7 +1145,6 @@ type Log struct {
 	DateUpd    time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// Mail [...]
 type Mail struct {
 	IDMail    uint32    `gorm:"primaryKey;column:id_mail;type:int(11) unsigned;not null"`
 	Recipient string    `gorm:"index:recipient;column:recipient;type:varchar(126);not null"`
@@ -1291,7 +1154,6 @@ type Mail struct {
 	DateAdd   time.Time `gorm:"column:date_add;type:timestamp;not null;default:current_timestamp()"`
 }
 
-// Manufacturer [...]
 type Manufacturer struct {
 	IDManufacturer uint32    `gorm:"primaryKey;column:id_manufacturer;type:int(10) unsigned;not null"`
 	Name           string    `gorm:"column:name;type:varchar(64);not null"`
@@ -1300,7 +1162,6 @@ type Manufacturer struct {
 	Active         bool      `gorm:"column:active;type:tinyint(1);not null;default:0"`
 }
 
-// ManufacturerLang [...]
 type ManufacturerLang struct {
 	IDManufacturer   uint32 `gorm:"primaryKey;column:id_manufacturer;type:int(10) unsigned;not null"`
 	IDLang           uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -1311,13 +1172,11 @@ type ManufacturerLang struct {
 	MetaDescription  string `gorm:"column:meta_description;type:varchar(512)"`
 }
 
-// ManufacturerShop [...]
 type ManufacturerShop struct {
 	IDManufacturer uint32 `gorm:"primaryKey;column:id_manufacturer;type:int(11) unsigned;not null"`
 	IDShop         uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// MemcachedServers [...]
 type MemcachedServers struct {
 	IDMemcachedServer uint32 `gorm:"primaryKey;column:id_memcached_server;type:int(11) unsigned;not null"`
 	IP                string `gorm:"column:ip;type:varchar(254);not null"`
@@ -1325,7 +1184,6 @@ type MemcachedServers struct {
 	Weight            uint32 `gorm:"column:weight;type:int(11) unsigned;not null"`
 }
 
-// Message [...]
 type Message struct {
 	IDMessage  uint32    `gorm:"primaryKey;column:id_message;type:int(10) unsigned;not null"`
 	IDCart     uint32    `gorm:"index:id_cart;column:id_cart;type:int(10) unsigned"`
@@ -1337,21 +1195,18 @@ type Message struct {
 	DateAdd    time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// MessageReaded [...]
 type MessageReaded struct {
 	IDMessage  uint32    `gorm:"primaryKey;column:id_message;type:int(10) unsigned;not null"`
 	IDEmployee uint32    `gorm:"primaryKey;column:id_employee;type:int(10) unsigned;not null"`
 	DateAdd    time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// Meta [...]
 type Meta struct {
 	IDMeta       uint32 `gorm:"primaryKey;column:id_meta;type:int(10) unsigned;not null"`
 	Page         string `gorm:"unique;column:page;type:varchar(64);not null"`
 	Configurable bool   `gorm:"column:configurable;type:tinyint(1) unsigned;not null;default:1"`
 }
 
-// MetaLang [...]
 type MetaLang struct {
 	IDMeta      uint32 `gorm:"primaryKey;column:id_meta;type:int(10) unsigned;not null"`
 	IDShop      uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null;default:1"`
@@ -1362,7 +1217,6 @@ type MetaLang struct {
 	URLRewrite  string `gorm:"column:url_rewrite;type:varchar(254);not null"`
 }
 
-// Module [...]
 type Module struct {
 	IDModule uint32 `gorm:"primaryKey;column:id_module;type:int(10) unsigned;not null"`
 	Name     string `gorm:"unique;index:name;column:name;type:varchar(64);not null"`
@@ -1370,41 +1224,35 @@ type Module struct {
 	Version  string `gorm:"column:version;type:varchar(8);not null"`
 }
 
-// ModuleAccess [...]
 type ModuleAccess struct {
 	IDProfile           uint32 `gorm:"primaryKey;column:id_profile;type:int(10) unsigned;not null"`
 	IDAuthorizationRole uint32 `gorm:"primaryKey;column:id_authorization_role;type:int(10) unsigned;not null"`
 }
 
-// ModuleCarrier [...]
 type ModuleCarrier struct {
 	IDModule    uint32 `gorm:"primaryKey;column:id_module;type:int(10) unsigned;not null"`
 	IDShop      uint32 `gorm:"primaryKey;column:id_shop;type:int(11) unsigned;not null;default:1"`
 	IDReference int    `gorm:"primaryKey;column:id_reference;type:int(11);not null"`
 }
 
-// ModuleCountry [...]
 type ModuleCountry struct {
 	IDModule  uint32 `gorm:"primaryKey;column:id_module;type:int(10) unsigned;not null"`
 	IDShop    uint32 `gorm:"primaryKey;column:id_shop;type:int(11) unsigned;not null;default:1"`
 	IDCountry uint32 `gorm:"primaryKey;column:id_country;type:int(10) unsigned;not null"`
 }
 
-// ModuleCurrency [...]
 type ModuleCurrency struct {
 	IDModule   uint32 `gorm:"primaryKey;index:id_module;column:id_module;type:int(10) unsigned;not null"`
 	IDShop     uint32 `gorm:"primaryKey;column:id_shop;type:int(11) unsigned;not null;default:1"`
 	IDCurrency int    `gorm:"primaryKey;column:id_currency;type:int(11);not null"`
 }
 
-// ModuleGroup [...]
 type ModuleGroup struct {
 	IDModule uint32 `gorm:"primaryKey;column:id_module;type:int(10) unsigned;not null"`
 	IDShop   uint32 `gorm:"primaryKey;column:id_shop;type:int(11) unsigned;not null;default:1"`
 	IDGroup  uint32 `gorm:"primaryKey;column:id_group;type:int(11) unsigned;not null"`
 }
 
-// ModuleHistory [...]
 type ModuleHistory struct {
 	ID         int       `gorm:"primaryKey;column:id;type:int(11);not null"`
 	IDEmployee int       `gorm:"column:id_employee;type:int(11);not null"`
@@ -1413,7 +1261,6 @@ type ModuleHistory struct {
 	DateUpd    time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// ModulePreference [...]
 type ModulePreference struct {
 	IDModulePreference int    `gorm:"primaryKey;column:id_module_preference;type:int(11);not null"`
 	IDEmployee         int    `gorm:"uniqueIndex:employee_module;column:id_employee;type:int(11);not null"`
@@ -1422,20 +1269,17 @@ type ModulePreference struct {
 	Favorite           bool   `gorm:"column:favorite;type:tinyint(1)"`
 }
 
-// ModuleShop [...]
 type ModuleShop struct {
 	IDModule     uint32 `gorm:"primaryKey;column:id_module;type:int(11) unsigned;not null"`
 	IDShop       uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 	EnableDevice bool   `gorm:"column:enable_device;type:tinyint(1);not null;default:7"`
 }
 
-// OperatingSystem [...]
 type OperatingSystem struct {
 	IDOperatingSystem uint32 `gorm:"primaryKey;column:id_operating_system;type:int(10) unsigned;not null"`
 	Name              string `gorm:"column:name;type:varchar(64)"`
 }
 
-// OrderCarrier [...]
 type OrderCarrier struct {
 	IDOrderCarrier      int       `gorm:"primaryKey;column:id_order_carrier;type:int(11);not null"`
 	IDOrder             uint32    `gorm:"index:id_order;column:id_order;type:int(11) unsigned;not null"`
@@ -1448,7 +1292,6 @@ type OrderCarrier struct {
 	DateAdd             time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// OrderCartRule [...]
 type OrderCartRule struct {
 	IDOrderCartRule uint32  `gorm:"primaryKey;column:id_order_cart_rule;type:int(10) unsigned;not null"`
 	IDOrder         uint32  `gorm:"index:id_order;column:id_order;type:int(10) unsigned;not null"`
@@ -1461,7 +1304,6 @@ type OrderCartRule struct {
 	Deleted         bool    `gorm:"column:deleted;type:tinyint(1) unsigned;not null;default:0"`
 }
 
-// OrderDetail [...]
 type OrderDetail struct {
 	IDOrderDetail             uint32    `gorm:"primaryKey;index:id_order_id_order_detail;column:id_order_detail;type:int(10) unsigned;not null"`
 	IDOrder                   uint32    `gorm:"index:order_detail_order;index:id_order_id_order_detail;column:id_order;type:int(10) unsigned;not null"`
@@ -1514,7 +1356,6 @@ type OrderDetail struct {
 	TotalRefundedTaxIncl      float64   `gorm:"column:total_refunded_tax_incl;type:decimal(20,6);not null;default:0.000000"`
 }
 
-// OrderDetailTax [...]
 type OrderDetailTax struct {
 	IDOrderDetail int     `gorm:"index:id_order_detail;column:id_order_detail;type:int(11);not null"`
 	IDTax         int     `gorm:"index:id_tax;column:id_tax;type:int(11);not null"`
@@ -1522,7 +1363,6 @@ type OrderDetailTax struct {
 	TotalAmount   float64 `gorm:"column:total_amount;type:decimal(16,6);not null;default:0.000000"`
 }
 
-// OrderHistory [...]
 type OrderHistory struct {
 	IDOrderHistory uint32    `gorm:"primaryKey;column:id_order_history;type:int(10) unsigned;not null"`
 	IDEmployee     uint32    `gorm:"index:id_employee;column:id_employee;type:int(10) unsigned;not null"`
@@ -1531,7 +1371,6 @@ type OrderHistory struct {
 	DateAdd        time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// OrderInvoice [...]
 type OrderInvoice struct {
 	IDOrderInvoice               uint32    `gorm:"primaryKey;column:id_order_invoice;type:int(11) unsigned;not null"`
 	IDOrder                      int       `gorm:"index:id_order;column:id_order;type:int(11);not null"`
@@ -1554,14 +1393,12 @@ type OrderInvoice struct {
 	DateAdd                      time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// OrderInvoicePayment [...]
 type OrderInvoicePayment struct {
 	IDOrderInvoice uint32 `gorm:"primaryKey;column:id_order_invoice;type:int(11) unsigned;not null"`
 	IDOrderPayment uint32 `gorm:"primaryKey;index:order_payment;column:id_order_payment;type:int(11) unsigned;not null"`
 	IDOrder        uint32 `gorm:"index:id_order;column:id_order;type:int(11) unsigned;not null"`
 }
 
-// OrderInvoiceTax [...]
 type OrderInvoiceTax struct {
 	IDOrderInvoice int     `gorm:"column:id_order_invoice;type:int(11);not null"`
 	Type           string  `gorm:"column:type;type:varchar(15);not null"`
@@ -1569,13 +1406,11 @@ type OrderInvoiceTax struct {
 	Amount         float64 `gorm:"column:amount;type:decimal(10,6);not null;default:0.000000"`
 }
 
-// OrderMessage [...]
 type OrderMessage struct {
 	IDOrderMessage uint32    `gorm:"primaryKey;column:id_order_message;type:int(10) unsigned;not null"`
 	DateAdd        time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// OrderMessageLang [...]
 type OrderMessageLang struct {
 	IDOrderMessage uint32 `gorm:"primaryKey;column:id_order_message;type:int(10) unsigned;not null"`
 	IDLang         uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -1583,7 +1418,6 @@ type OrderMessageLang struct {
 	Message        string `gorm:"column:message;type:text;not null"`
 }
 
-// OrderPayment [...]
 type OrderPayment struct {
 	IDOrderPayment int       `gorm:"primaryKey;column:id_order_payment;type:int(11);not null"`
 	OrderReference string    `gorm:"index:order_reference;column:order_reference;type:varchar(9)"`
@@ -1599,7 +1433,6 @@ type OrderPayment struct {
 	DateAdd        time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// OrderReturn [...]
 type OrderReturn struct {
 	IDOrderReturn uint32    `gorm:"primaryKey;column:id_order_return;type:int(10) unsigned;not null"`
 	IDCustomer    uint32    `gorm:"index:order_return_customer;column:id_customer;type:int(10) unsigned;not null"`
@@ -1610,7 +1443,6 @@ type OrderReturn struct {
 	DateUpd       time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// OrderReturnDetail [...]
 type OrderReturnDetail struct {
 	IDOrderReturn   uint32 `gorm:"primaryKey;column:id_order_return;type:int(10) unsigned;not null"`
 	IDOrderDetail   uint32 `gorm:"primaryKey;column:id_order_detail;type:int(10) unsigned;not null"`
@@ -1618,20 +1450,17 @@ type OrderReturnDetail struct {
 	ProductQuantity uint32 `gorm:"column:product_quantity;type:int(10) unsigned;not null;default:0"`
 }
 
-// OrderReturnState [...]
 type OrderReturnState struct {
 	IDOrderReturnState uint32 `gorm:"primaryKey;column:id_order_return_state;type:int(10) unsigned;not null"`
 	Color              string `gorm:"column:color;type:varchar(32)"`
 }
 
-// OrderReturnStateLang [...]
 type OrderReturnStateLang struct {
 	IDOrderReturnState uint32 `gorm:"primaryKey;column:id_order_return_state;type:int(10) unsigned;not null"`
 	IDLang             uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
 	Name               string `gorm:"column:name;type:varchar(64);not null"`
 }
 
-// OrderSlip [...]
 type OrderSlip struct {
 	IDOrderSlip          uint32    `gorm:"primaryKey;column:id_order_slip;type:int(10) unsigned;not null"`
 	ConversionRate       float64   `gorm:"column:conversion_rate;type:decimal(13,6);not null;default:1.000000"`
@@ -1650,7 +1479,6 @@ type OrderSlip struct {
 	DateUpd              time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// OrderSlipDetail [...]
 type OrderSlipDetail struct {
 	IDOrderSlip       uint32  `gorm:"primaryKey;column:id_order_slip;type:int(10) unsigned;not null"`
 	IDOrderDetail     uint32  `gorm:"primaryKey;column:id_order_detail;type:int(10) unsigned;not null"`
@@ -1663,7 +1491,6 @@ type OrderSlipDetail struct {
 	AmountTaxIncl     float64 `gorm:"column:amount_tax_incl;type:decimal(20,6)"`
 }
 
-// OrderSlipDetailTax [...]
 type OrderSlipDetailTax struct {
 	IDOrderSlipDetail uint32  `gorm:"index:id_order_slip_detail;column:id_order_slip_detail;type:int(11) unsigned;not null"`
 	IDTax             uint32  `gorm:"index:id_tax;column:id_tax;type:int(11) unsigned;not null"`
@@ -1671,7 +1498,6 @@ type OrderSlipDetailTax struct {
 	TotalAmount       float64 `gorm:"column:total_amount;type:decimal(16,6);not null;default:0.000000"`
 }
 
-// OrderState [...]
 type OrderState struct {
 	IDOrderState uint32 `gorm:"primaryKey;column:id_order_state;type:int(10) unsigned;not null"`
 	Invoice      bool   `gorm:"column:invoice;type:tinyint(1) unsigned;default:0"`
@@ -1689,7 +1515,6 @@ type OrderState struct {
 	Deleted      bool   `gorm:"column:deleted;type:tinyint(1) unsigned;not null;default:0"`
 }
 
-// OrderStateLang [...]
 type OrderStateLang struct {
 	IDOrderState uint32 `gorm:"primaryKey;column:id_order_state;type:int(10) unsigned;not null"`
 	IDLang       uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -1697,7 +1522,6 @@ type OrderStateLang struct {
 	Template     string `gorm:"column:template;type:varchar(64);not null"`
 }
 
-// Orders [...]
 type Orders struct {
 	IDOrder               uint32    `gorm:"primaryKey;column:id_order;type:int(10) unsigned;not null"`
 	Reference             string    `gorm:"index:reference;column:reference;type:varchar(9)"`
@@ -1747,7 +1571,6 @@ type Orders struct {
 	DateUpd               time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// Pack [...]
 type Pack struct {
 	IDProductPack          uint32 `gorm:"primaryKey;column:id_product_pack;type:int(10) unsigned;not null"`
 	IDProductItem          uint32 `gorm:"primaryKey;index:product_item;column:id_product_item;type:int(10) unsigned;not null"`
@@ -1755,20 +1578,17 @@ type Pack struct {
 	Quantity               uint32 `gorm:"column:quantity;type:int(10) unsigned;not null;default:1"`
 }
 
-// Page [...]
 type Page struct {
 	IDPage     uint32 `gorm:"primaryKey;column:id_page;type:int(10) unsigned;not null"`
 	IDPageType uint32 `gorm:"index:id_page_type;column:id_page_type;type:int(10) unsigned;not null"`
 	IDObject   uint32 `gorm:"index:id_object;column:id_object;type:int(10) unsigned"`
 }
 
-// PageType [...]
 type PageType struct {
 	IDPageType uint32 `gorm:"primaryKey;column:id_page_type;type:int(10) unsigned;not null"`
 	Name       string `gorm:"index:name;column:name;type:varchar(255);not null"`
 }
 
-// PageViewed [...]
 type PageViewed struct {
 	IDPage      uint32 `gorm:"primaryKey;column:id_page;type:int(10) unsigned;not null"`
 	IDShopGroup uint32 `gorm:"column:id_shop_group;type:int(10) unsigned;not null;default:1"`
@@ -1777,7 +1597,6 @@ type PageViewed struct {
 	Counter     uint32 `gorm:"column:counter;type:int(10) unsigned;not null"`
 }
 
-// Pagenotfound [...]
 type Pagenotfound struct {
 	IDPagenotfound uint32    `gorm:"primaryKey;column:id_pagenotfound;type:int(10) unsigned;not null"`
 	IDShop         uint32    `gorm:"column:id_shop;type:int(10) unsigned;not null;default:1"`
@@ -1787,7 +1606,6 @@ type Pagenotfound struct {
 	DateAdd        time.Time `gorm:"index:date_add;column:date_add;type:datetime;not null"`
 }
 
-// Product [...]
 type Product struct {
 	IDProduct               uint32         `gorm:"primaryKey;index:product_manufacturer;column:id_product;type:int(10) unsigned;not null"`
 	IDSupplier              uint32         `gorm:"index:product_supplier;column:id_supplier;type:int(10) unsigned"`
@@ -1845,13 +1663,11 @@ type Product struct {
 	State                   uint32         `gorm:"index:state;column:state;type:int(11) unsigned;not null;default:1"`
 }
 
-// ProductAttachment [...]
 type ProductAttachment struct {
 	IDProduct    uint32 `gorm:"primaryKey;column:id_product;type:int(10) unsigned;not null"`
 	IDAttachment uint32 `gorm:"primaryKey;column:id_attachment;type:int(10) unsigned;not null"`
 }
 
-// ProductAttribute [...]
 type ProductAttribute struct {
 	IDProductAttribute uint32         `gorm:"primaryKey;index:id_product_id_product_attribute;column:id_product_attribute;type:int(10) unsigned;not null"`
 	IDProduct          uint32         `gorm:"uniqueIndex:product_default;index:product_attribute_product;index:id_product_id_product_attribute;column:id_product;type:int(10) unsigned;not null"`
@@ -1875,19 +1691,16 @@ type ProductAttribute struct {
 	AvailableDate      datatypes.Date `gorm:"column:available_date;type:date"`
 }
 
-// ProductAttributeCombination [...]
 type ProductAttributeCombination struct {
 	IDAttribute        uint32 `gorm:"primaryKey;column:id_attribute;type:int(10) unsigned;not null"`
 	IDProductAttribute uint32 `gorm:"primaryKey;index:id_product_attribute;column:id_product_attribute;type:int(10) unsigned;not null"`
 }
 
-// ProductAttributeImage [...]
 type ProductAttributeImage struct {
 	IDProductAttribute uint32 `gorm:"primaryKey;column:id_product_attribute;type:int(10) unsigned;not null"`
 	IDImage            uint32 `gorm:"primaryKey;index:id_image;column:id_image;type:int(10) unsigned;not null"`
 }
 
-// ProductAttributeShop [...]
 type ProductAttributeShop struct {
 	IDProduct          uint32         `gorm:"uniqueIndex:id_product;column:id_product;type:int(10) unsigned;not null"`
 	IDProductAttribute uint32         `gorm:"primaryKey;column:id_product_attribute;type:int(10) unsigned;not null"`
@@ -1904,14 +1717,12 @@ type ProductAttributeShop struct {
 	AvailableDate      datatypes.Date `gorm:"column:available_date;type:date"`
 }
 
-// ProductCarrier [...]
 type ProductCarrier struct {
 	IDProduct          uint32 `gorm:"primaryKey;column:id_product;type:int(10) unsigned;not null"`
 	IDCarrierReference uint32 `gorm:"primaryKey;column:id_carrier_reference;type:int(10) unsigned;not null"`
 	IDShop             uint32 `gorm:"primaryKey;column:id_shop;type:int(10) unsigned;not null"`
 }
 
-// ProductComment [...]
 type ProductComment struct {
 	IDProductComment int       `gorm:"primaryKey;column:id_product_comment;type:int(11);not null"`
 	IDProduct        int       `gorm:"column:id_product;type:int(11);not null"`
@@ -1926,60 +1737,51 @@ type ProductComment struct {
 	DateAdd          time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// ProductCommentCriterion [...]
 type ProductCommentCriterion struct {
 	IDProductCommentCriterion     int  `gorm:"primaryKey;column:id_product_comment_criterion;type:int(11);not null"`
 	IDProductCommentCriterionType int  `gorm:"column:id_product_comment_criterion_type;type:int(11);not null"`
 	Active                        bool `gorm:"column:active;type:tinyint(1);not null"`
 }
 
-// ProductCommentCriterionCategory [...]
 type ProductCommentCriterionCategory struct {
 	IDProductCommentCriterion uint32 `gorm:"primaryKey;column:id_product_comment_criterion;type:int(10) unsigned;not null"`
 	IDCategory                uint32 `gorm:"primaryKey;index:id_category;column:id_category;type:int(10) unsigned;not null"`
 }
 
-// ProductCommentCriterionLang [...]
 type ProductCommentCriterionLang struct {
 	IDProductCommentCriterion uint32 `gorm:"primaryKey;column:id_product_comment_criterion;type:int(11) unsigned;not null"`
 	IDLang                    uint32 `gorm:"primaryKey;column:id_lang;type:int(11) unsigned;not null"`
 	Name                      string `gorm:"column:name;type:varchar(64);not null"`
 }
 
-// ProductCommentCriterionProduct [...]
 type ProductCommentCriterionProduct struct {
 	IDProduct                 uint32 `gorm:"primaryKey;column:id_product;type:int(10) unsigned;not null"`
 	IDProductCommentCriterion uint32 `gorm:"primaryKey;index:id_product_comment_criterion;column:id_product_comment_criterion;type:int(10) unsigned;not null"`
 }
 
-// ProductCommentGrade [...]
 type ProductCommentGrade struct {
 	IDProductComment          int `gorm:"primaryKey;index:IDX_367426EBACF38A54;column:id_product_comment;type:int(11);not null"`
 	IDProductCommentCriterion int `gorm:"primaryKey;index:IDX_367426EB8375853C;column:id_product_comment_criterion;type:int(11);not null"`
 	Grade                     int `gorm:"column:grade;type:int(11);not null"`
 }
 
-// ProductCommentReport [...]
 type ProductCommentReport struct {
 	IDCustomer       int `gorm:"primaryKey;column:id_customer;type:int(11);not null"`
 	IDProductComment int `gorm:"primaryKey;index:IDX_D22C9649ACF38A54;column:id_product_comment;type:int(11);not null"`
 }
 
-// ProductCommentUsefulness [...]
 type ProductCommentUsefulness struct {
 	IDCustomer       int  `gorm:"primaryKey;column:id_customer;type:int(11);not null"`
 	IDProductComment int  `gorm:"primaryKey;index:IDX_E681E112ACF38A54;column:id_product_comment;type:int(11);not null"`
 	Usefulness       bool `gorm:"column:usefulness;type:tinyint(1);not null"`
 }
 
-// ProductCountryTax [...]
 type ProductCountryTax struct {
 	IDProduct int `gorm:"primaryKey;column:id_product;type:int(11);not null"`
 	IDCountry int `gorm:"primaryKey;column:id_country;type:int(11);not null"`
 	IDTax     int `gorm:"column:id_tax;type:int(11);not null"`
 }
 
-// ProductDownload [...]
 type ProductDownload struct {
 	IDProductDownload uint32    `gorm:"primaryKey;column:id_product_download;type:int(10) unsigned;not null"`
 	IDProduct         uint32    `gorm:"column:id_product;type:int(10) unsigned;not null"`
@@ -1993,14 +1795,12 @@ type ProductDownload struct {
 	IsShareable       bool      `gorm:"column:is_shareable;type:tinyint(1) unsigned;not null;default:0"`
 }
 
-// ProductGroupReductionCache [...]
 type ProductGroupReductionCache struct {
 	IDProduct uint32  `gorm:"primaryKey;column:id_product;type:int(10) unsigned;not null"`
 	IDGroup   uint32  `gorm:"primaryKey;column:id_group;type:int(10) unsigned;not null"`
 	Reduction float64 `gorm:"column:reduction;type:decimal(5,4);not null"`
 }
 
-// ProductLang [...]
 type ProductLang struct {
 	IDProduct        uint32 `gorm:"primaryKey;column:id_product;type:int(10) unsigned;not null"`
 	IDShop           uint32 `gorm:"primaryKey;column:id_shop;type:int(11) unsigned;not null;default:1"`
@@ -2018,7 +1818,6 @@ type ProductLang struct {
 	DeliveryOutStock string `gorm:"column:delivery_out_stock;type:varchar(255)"`
 }
 
-// ProductSale [...]
 type ProductSale struct {
 	IDProduct uint32         `gorm:"primaryKey;column:id_product;type:int(10) unsigned;not null"`
 	Quantity  uint32         `gorm:"index:quantity;column:quantity;type:int(10) unsigned;not null;default:0"`
@@ -2026,7 +1825,6 @@ type ProductSale struct {
 	DateUpd   datatypes.Date `gorm:"column:date_upd;type:date"`
 }
 
-// ProductShop [...]
 type ProductShop struct {
 	IDProduct               uint32         `gorm:"primaryKey;index:indexed;column:id_product;type:int(10) unsigned;not null"`
 	IDShop                  uint32         `gorm:"primaryKey;column:id_shop;type:int(10) unsigned;not null"`
@@ -2063,7 +1861,6 @@ type ProductShop struct {
 	PackStockType           uint32         `gorm:"column:pack_stock_type;type:int(11) unsigned;not null;default:3"`
 }
 
-// ProductSupplier [...]
 type ProductSupplier struct {
 	IDProductSupplier        uint32  `gorm:"primaryKey;column:id_product_supplier;type:int(11) unsigned;not null"`
 	IDProduct                uint32  `gorm:"uniqueIndex:id_product;index:id_supplier;column:id_product;type:int(11) unsigned;not null"`
@@ -2074,26 +1871,22 @@ type ProductSupplier struct {
 	IDCurrency               uint32  `gorm:"column:id_currency;type:int(11) unsigned;not null"`
 }
 
-// ProductTag [...]
 type ProductTag struct {
 	IDProduct uint32 `gorm:"primaryKey;column:id_product;type:int(10) unsigned;not null"`
 	IDTag     uint32 `gorm:"primaryKey;index:id_tag;index:id_lang;column:id_tag;type:int(10) unsigned;not null"`
 	IDLang    uint32 `gorm:"index:id_lang;column:id_lang;type:int(10) unsigned;not null"`
 }
 
-// Profile [...]
 type Profile struct {
 	IDProfile uint32 `gorm:"primaryKey;column:id_profile;type:int(10) unsigned;not null"`
 }
 
-// ProfileLang [...]
 type ProfileLang struct {
 	IDLang    uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
 	IDProfile uint32 `gorm:"primaryKey;column:id_profile;type:int(10) unsigned;not null"`
 	Name      string `gorm:"column:name;type:varchar(128);not null"`
 }
 
-// PscheckoutCart [...]
 type PscheckoutCart struct {
 	IDPscheckoutCart          uint32    `gorm:"primaryKey;column:id_pscheckout_cart;type:int(10) unsigned;not null"`
 	IDCart                    uint32    `gorm:"column:id_cart;type:int(10) unsigned;not null"`
@@ -2110,7 +1903,6 @@ type PscheckoutCart struct {
 	DateUpd                   time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// PscheckoutFundingSource [...]
 type PscheckoutFundingSource struct {
 	Name     string `gorm:"primaryKey;column:name;type:varchar(20);not null"`
 	Active   bool   `gorm:"column:active;type:tinyint(1) unsigned;not null;default:0"`
@@ -2118,14 +1910,12 @@ type PscheckoutFundingSource struct {
 	IDShop   uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(10) unsigned;not null"`
 }
 
-// PscheckoutOrderMatrice [...]
 type PscheckoutOrderMatrice struct {
 	IDOrderMatrice    uint32 `gorm:"primaryKey;column:id_order_matrice;type:int(10) unsigned;not null"`
 	IDOrderPrestashop uint32 `gorm:"column:id_order_prestashop;type:int(10) unsigned;not null"`
 	IDOrderPaypal     string `gorm:"column:id_order_paypal;type:varchar(20);not null"`
 }
 
-// PsgdprConsent [...]
 type PsgdprConsent struct {
 	IDGdprConsent uint32    `gorm:"primaryKey;column:id_gdpr_consent;type:int(10) unsigned;not null"`
 	IDModule      uint32    `gorm:"primaryKey;column:id_module;type:int(10) unsigned;not null"`
@@ -2136,7 +1926,6 @@ type PsgdprConsent struct {
 	DateUpd       time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// PsgdprConsentLang [...]
 type PsgdprConsentLang struct {
 	IDGdprConsent uint32 `gorm:"primaryKey;column:id_gdpr_consent;type:int(10) unsigned;not null"`
 	IDLang        uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -2144,7 +1933,6 @@ type PsgdprConsentLang struct {
 	IDShop        uint32 `gorm:"primaryKey;column:id_shop;type:int(10) unsigned;not null"`
 }
 
-// PsgdprLog [...]
 type PsgdprLog struct {
 	IDGdprLog   uint32    `gorm:"primaryKey;column:id_gdpr_log;type:int(10) unsigned;not null"`
 	IDCustomer  uint32    `gorm:"column:id_customer;type:int(10) unsigned"`
@@ -2156,7 +1944,6 @@ type PsgdprLog struct {
 	DateUpd     time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// Psreassurance [...]
 type Psreassurance struct {
 	IDPsreassurance uint32    `gorm:"primaryKey;column:id_psreassurance;type:int(10) unsigned;not null"`
 	Icon            string    `gorm:"column:icon;type:varchar(255)"`
@@ -2170,7 +1957,6 @@ type Psreassurance struct {
 	DateUpd         time.Time `gorm:"column:date_upd;type:datetime"`
 }
 
-// PsreassuranceLang [...]
 type PsreassuranceLang struct {
 	IDPsreassurance uint32 `gorm:"primaryKey;column:id_psreassurance;type:int(10) unsigned;not null"`
 	IDLang          uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -2180,21 +1966,18 @@ type PsreassuranceLang struct {
 	Link            string `gorm:"column:link;type:varchar(255);not null"`
 }
 
-// QuickAccess [...]
 type QuickAccess struct {
 	IDQuickAccess uint32 `gorm:"primaryKey;column:id_quick_access;type:int(10) unsigned;not null"`
 	NewWindow     bool   `gorm:"column:new_window;type:tinyint(1);not null;default:0"`
 	Link          string `gorm:"column:link;type:varchar(255);not null"`
 }
 
-// QuickAccessLang [...]
 type QuickAccessLang struct {
 	IDQuickAccess uint32 `gorm:"primaryKey;column:id_quick_access;type:int(10) unsigned;not null"`
 	IDLang        uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
 	Name          string `gorm:"column:name;type:varchar(32);not null"`
 }
 
-// RangePrice [...]
 type RangePrice struct {
 	IDRangePrice uint32  `gorm:"primaryKey;column:id_range_price;type:int(10) unsigned;not null"`
 	IDCarrier    uint32  `gorm:"uniqueIndex:id_carrier;column:id_carrier;type:int(10) unsigned;not null"`
@@ -2202,7 +1985,6 @@ type RangePrice struct {
 	Delimiter2   float64 `gorm:"uniqueIndex:id_carrier;column:delimiter2;type:decimal(20,6);not null"`
 }
 
-// RangeWeight [...]
 type RangeWeight struct {
 	IDRangeWeight uint32  `gorm:"primaryKey;column:id_range_weight;type:int(10) unsigned;not null"`
 	IDCarrier     uint32  `gorm:"uniqueIndex:id_carrier;column:id_carrier;type:int(10) unsigned;not null"`
@@ -2210,7 +1992,6 @@ type RangeWeight struct {
 	Delimiter2    float64 `gorm:"uniqueIndex:id_carrier;column:delimiter2;type:decimal(20,6);not null"`
 }
 
-// Referrer [...]
 type Referrer struct {
 	IDReferrer           uint32    `gorm:"primaryKey;column:id_referrer;type:int(10) unsigned;not null"`
 	Name                 string    `gorm:"column:name;type:varchar(64);not null"`
@@ -2229,13 +2010,11 @@ type Referrer struct {
 	DateAdd              time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// ReferrerCache [...]
 type ReferrerCache struct {
 	IDConnectionsSource uint32 `gorm:"primaryKey;column:id_connections_source;type:int(11) unsigned;not null"`
 	IDReferrer          uint32 `gorm:"primaryKey;column:id_referrer;type:int(11) unsigned;not null"`
 }
 
-// ReferrerShop [...]
 type ReferrerShop struct {
 	IDReferrer         uint32  `gorm:"primaryKey;column:id_referrer;type:int(10) unsigned;not null"`
 	IDShop             uint32  `gorm:"primaryKey;column:id_shop;type:int(10) unsigned;not null;default:1"`
@@ -2249,49 +2028,42 @@ type ReferrerShop struct {
 	CacheOrderRate     float64 `gorm:"column:cache_order_rate;type:decimal(5,4)"`
 }
 
-// RequestSQL [...]
 type RequestSQL struct {
 	IDRequestSQL int    `gorm:"primaryKey;column:id_request_sql;type:int(11);not null"`
 	Name         string `gorm:"column:name;type:varchar(200);not null"`
 	SQL          string `gorm:"column:sql;type:text;not null"`
 }
 
-// RequiredField [...]
 type RequiredField struct {
 	IDRequiredField int    `gorm:"primaryKey;column:id_required_field;type:int(11);not null"`
 	ObjectName      string `gorm:"index:object_name;column:object_name;type:varchar(32);not null"`
 	FieldName       string `gorm:"column:field_name;type:varchar(32);not null"`
 }
 
-// Risk [...]
 type Risk struct {
 	IDRisk  uint32 `gorm:"primaryKey;column:id_risk;type:int(11) unsigned;not null"`
 	Percent int8   `gorm:"column:percent;type:tinyint(3);not null"`
 	Color   string `gorm:"column:color;type:varchar(32)"`
 }
 
-// RiskLang [...]
 type RiskLang struct {
 	IDRisk uint32 `gorm:"primaryKey;index:id_risk;column:id_risk;type:int(10) unsigned;not null"`
 	IDLang uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
 	Name   string `gorm:"column:name;type:varchar(20);not null"`
 }
 
-// SearchEngine [...]
 type SearchEngine struct {
 	IDSearchEngine uint32 `gorm:"primaryKey;column:id_search_engine;type:int(10) unsigned;not null"`
 	Server         string `gorm:"column:server;type:varchar(64);not null"`
 	Getvar         string `gorm:"column:getvar;type:varchar(16);not null"`
 }
 
-// SearchIndex [...]
 type SearchIndex struct {
 	IDProduct uint32 `gorm:"primaryKey;index:id_product;column:id_product;type:int(11) unsigned;not null"`
 	IDWord    uint32 `gorm:"primaryKey;column:id_word;type:int(11) unsigned;not null"`
 	Weight    uint16 `gorm:"index:id_product;column:weight;type:smallint(4) unsigned;not null;default:1"`
 }
 
-// SearchWord [...]
 type SearchWord struct {
 	IDWord uint32 `gorm:"primaryKey;column:id_word;type:int(10) unsigned;not null"`
 	IDShop uint32 `gorm:"uniqueIndex:id_lang;column:id_shop;type:int(11) unsigned;not null;default:1"`
@@ -2299,7 +2071,6 @@ type SearchWord struct {
 	Word   string `gorm:"uniqueIndex:id_lang;column:word;type:varchar(30);not null"`
 }
 
-// Sekeyword [...]
 type Sekeyword struct {
 	IDSekeyword uint32    `gorm:"primaryKey;column:id_sekeyword;type:int(10) unsigned;not null"`
 	IDShop      uint32    `gorm:"column:id_shop;type:int(10) unsigned;not null;default:1"`
@@ -2308,7 +2079,6 @@ type Sekeyword struct {
 	DateAdd     time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// Shop [...]
 type Shop struct {
 	IDShop      int    `gorm:"primaryKey;column:id_shop;type:int(11);not null"`
 	IDShopGroup int    `gorm:"index:IDX_667E487AF5C9E40;column:id_shop_group;type:int(11);not null"`
@@ -2319,7 +2089,6 @@ type Shop struct {
 	Deleted     bool   `gorm:"column:deleted;type:tinyint(1);not null"`
 }
 
-// ShopGroup [...]
 type ShopGroup struct {
 	IDShopGroup   int    `gorm:"primaryKey;column:id_shop_group;type:int(11);not null"`
 	Name          string `gorm:"column:name;type:varchar(64);not null"`
@@ -2330,7 +2099,6 @@ type ShopGroup struct {
 	Deleted       bool   `gorm:"column:deleted;type:tinyint(1);not null"`
 }
 
-// ShopURL [...]
 type ShopURL struct {
 	IDShopURL   uint32 `gorm:"primaryKey;column:id_shop_url;type:int(11) unsigned;not null"`
 	IDShop      uint32 `gorm:"index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
@@ -2342,7 +2110,6 @@ type ShopURL struct {
 	Active      bool   `gorm:"column:active;type:tinyint(1);not null"`
 }
 
-// SmartyCache [...]
 type SmartyCache struct {
 	IDSmartyCache string    `gorm:"primaryKey;column:id_smarty_cache;type:char(40);not null"`
 	Name          string    `gorm:"index:name;column:name;type:char(40);not null"`
@@ -2351,13 +2118,11 @@ type SmartyCache struct {
 	Content       string    `gorm:"column:content;type:longtext;not null"`
 }
 
-// SmartyLastFlush [...]
 type SmartyLastFlush struct {
 	Type      string    `gorm:"primaryKey;column:type;type:enum('compile','template');not null"`
 	LastFlush time.Time `gorm:"column:last_flush;type:datetime;not null;default:0000-00-00 00:00:00"`
 }
 
-// SmartyLazyCache [...]
 type SmartyLazyCache struct {
 	TemplateHash string    `gorm:"primaryKey;column:template_hash;type:varchar(32);not null;default:''"`
 	CacheID      string    `gorm:"primaryKey;column:cache_id;type:varchar(191);not null;default:''"`
@@ -2366,7 +2131,6 @@ type SmartyLazyCache struct {
 	LastUpdate   time.Time `gorm:"column:last_update;type:datetime;not null;default:0000-00-00 00:00:00"`
 }
 
-// SpecificPrice [...]
 type SpecificPrice struct {
 	IDSpecificPrice     uint32    `gorm:"primaryKey;column:id_specific_price;type:int(10) unsigned;not null"`
 	IDSpecificPriceRule uint32    `gorm:"uniqueIndex:id_product_2;index:id_specific_price_rule;column:id_specific_price_rule;type:int(11) unsigned;not null"`
@@ -2388,14 +2152,12 @@ type SpecificPrice struct {
 	To                  time.Time `gorm:"uniqueIndex:id_product_2;index:id_product;index:to;column:to;type:datetime;not null"`
 }
 
-// SpecificPricePriority [...]
 type SpecificPricePriority struct {
 	IDSpecificPricePriority int    `gorm:"primaryKey;column:id_specific_price_priority;type:int(11);not null"`
 	IDProduct               int    `gorm:"primaryKey;unique;column:id_product;type:int(11);not null"`
 	Priority                string `gorm:"column:priority;type:varchar(80);not null"`
 }
 
-// SpecificPriceRule [...]
 type SpecificPriceRule struct {
 	IDSpecificPriceRule uint32    `gorm:"primaryKey;column:id_specific_price_rule;type:int(10) unsigned;not null"`
 	Name                string    `gorm:"column:name;type:varchar(255);not null"`
@@ -2412,7 +2174,6 @@ type SpecificPriceRule struct {
 	To                  time.Time `gorm:"index:id_product;column:to;type:datetime;not null"`
 }
 
-// SpecificPriceRuleCondition [...]
 type SpecificPriceRuleCondition struct {
 	IDSpecificPriceRuleCondition      uint32 `gorm:"primaryKey;column:id_specific_price_rule_condition;type:int(11) unsigned;not null"`
 	IDSpecificPriceRuleConditionGroup uint32 `gorm:"index:id_specific_price_rule_condition_group;column:id_specific_price_rule_condition_group;type:int(11) unsigned;not null"`
@@ -2420,13 +2181,11 @@ type SpecificPriceRuleCondition struct {
 	Value                             string `gorm:"column:value;type:varchar(255);not null"`
 }
 
-// SpecificPriceRuleConditionGroup [...]
 type SpecificPriceRuleConditionGroup struct {
 	IDSpecificPriceRuleConditionGroup uint32 `gorm:"primaryKey;column:id_specific_price_rule_condition_group;type:int(11) unsigned;not null"`
 	IDSpecificPriceRule               uint32 `gorm:"primaryKey;column:id_specific_price_rule;type:int(11) unsigned;not null"`
 }
 
-// State [...]
 type State struct {
 	IDState     uint32 `gorm:"primaryKey;column:id_state;type:int(10) unsigned;not null"`
 	IDCountry   uint32 `gorm:"index:id_country;column:id_country;type:int(11) unsigned;not null"`
@@ -2437,7 +2196,6 @@ type State struct {
 	Active      bool   `gorm:"column:active;type:tinyint(1);not null;default:0"`
 }
 
-// Statssearch [...]
 type Statssearch struct {
 	IDStatssearch uint32    `gorm:"primaryKey;column:id_statssearch;type:int(10) unsigned;not null"`
 	IDShop        uint32    `gorm:"column:id_shop;type:int(10) unsigned;not null;default:1"`
@@ -2447,7 +2205,6 @@ type Statssearch struct {
 	DateAdd       time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// Stock [...]
 type Stock struct {
 	IDStock            uint32  `gorm:"primaryKey;column:id_stock;type:int(11) unsigned;not null"`
 	IDWarehouse        uint32  `gorm:"index:id_warehouse;column:id_warehouse;type:int(11) unsigned;not null"`
@@ -2463,7 +2220,6 @@ type Stock struct {
 	PriceTe            float64 `gorm:"column:price_te;type:decimal(20,6);default:0.000000"`
 }
 
-// StockAvailable [...]
 type StockAvailable struct {
 	IDStockAvailable   uint32 `gorm:"primaryKey;column:id_stock_available;type:int(11) unsigned;not null"`
 	IDProduct          uint32 `gorm:"uniqueIndex:product_sqlstock;index:id_product;column:id_product;type:int(11) unsigned;not null"`
@@ -2478,7 +2234,6 @@ type StockAvailable struct {
 	Location           string `gorm:"column:location;type:varchar(255);not null;default:''"`
 }
 
-// StockMvt [...]
 type StockMvt struct {
 	IDStockMvt        int64     `gorm:"primaryKey;column:id_stock_mvt;type:bigint(20);not null"`
 	IDStock           int       `gorm:"index:id_stock;column:id_stock;type:int(11);not null"`
@@ -2497,7 +2252,6 @@ type StockMvt struct {
 	Referer           int64     `gorm:"column:referer;type:bigint(20)"`
 }
 
-// StockMvtReason [...]
 type StockMvtReason struct {
 	IDStockMvtReason uint32    `gorm:"primaryKey;column:id_stock_mvt_reason;type:int(11) unsigned;not null"`
 	Sign             bool      `gorm:"column:sign;type:tinyint(1);not null;default:1"`
@@ -2506,14 +2260,12 @@ type StockMvtReason struct {
 	Deleted          bool      `gorm:"column:deleted;type:tinyint(1) unsigned;not null;default:0"`
 }
 
-// StockMvtReasonLang [...]
 type StockMvtReasonLang struct {
 	IDStockMvtReason uint32 `gorm:"primaryKey;column:id_stock_mvt_reason;type:int(11) unsigned;not null"`
 	IDLang           uint32 `gorm:"primaryKey;column:id_lang;type:int(11) unsigned;not null"`
 	Name             string `gorm:"column:name;type:varchar(255);not null"`
 }
 
-// Store [...]
 type Store struct {
 	IDStore   uint32    `gorm:"primaryKey;column:id_store;type:int(10) unsigned;not null"`
 	IDCountry uint32    `gorm:"column:id_country;type:int(10) unsigned;not null"`
@@ -2530,7 +2282,6 @@ type Store struct {
 	DateUpd   time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// StoreLang [...]
 type StoreLang struct {
 	IDStore  uint32 `gorm:"primaryKey;column:id_store;type:int(11) unsigned;not null"`
 	IDLang   uint32 `gorm:"primaryKey;column:id_lang;type:int(11) unsigned;not null"`
@@ -2541,13 +2292,11 @@ type StoreLang struct {
 	Note     string `gorm:"column:note;type:text"`
 }
 
-// StoreShop [...]
 type StoreShop struct {
 	IDStore uint32 `gorm:"primaryKey;column:id_store;type:int(11) unsigned;not null"`
 	IDShop  uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// Supplier [...]
 type Supplier struct {
 	IDSupplier uint32    `gorm:"primaryKey;column:id_supplier;type:int(10) unsigned;not null"`
 	Name       string    `gorm:"column:name;type:varchar(64);not null"`
@@ -2556,7 +2305,6 @@ type Supplier struct {
 	Active     bool      `gorm:"column:active;type:tinyint(1);not null;default:0"`
 }
 
-// SupplierLang [...]
 type SupplierLang struct {
 	IDSupplier      uint32 `gorm:"primaryKey;column:id_supplier;type:int(10) unsigned;not null"`
 	IDLang          uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
@@ -2566,13 +2314,11 @@ type SupplierLang struct {
 	MetaDescription string `gorm:"column:meta_description;type:varchar(512)"`
 }
 
-// SupplierShop [...]
 type SupplierShop struct {
 	IDSupplier uint32 `gorm:"primaryKey;column:id_supplier;type:int(11) unsigned;not null"`
 	IDShop     uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// SupplyOrder [...]
 type SupplyOrder struct {
 	IDSupplyOrder        uint32    `gorm:"primaryKey;column:id_supply_order;type:int(11) unsigned;not null"`
 	IDSupplier           uint32    `gorm:"index:id_supplier;column:id_supplier;type:int(11) unsigned;not null"`
@@ -2595,7 +2341,6 @@ type SupplyOrder struct {
 	IsTemplate           bool      `gorm:"column:is_template;type:tinyint(1);default:0"`
 }
 
-// SupplyOrderDetail [...]
 type SupplyOrderDetail struct {
 	IDSupplyOrderDetail       uint32  `gorm:"primaryKey;column:id_supply_order_detail;type:int(11) unsigned;not null"`
 	IDSupplyOrder             uint32  `gorm:"index:id_supply_order;column:id_supply_order;type:int(11) unsigned;not null"`
@@ -2624,7 +2369,6 @@ type SupplyOrderDetail struct {
 	PriceWithOrderDiscountTe  float64 `gorm:"column:price_with_order_discount_te;type:decimal(20,6);default:0.000000"`
 }
 
-// SupplyOrderHistory [...]
 type SupplyOrderHistory struct {
 	IDSupplyOrderHistory uint32    `gorm:"primaryKey;column:id_supply_order_history;type:int(11) unsigned;not null"`
 	IDSupplyOrder        uint32    `gorm:"index:id_supply_order;column:id_supply_order;type:int(11) unsigned;not null"`
@@ -2635,7 +2379,6 @@ type SupplyOrderHistory struct {
 	DateAdd              time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// SupplyOrderReceiptHistory [...]
 type SupplyOrderReceiptHistory struct {
 	IDSupplyOrderReceiptHistory uint32    `gorm:"primaryKey;column:id_supply_order_receipt_history;type:int(11) unsigned;not null"`
 	IDSupplyOrderDetail         uint32    `gorm:"index:id_supply_order_detail;column:id_supply_order_detail;type:int(11) unsigned;not null"`
@@ -2647,7 +2390,6 @@ type SupplyOrderReceiptHistory struct {
 	DateAdd                     time.Time `gorm:"column:date_add;type:datetime;not null"`
 }
 
-// SupplyOrderState [...]
 type SupplyOrderState struct {
 	IDSupplyOrderState uint32 `gorm:"primaryKey;column:id_supply_order_state;type:int(11) unsigned;not null"`
 	DeliveryNote       bool   `gorm:"column:delivery_note;type:tinyint(1);not null;default:0"`
@@ -2658,14 +2400,12 @@ type SupplyOrderState struct {
 	Color              string `gorm:"column:color;type:varchar(32)"`
 }
 
-// SupplyOrderStateLang [...]
 type SupplyOrderStateLang struct {
 	IDSupplyOrderState uint32 `gorm:"primaryKey;column:id_supply_order_state;type:int(11) unsigned;not null"`
 	IDLang             uint32 `gorm:"primaryKey;column:id_lang;type:int(11) unsigned;not null"`
 	Name               string `gorm:"column:name;type:varchar(128)"`
 }
 
-// Tab [...]
 type Tab struct {
 	IDTab        int    `gorm:"primaryKey;column:id_tab;type:int(11);not null"`
 	IDParent     int    `gorm:"column:id_parent;type:int(11);not null"`
@@ -2679,20 +2419,17 @@ type Tab struct {
 	Icon         string `gorm:"column:icon;type:varchar(32)"`
 }
 
-// TabAdvice [...]
 type TabAdvice struct {
 	IDTab    int `gorm:"primaryKey;column:id_tab;type:int(11);not null"`
 	IDAdvice int `gorm:"primaryKey;column:id_advice;type:int(11);not null"`
 }
 
-// TabLang [...]
 type TabLang struct {
 	IDTab  int    `gorm:"primaryKey;index:IDX_3E3D6F36ED47AB56;column:id_tab;type:int(11);not null"`
 	IDLang int    `gorm:"primaryKey;index:IDX_3E3D6F36BA299860;column:id_lang;type:int(11);not null"`
 	Name   string `gorm:"column:name;type:varchar(128);not null"`
 }
 
-// TabModulePreference [...]
 type TabModulePreference struct {
 	IDTabModulePreference int    `gorm:"primaryKey;column:id_tab_module_preference;type:int(11);not null"`
 	IDEmployee            int    `gorm:"uniqueIndex:employee_module;column:id_employee;type:int(11);not null"`
@@ -2700,14 +2437,12 @@ type TabModulePreference struct {
 	Module                string `gorm:"uniqueIndex:employee_module;column:module;type:varchar(191);not null"`
 }
 
-// Tag [...]
 type Tag struct {
 	IDTag  uint32 `gorm:"primaryKey;column:id_tag;type:int(10) unsigned;not null"`
 	IDLang uint32 `gorm:"index:id_lang;column:id_lang;type:int(10) unsigned;not null"`
 	Name   string `gorm:"index:tag_name;column:name;type:varchar(32);not null"`
 }
 
-// TagCount [...]
 type TagCount struct {
 	IDGroup uint32 `gorm:"primaryKey;index:id_group;column:id_group;type:int(10) unsigned;not null;default:0"`
 	IDTag   uint32 `gorm:"primaryKey;column:id_tag;type:int(10) unsigned;not null;default:0"`
@@ -2716,7 +2451,6 @@ type TagCount struct {
 	Counter uint32 `gorm:"index:id_group;column:counter;type:int(10) unsigned;not null;default:0"`
 }
 
-// Tax [...]
 type Tax struct {
 	IDTax   uint32  `gorm:"primaryKey;column:id_tax;type:int(10) unsigned;not null"`
 	Rate    float64 `gorm:"column:rate;type:decimal(10,3);not null"`
@@ -2724,14 +2458,12 @@ type Tax struct {
 	Deleted bool    `gorm:"column:deleted;type:tinyint(1) unsigned;not null;default:0"`
 }
 
-// TaxLang [...]
 type TaxLang struct {
 	IDTax  uint32 `gorm:"primaryKey;column:id_tax;type:int(10) unsigned;not null"`
 	IDLang uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
 	Name   string `gorm:"column:name;type:varchar(32);not null"`
 }
 
-// TaxRule [...]
 type TaxRule struct {
 	IDTaxRule       int    `gorm:"primaryKey;column:id_tax_rule;type:int(11);not null"`
 	IDTaxRulesGroup int    `gorm:"index:id_tax_rules_group;index:category_getproducts;column:id_tax_rules_group;type:int(11);not null"`
@@ -2744,7 +2476,6 @@ type TaxRule struct {
 	Description     string `gorm:"column:description;type:varchar(100);not null"`
 }
 
-// TaxRulesGroup [...]
 type TaxRulesGroup struct {
 	IDTaxRulesGroup int       `gorm:"primaryKey;column:id_tax_rules_group;type:int(11);not null"`
 	Name            string    `gorm:"column:name;type:varchar(50);not null"`
@@ -2754,19 +2485,16 @@ type TaxRulesGroup struct {
 	DateUpd         time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-// TaxRulesGroupShop [...]
 type TaxRulesGroupShop struct {
 	IDTaxRulesGroup uint32 `gorm:"primaryKey;column:id_tax_rules_group;type:int(11) unsigned;not null"`
 	IDShop          uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// Timezone [...]
 type Timezone struct {
 	IDTimezone uint32 `gorm:"primaryKey;column:id_timezone;type:int(10) unsigned;not null"`
 	Name       string `gorm:"column:name;type:varchar(32);not null"`
 }
 
-// Translation [...]
 type Translation struct {
 	IDTranslation int    `gorm:"primaryKey;column:id_translation;type:int(11);not null"`
 	IDLang        int    `gorm:"index:IDX_3B44757BBA299860;column:id_lang;type:int(11);not null"`
@@ -2776,7 +2504,6 @@ type Translation struct {
 	Theme         string `gorm:"column:theme;type:varchar(32)"`
 }
 
-// Warehouse [...]
 type Warehouse struct {
 	IDWarehouse    uint32 `gorm:"primaryKey;column:id_warehouse;type:int(11) unsigned;not null"`
 	IDCurrency     uint32 `gorm:"column:id_currency;type:int(11) unsigned;not null"`
@@ -2788,13 +2515,11 @@ type Warehouse struct {
 	Deleted        bool   `gorm:"column:deleted;type:tinyint(1) unsigned;not null;default:0"`
 }
 
-// WarehouseCarrier [...]
 type WarehouseCarrier struct {
 	IDCarrier   uint32 `gorm:"primaryKey;index:id_carrier;column:id_carrier;type:int(11) unsigned;not null"`
 	IDWarehouse uint32 `gorm:"primaryKey;index:id_warehouse;column:id_warehouse;type:int(11) unsigned;not null"`
 }
 
-// WarehouseProductLocation [...]
 type WarehouseProductLocation struct {
 	IDWarehouseProductLocation uint32 `gorm:"primaryKey;column:id_warehouse_product_location;type:int(11) unsigned;not null"`
 	IDProduct                  uint32 `gorm:"uniqueIndex:id_product;column:id_product;type:int(11) unsigned;not null"`
@@ -2803,19 +2528,16 @@ type WarehouseProductLocation struct {
 	Location                   string `gorm:"column:location;type:varchar(64)"`
 }
 
-// WarehouseShop [...]
 type WarehouseShop struct {
 	IDShop      uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 	IDWarehouse uint32 `gorm:"primaryKey;index:id_warehouse;column:id_warehouse;type:int(11) unsigned;not null"`
 }
 
-// WebBrowser [...]
 type WebBrowser struct {
 	IDWebBrowser uint32 `gorm:"primaryKey;column:id_web_browser;type:int(10) unsigned;not null"`
 	Name         string `gorm:"column:name;type:varchar(64)"`
 }
 
-// WebserviceAccount [...]
 type WebserviceAccount struct {
 	IDWebserviceAccount int    `gorm:"primaryKey;column:id_webservice_account;type:int(11);not null"`
 	Key                 string `gorm:"index:key;column:key;type:varchar(32);not null"`
@@ -2826,13 +2548,11 @@ type WebserviceAccount struct {
 	Active              int8   `gorm:"column:active;type:tinyint(2);not null"`
 }
 
-// WebserviceAccountShop [...]
 type WebserviceAccountShop struct {
 	IDWebserviceAccount uint32 `gorm:"primaryKey;column:id_webservice_account;type:int(11) unsigned;not null"`
 	IDShop              uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-// WebservicePermission [...]
 type WebservicePermission struct {
 	IDWebservicePermission int    `gorm:"primaryKey;column:id_webservice_permission;type:int(11);not null"`
 	Resource               string `gorm:"uniqueIndex:resource_2;index:resource;column:resource;type:varchar(50);not null"`
@@ -2840,14 +2560,12 @@ type WebservicePermission struct {
 	IDWebserviceAccount    int    `gorm:"uniqueIndex:resource_2;index:id_webservice_account;column:id_webservice_account;type:int(11);not null"`
 }
 
-// Zone [...]
 type Zone struct {
 	IDZone uint32 `gorm:"primaryKey;column:id_zone;type:int(10) unsigned;not null"`
 	Name   string `gorm:"column:name;type:varchar(64);not null"`
 	Active bool   `gorm:"column:active;type:tinyint(1) unsigned;not null;default:0"`
 }
 
-// ZoneShop [...]
 type ZoneShop struct {
 	IDZone uint32 `gorm:"primaryKey;column:id_zone;type:int(11) unsigned;not null"`
 	IDShop uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
