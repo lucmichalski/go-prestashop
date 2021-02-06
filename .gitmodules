@@ -1,0 +1,6 @@
+[submodule ".docker/prestashop-shop-creator"]
+	path = .docker/prestashop-shop-creator
+	url = https://github.com/lucmichalski/prestashop-shop-creator
+[submodule "makefiles"]
+	path = makefiles
+	url = https://github.com/lucmichalski/makefiles
