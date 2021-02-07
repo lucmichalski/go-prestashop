@@ -35,7 +35,6 @@ func (obj *_RequiredFieldMgr) Gets() (results []*RequiredField, err error) {
 	return
 }
 
-
 func (obj *_RequiredFieldMgr) WithIDRequiredField(idRequiredField int) Option {
 	return optionFunc(func(o *options) { o.query["id_required_field"] = idRequiredField })
 }
@@ -74,7 +73,6 @@ func (obj *_RequiredFieldMgr) GetByOptions(opts ...Option) (results []*RequiredF
 	return
 }
 
-
 func (obj *_RequiredFieldMgr) GetFromIDRequiredField(idRequiredField int) (result RequiredField, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_required_field = ?", idRequiredField).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_RequiredFieldMgr) GetBatchFromFieldName(fieldNames []string) (result
 
 	return
 }
-
 
 func (obj *_RequiredFieldMgr) FetchByPrimaryKey(idRequiredField int) (result RequiredField, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_required_field = ?", idRequiredField).Find(&result).Error

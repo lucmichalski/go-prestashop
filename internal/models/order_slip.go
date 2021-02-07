@@ -36,7 +36,6 @@ func (obj *_OrderSlipMgr) Gets() (results []*OrderSlip, err error) {
 	return
 }
 
-
 func (obj *_OrderSlipMgr) WithIDOrderSlip(idOrderSlip uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_order_slip"] = idOrderSlip })
 }
@@ -122,7 +121,6 @@ func (obj *_OrderSlipMgr) GetByOptions(opts ...Option) (results []*OrderSlip, er
 
 	return
 }
-
 
 func (obj *_OrderSlipMgr) GetFromIDOrderSlip(idOrderSlip uint32) (result OrderSlip, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_slip = ?", idOrderSlip).Find(&result).Error
@@ -303,7 +301,6 @@ func (obj *_OrderSlipMgr) GetBatchFromDateUpd(dateUpds []time.Time) (results []*
 
 	return
 }
-
 
 func (obj *_OrderSlipMgr) FetchByPrimaryKey(idOrderSlip uint32) (result OrderSlip, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_slip = ?", idOrderSlip).Find(&result).Error

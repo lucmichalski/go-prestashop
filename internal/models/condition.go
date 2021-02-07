@@ -36,7 +36,6 @@ func (obj *_ConditionMgr) Gets() (results []*Condition, err error) {
 	return
 }
 
-
 func (obj *_ConditionMgr) WithIDCondition(idCondition int) Option {
 	return optionFunc(func(o *options) { o.query["id_condition"] = idCondition })
 }
@@ -110,7 +109,6 @@ func (obj *_ConditionMgr) GetByOptions(opts ...Option) (results []*Condition, er
 
 	return
 }
-
 
 func (obj *_ConditionMgr) GetFromIDCondition(idCondition int) (results []*Condition, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_condition = ?", idCondition).Find(&results).Error
@@ -190,8 +188,8 @@ func (obj *_ConditionMgr) GetFromResult(result string) (results []*Condition, er
 	return
 }
 
-func (obj *_ConditionMgr) GetBatchFromResult(results []string) (results []*Condition, err error) {
-	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("result IN (?)", results).Find(&results).Error
+func (obj *_ConditionMgr) GetBatchFromResult(result []string) (results []*Condition, err error) {
+	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("result IN (?)", result).Find(&results).Error
 
 	return
 }
@@ -255,7 +253,6 @@ func (obj *_ConditionMgr) GetBatchFromDateUpd(dateUpds []time.Time) (results []*
 
 	return
 }
-
 
 func (obj *_ConditionMgr) FetchByPrimaryKey(idCondition int, idPsCondition int) (result Condition, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_condition = ? AND id_ps_condition = ?", idCondition, idPsCondition).Find(&result).Error

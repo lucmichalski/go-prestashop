@@ -35,7 +35,6 @@ func (obj *_QuickAccessMgr) Gets() (results []*QuickAccess, err error) {
 	return
 }
 
-
 func (obj *_QuickAccessMgr) WithIDQuickAccess(idQuickAccess uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_quick_access"] = idQuickAccess })
 }
@@ -74,7 +73,6 @@ func (obj *_QuickAccessMgr) GetByOptions(opts ...Option) (results []*QuickAccess
 	return
 }
 
-
 func (obj *_QuickAccessMgr) GetFromIDQuickAccess(idQuickAccess uint32) (result QuickAccess, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_quick_access = ?", idQuickAccess).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_QuickAccessMgr) GetBatchFromLink(links []string) (results []*QuickAc
 
 	return
 }
-
 
 func (obj *_QuickAccessMgr) FetchByPrimaryKey(idQuickAccess uint32) (result QuickAccess, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_quick_access = ?", idQuickAccess).Find(&result).Error

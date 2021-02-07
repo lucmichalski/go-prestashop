@@ -35,7 +35,6 @@ func (obj *_CarrierGroupMgr) Gets() (results []*CarrierGroup, err error) {
 	return
 }
 
-
 func (obj *_CarrierGroupMgr) WithIDCarrier(idCarrier uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_carrier"] = idCarrier })
 }
@@ -70,7 +69,6 @@ func (obj *_CarrierGroupMgr) GetByOptions(opts ...Option) (results []*CarrierGro
 	return
 }
 
-
 func (obj *_CarrierGroupMgr) GetFromIDCarrier(idCarrier uint32) (results []*CarrierGroup, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_carrier = ?", idCarrier).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_CarrierGroupMgr) GetBatchFromIDGroup(idGroups []uint32) (results []*
 
 	return
 }
-
 
 func (obj *_CarrierGroupMgr) FetchByPrimaryKey(idCarrier uint32, idGroup uint32) (result CarrierGroup, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_carrier = ? AND id_group = ?", idCarrier, idGroup).Find(&result).Error

@@ -36,7 +36,6 @@ func (obj *_AddressMgr) Gets() (results []*Address, err error) {
 	return
 }
 
-
 func (obj *_AddressMgr) WithIDAddress(idAddress uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_address"] = idAddress })
 }
@@ -158,7 +157,6 @@ func (obj *_AddressMgr) GetByOptions(opts ...Option) (results []*Address, err er
 
 	return
 }
-
 
 func (obj *_AddressMgr) GetFromIDAddress(idAddress uint32) (result Address, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_address = ?", idAddress).Find(&result).Error
@@ -447,7 +445,6 @@ func (obj *_AddressMgr) GetBatchFromDeleted(deleteds []bool) (results []*Address
 
 	return
 }
-
 
 func (obj *_AddressMgr) FetchByPrimaryKey(idAddress uint32) (result Address, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_address = ?", idAddress).Find(&result).Error

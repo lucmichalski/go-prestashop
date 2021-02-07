@@ -6,7 +6,7 @@ import (
 
 // Attribute was generated 2021-02-06 11:40:15 by evolutive on eg-cdn.gsi-network.com.
 type Attribute struct {
-	XMLName xml.Name `xml:"attribute"`
+	XMLName xml.Name `xml:"entity_attribute"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

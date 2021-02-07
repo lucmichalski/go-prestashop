@@ -35,7 +35,6 @@ func (obj *_AttributeLangMgr) Gets() (results []*AttributeLang, err error) {
 	return
 }
 
-
 func (obj *_AttributeLangMgr) WithIDAttribute(idAttribute int) Option {
 	return optionFunc(func(o *options) { o.query["id_attribute"] = idAttribute })
 }
@@ -74,7 +73,6 @@ func (obj *_AttributeLangMgr) GetByOptions(opts ...Option) (results []*Attribute
 	return
 }
 
-
 func (obj *_AttributeLangMgr) GetFromIDAttribute(idAttribute int) (results []*AttributeLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute = ?", idAttribute).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_AttributeLangMgr) GetBatchFromName(names []string) (results []*Attri
 
 	return
 }
-
 
 func (obj *_AttributeLangMgr) FetchByPrimaryKey(idAttribute int, idLang int) (result AttributeLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute = ? AND id_lang = ?", idAttribute, idLang).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_WarehouseProductLocationMgr) Gets() (results []*WarehouseProductLoca
 	return
 }
 
-
 func (obj *_WarehouseProductLocationMgr) WithIDWarehouseProductLocation(idWarehouseProductLocation uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_warehouse_product_location"] = idWarehouseProductLocation })
 }
@@ -81,7 +80,6 @@ func (obj *_WarehouseProductLocationMgr) GetByOptions(opts ...Option) (results [
 
 	return
 }
-
 
 func (obj *_WarehouseProductLocationMgr) GetFromIDWarehouseProductLocation(idWarehouseProductLocation uint32) (result WarehouseProductLocation, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_warehouse_product_location = ?", idWarehouseProductLocation).Find(&result).Error
@@ -142,7 +140,6 @@ func (obj *_WarehouseProductLocationMgr) GetBatchFromLocation(locations []string
 
 	return
 }
-
 
 func (obj *_WarehouseProductLocationMgr) FetchByPrimaryKey(idWarehouseProductLocation uint32) (result WarehouseProductLocation, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_warehouse_product_location = ?", idWarehouseProductLocation).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_TabAdviceMgr) Gets() (results []*TabAdvice, err error) {
 	return
 }
 
-
 func (obj *_TabAdviceMgr) WithIDTab(idTab int) Option {
 	return optionFunc(func(o *options) { o.query["id_tab"] = idTab })
 }
@@ -70,7 +69,6 @@ func (obj *_TabAdviceMgr) GetByOptions(opts ...Option) (results []*TabAdvice, er
 	return
 }
 
-
 func (obj *_TabAdviceMgr) GetFromIDTab(idTab int) (results []*TabAdvice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tab = ?", idTab).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_TabAdviceMgr) GetBatchFromIDAdvice(idAdvices []int) (results []*TabA
 
 	return
 }
-
 
 func (obj *_TabAdviceMgr) FetchByPrimaryKey(idTab int, idAdvice int) (result TabAdvice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tab = ? AND id_advice = ?", idTab, idAdvice).Find(&result).Error

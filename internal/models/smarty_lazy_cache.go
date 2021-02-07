@@ -36,7 +36,6 @@ func (obj *_SmartyLazyCacheMgr) Gets() (results []*SmartyLazyCache, err error) {
 	return
 }
 
-
 func (obj *_SmartyLazyCacheMgr) WithTemplateHash(templateHash string) Option {
 	return optionFunc(func(o *options) { o.query["template_hash"] = templateHash })
 }
@@ -82,7 +81,6 @@ func (obj *_SmartyLazyCacheMgr) GetByOptions(opts ...Option) (results []*SmartyL
 
 	return
 }
-
 
 func (obj *_SmartyLazyCacheMgr) GetFromTemplateHash(templateHash string) (results []*SmartyLazyCache, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("template_hash = ?", templateHash).Find(&results).Error
@@ -143,7 +141,6 @@ func (obj *_SmartyLazyCacheMgr) GetBatchFromLastUpdate(lastUpdates []time.Time) 
 
 	return
 }
-
 
 func (obj *_SmartyLazyCacheMgr) FetchByPrimaryKey(templateHash string, cacheID string, compileID string) (result SmartyLazyCache, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("template_hash = ? AND cache_id = ? AND compile_id = ?", templateHash, cacheID, compileID).Find(&result).Error

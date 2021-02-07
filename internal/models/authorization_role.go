@@ -35,7 +35,6 @@ func (obj *_AuthorizationRoleMgr) Gets() (results []*AuthorizationRole, err erro
 	return
 }
 
-
 func (obj *_AuthorizationRoleMgr) WithIDAuthorizationRole(idAuthorizationRole uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_authorization_role"] = idAuthorizationRole })
 }
@@ -70,7 +69,6 @@ func (obj *_AuthorizationRoleMgr) GetByOptions(opts ...Option) (results []*Autho
 	return
 }
 
-
 func (obj *_AuthorizationRoleMgr) GetFromIDAuthorizationRole(idAuthorizationRole uint32) (result AuthorizationRole, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_authorization_role = ?", idAuthorizationRole).Find(&result).Error
 
@@ -94,7 +92,6 @@ func (obj *_AuthorizationRoleMgr) GetBatchFromSlug(slugs []string) (results []*A
 
 	return
 }
-
 
 func (obj *_AuthorizationRoleMgr) FetchByPrimaryKey(idAuthorizationRole uint32) (result AuthorizationRole, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_authorization_role = ?", idAuthorizationRole).Find(&result).Error

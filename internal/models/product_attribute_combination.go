@@ -35,7 +35,6 @@ func (obj *_ProductAttributeCombinationMgr) Gets() (results []*ProductAttributeC
 	return
 }
 
-
 func (obj *_ProductAttributeCombinationMgr) WithIDAttribute(idAttribute uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_attribute"] = idAttribute })
 }
@@ -70,7 +69,6 @@ func (obj *_ProductAttributeCombinationMgr) GetByOptions(opts ...Option) (result
 	return
 }
 
-
 func (obj *_ProductAttributeCombinationMgr) GetFromIDAttribute(idAttribute uint32) (results []*ProductAttributeCombination, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute = ?", idAttribute).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_ProductAttributeCombinationMgr) GetBatchFromIDProductAttribute(idPro
 
 	return
 }
-
 
 func (obj *_ProductAttributeCombinationMgr) FetchByPrimaryKey(idAttribute uint32, idProductAttribute uint32) (result ProductAttributeCombination, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute = ? AND id_product_attribute = ?", idAttribute, idProductAttribute).Find(&result).Error

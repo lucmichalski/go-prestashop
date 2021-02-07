@@ -35,7 +35,6 @@ func (obj *_ModuleMgr) Gets() (results []*Module, err error) {
 	return
 }
 
-
 func (obj *_ModuleMgr) WithIDModule(idModule uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_module"] = idModule })
 }
@@ -77,7 +76,6 @@ func (obj *_ModuleMgr) GetByOptions(opts ...Option) (results []*Module, err erro
 
 	return
 }
-
 
 func (obj *_ModuleMgr) GetFromIDModule(idModule uint32) (result Module, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_module = ?", idModule).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_ModuleMgr) GetBatchFromVersion(versions []string) (results []*Module
 
 	return
 }
-
 
 func (obj *_ModuleMgr) FetchByPrimaryKey(idModule uint32) (result Module, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_module = ?", idModule).Find(&result).Error

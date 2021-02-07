@@ -35,7 +35,6 @@ func (obj *_MemcachedServersMgr) Gets() (results []*MemcachedServers, err error)
 	return
 }
 
-
 func (obj *_MemcachedServersMgr) WithIDMemcachedServer(idMemcachedServer uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_memcached_server"] = idMemcachedServer })
 }
@@ -77,7 +76,6 @@ func (obj *_MemcachedServersMgr) GetByOptions(opts ...Option) (results []*Memcac
 
 	return
 }
-
 
 func (obj *_MemcachedServersMgr) GetFromIDMemcachedServer(idMemcachedServer uint32) (result MemcachedServers, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_memcached_server = ?", idMemcachedServer).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_MemcachedServersMgr) GetBatchFromWeight(weights []uint32) (results [
 
 	return
 }
-
 
 func (obj *_MemcachedServersMgr) FetchByPrimaryKey(idMemcachedServer uint32) (result MemcachedServers, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_memcached_server = ?", idMemcachedServer).Find(&result).Error

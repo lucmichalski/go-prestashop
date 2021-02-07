@@ -35,7 +35,6 @@ func (obj *_AdviceLangMgr) Gets() (results []*AdviceLang, err error) {
 	return
 }
 
-
 func (obj *_AdviceLangMgr) WithIDAdvice(idAdvice int) Option {
 	return optionFunc(func(o *options) { o.query["id_advice"] = idAdvice })
 }
@@ -74,7 +73,6 @@ func (obj *_AdviceLangMgr) GetByOptions(opts ...Option) (results []*AdviceLang, 
 	return
 }
 
-
 func (obj *_AdviceLangMgr) GetFromIDAdvice(idAdvice int) (results []*AdviceLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_advice = ?", idAdvice).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_AdviceLangMgr) GetBatchFromHTML(htmls []string) (results []*AdviceLa
 
 	return
 }
-
 
 func (obj *_AdviceLangMgr) FetchByPrimaryKey(idAdvice int, idLang int) (result AdviceLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_advice = ? AND id_lang = ?", idAdvice, idLang).Find(&result).Error

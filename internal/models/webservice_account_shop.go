@@ -35,7 +35,6 @@ func (obj *_WebserviceAccountShopMgr) Gets() (results []*WebserviceAccountShop, 
 	return
 }
 
-
 func (obj *_WebserviceAccountShopMgr) WithIDWebserviceAccount(idWebserviceAccount uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_webservice_account"] = idWebserviceAccount })
 }
@@ -70,7 +69,6 @@ func (obj *_WebserviceAccountShopMgr) GetByOptions(opts ...Option) (results []*W
 	return
 }
 
-
 func (obj *_WebserviceAccountShopMgr) GetFromIDWebserviceAccount(idWebserviceAccount uint32) (results []*WebserviceAccountShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_webservice_account = ?", idWebserviceAccount).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_WebserviceAccountShopMgr) GetBatchFromIDShop(idShops []uint32) (resu
 
 	return
 }
-
 
 func (obj *_WebserviceAccountShopMgr) FetchByPrimaryKey(idWebserviceAccount uint32, idShop uint32) (result WebserviceAccountShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_webservice_account = ? AND id_shop = ?", idWebserviceAccount, idShop).Find(&result).Error

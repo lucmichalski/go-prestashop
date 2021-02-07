@@ -36,7 +36,6 @@ func (obj *_ProductCommentMgr) Gets() (results []*ProductComment, err error) {
 	return
 }
 
-
 func (obj *_ProductCommentMgr) WithIDProductComment(idProductComment int) Option {
 	return optionFunc(func(o *options) { o.query["id_product_comment"] = idProductComment })
 }
@@ -106,7 +105,6 @@ func (obj *_ProductCommentMgr) GetByOptions(opts ...Option) (results []*ProductC
 
 	return
 }
-
 
 func (obj *_ProductCommentMgr) GetFromIDProductComment(idProductComment int) (result ProductComment, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_comment = ?", idProductComment).Find(&result).Error
@@ -239,7 +237,6 @@ func (obj *_ProductCommentMgr) GetBatchFromDateAdd(dateAdds []time.Time) (result
 
 	return
 }
-
 
 func (obj *_ProductCommentMgr) FetchByPrimaryKey(idProductComment int) (result ProductComment, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_comment = ?", idProductComment).Find(&result).Error

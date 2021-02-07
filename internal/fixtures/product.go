@@ -6,7 +6,7 @@ import (
 
 // Product was generated 2021-02-06 11:40:25 by evolutive on eg-cdn.gsi-network.com.
 type Product struct {
-	XMLName xml.Name `xml:"product"`
+	XMLName xml.Name `xml:"entity_product"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

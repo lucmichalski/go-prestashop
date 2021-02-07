@@ -35,7 +35,6 @@ func (obj *_WebservicePermissionMgr) Gets() (results []*WebservicePermission, er
 	return
 }
 
-
 func (obj *_WebservicePermissionMgr) WithIDWebservicePermission(idWebservicePermission int) Option {
 	return optionFunc(func(o *options) { o.query["id_webservice_permission"] = idWebservicePermission })
 }
@@ -77,7 +76,6 @@ func (obj *_WebservicePermissionMgr) GetByOptions(opts ...Option) (results []*We
 
 	return
 }
-
 
 func (obj *_WebservicePermissionMgr) GetFromIDWebservicePermission(idWebservicePermission int) (result WebservicePermission, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_webservice_permission = ?", idWebservicePermission).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_WebservicePermissionMgr) GetBatchFromIDWebserviceAccount(idWebservic
 
 	return
 }
-
 
 func (obj *_WebservicePermissionMgr) FetchByPrimaryKey(idWebservicePermission int) (result WebservicePermission, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_webservice_permission = ?", idWebservicePermission).Find(&result).Error

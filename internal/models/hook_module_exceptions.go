@@ -35,7 +35,6 @@ func (obj *_HookModuleExceptionsMgr) Gets() (results []*HookModuleExceptions, er
 	return
 }
 
-
 func (obj *_HookModuleExceptionsMgr) WithIDHookModuleExceptions(idHookModuleExceptions uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_hook_module_exceptions"] = idHookModuleExceptions })
 }
@@ -81,7 +80,6 @@ func (obj *_HookModuleExceptionsMgr) GetByOptions(opts ...Option) (results []*Ho
 
 	return
 }
-
 
 func (obj *_HookModuleExceptionsMgr) GetFromIDHookModuleExceptions(idHookModuleExceptions uint32) (result HookModuleExceptions, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_hook_module_exceptions = ?", idHookModuleExceptions).Find(&result).Error
@@ -142,7 +140,6 @@ func (obj *_HookModuleExceptionsMgr) GetBatchFromFileName(fileNames []string) (r
 
 	return
 }
-
 
 func (obj *_HookModuleExceptionsMgr) FetchByPrimaryKey(idHookModuleExceptions uint32) (result HookModuleExceptions, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_hook_module_exceptions = ?", idHookModuleExceptions).Find(&result).Error

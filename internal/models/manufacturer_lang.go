@@ -35,7 +35,6 @@ func (obj *_ManufacturerLangMgr) Gets() (results []*ManufacturerLang, err error)
 	return
 }
 
-
 func (obj *_ManufacturerLangMgr) WithIDManufacturer(idManufacturer uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_manufacturer"] = idManufacturer })
 }
@@ -89,7 +88,6 @@ func (obj *_ManufacturerLangMgr) GetByOptions(opts ...Option) (results []*Manufa
 
 	return
 }
-
 
 func (obj *_ManufacturerLangMgr) GetFromIDManufacturer(idManufacturer uint32) (results []*ManufacturerLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_manufacturer = ?", idManufacturer).Find(&results).Error
@@ -174,7 +172,6 @@ func (obj *_ManufacturerLangMgr) GetBatchFromMetaDescription(metaDescriptions []
 
 	return
 }
-
 
 func (obj *_ManufacturerLangMgr) FetchByPrimaryKey(idManufacturer uint32, idLang uint32) (result ManufacturerLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_manufacturer = ? AND id_lang = ?", idManufacturer, idLang).Find(&result).Error

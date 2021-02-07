@@ -35,7 +35,6 @@ func (obj *_LayeredIndexableAttributeGroupLangValueMgr) Gets() (results []*Layer
 	return
 }
 
-
 func (obj *_LayeredIndexableAttributeGroupLangValueMgr) WithIDAttributeGroup(idAttributeGroup int) Option {
 	return optionFunc(func(o *options) { o.query["id_attribute_group"] = idAttributeGroup })
 }
@@ -77,7 +76,6 @@ func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetByOptions(opts ...Opt
 
 	return
 }
-
 
 func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetFromIDAttributeGroup(idAttributeGroup int) (results []*LayeredIndexableAttributeGroupLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_group = ?", idAttributeGroup).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_LayeredIndexableAttributeGroupLangValueMgr) GetBatchFromMetaTitle(me
 
 	return
 }
-
 
 func (obj *_LayeredIndexableAttributeGroupLangValueMgr) FetchByPrimaryKey(idAttributeGroup int, idLang int) (result LayeredIndexableAttributeGroupLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_group = ? AND id_lang = ?", idAttributeGroup, idLang).Find(&result).Error

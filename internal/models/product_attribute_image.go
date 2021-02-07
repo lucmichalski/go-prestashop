@@ -35,7 +35,6 @@ func (obj *_ProductAttributeImageMgr) Gets() (results []*ProductAttributeImage, 
 	return
 }
 
-
 func (obj *_ProductAttributeImageMgr) WithIDProductAttribute(idProductAttribute uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product_attribute"] = idProductAttribute })
 }
@@ -70,7 +69,6 @@ func (obj *_ProductAttributeImageMgr) GetByOptions(opts ...Option) (results []*P
 	return
 }
 
-
 func (obj *_ProductAttributeImageMgr) GetFromIDProductAttribute(idProductAttribute uint32) (results []*ProductAttributeImage, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_attribute = ?", idProductAttribute).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_ProductAttributeImageMgr) GetBatchFromIDImage(idImages []uint32) (re
 
 	return
 }
-
 
 func (obj *_ProductAttributeImageMgr) FetchByPrimaryKey(idProductAttribute uint32, idImage uint32) (result ProductAttributeImage, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_attribute = ? AND id_image = ?", idProductAttribute, idImage).Find(&result).Error

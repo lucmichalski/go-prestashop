@@ -36,7 +36,6 @@ func (obj *_CartMgr) Gets() (results []*Cart, err error) {
 	return
 }
 
-
 func (obj *_CartMgr) WithIDCart(idCart uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_cart"] = idCart })
 }
@@ -142,7 +141,6 @@ func (obj *_CartMgr) GetByOptions(opts ...Option) (results []*Cart, err error) {
 
 	return
 }
-
 
 func (obj *_CartMgr) GetFromIDCart(idCart uint32) (result Cart, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cart = ?", idCart).Find(&result).Error
@@ -383,7 +381,6 @@ func (obj *_CartMgr) GetBatchFromCheckoutSessionData(checkoutSessionDatas []stri
 
 	return
 }
-
 
 func (obj *_CartMgr) FetchByPrimaryKey(idCart uint32) (result Cart, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cart = ?", idCart).Find(&result).Error

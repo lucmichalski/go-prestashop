@@ -36,7 +36,6 @@ func (obj *_StatssearchMgr) Gets() (results []*Statssearch, err error) {
 	return
 }
 
-
 func (obj *_StatssearchMgr) WithIDStatssearch(idStatssearch uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_statssearch"] = idStatssearch })
 }
@@ -87,7 +86,6 @@ func (obj *_StatssearchMgr) GetByOptions(opts ...Option) (results []*Statssearch
 	return
 }
 
-
 func (obj *_StatssearchMgr) GetFromIDStatssearch(idStatssearch uint32) (result Statssearch, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_statssearch = ?", idStatssearch).Find(&result).Error
 
@@ -136,8 +134,8 @@ func (obj *_StatssearchMgr) GetBatchFromKeywords(keywordss []string) (results []
 	return
 }
 
-func (obj *_StatssearchMgr) GetFromResults(results int) (results []*Statssearch, err error) {
-	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("results = ?", results).Find(&results).Error
+func (obj *_StatssearchMgr) GetFromResults(result int) (results []*Statssearch, err error) {
+	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("results = ?", result).Find(&results).Error
 
 	return
 }
@@ -159,7 +157,6 @@ func (obj *_StatssearchMgr) GetBatchFromDateAdd(dateAdds []time.Time) (results [
 
 	return
 }
-
 
 func (obj *_StatssearchMgr) FetchByPrimaryKey(idStatssearch uint32) (result Statssearch, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_statssearch = ?", idStatssearch).Find(&result).Error

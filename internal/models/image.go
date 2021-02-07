@@ -35,7 +35,6 @@ func (obj *_ImageMgr) Gets() (results []*Image, err error) {
 	return
 }
 
-
 func (obj *_ImageMgr) WithIDImage(idImage uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_image"] = idImage })
 }
@@ -77,7 +76,6 @@ func (obj *_ImageMgr) GetByOptions(opts ...Option) (results []*Image, err error)
 
 	return
 }
-
 
 func (obj *_ImageMgr) GetFromIDImage(idImage uint32) (result Image, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_image = ?", idImage).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_ImageMgr) GetBatchFromCover(covers []bool) (results []*Image, err er
 
 	return
 }
-
 
 func (obj *_ImageMgr) FetchByPrimaryKey(idImage uint32) (result Image, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_image = ?", idImage).Find(&result).Error

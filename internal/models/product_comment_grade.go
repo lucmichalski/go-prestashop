@@ -35,7 +35,6 @@ func (obj *_ProductCommentGradeMgr) Gets() (results []*ProductCommentGrade, err 
 	return
 }
 
-
 func (obj *_ProductCommentGradeMgr) WithIDProductComment(idProductComment int) Option {
 	return optionFunc(func(o *options) { o.query["id_product_comment"] = idProductComment })
 }
@@ -74,7 +73,6 @@ func (obj *_ProductCommentGradeMgr) GetByOptions(opts ...Option) (results []*Pro
 	return
 }
 
-
 func (obj *_ProductCommentGradeMgr) GetFromIDProductComment(idProductComment int) (results []*ProductCommentGrade, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_comment = ?", idProductComment).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_ProductCommentGradeMgr) GetBatchFromGrade(grades []int) (results []*
 
 	return
 }
-
 
 func (obj *_ProductCommentGradeMgr) FetchByPrimaryKey(idProductComment int, idProductCommentCriterion int) (result ProductCommentGrade, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_comment = ? AND id_product_comment_criterion = ?", idProductComment, idProductCommentCriterion).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_RiskMgr) Gets() (results []*Risk, err error) {
 	return
 }
 
-
 func (obj *_RiskMgr) WithIDRisk(idRisk uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_risk"] = idRisk })
 }
@@ -74,7 +73,6 @@ func (obj *_RiskMgr) GetByOptions(opts ...Option) (results []*Risk, err error) {
 	return
 }
 
-
 func (obj *_RiskMgr) GetFromIDRisk(idRisk uint32) (result Risk, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_risk = ?", idRisk).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_RiskMgr) GetBatchFromColor(colors []string) (results []*Risk, err er
 
 	return
 }
-
 
 func (obj *_RiskMgr) FetchByPrimaryKey(idRisk uint32) (result Risk, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_risk = ?", idRisk).Find(&result).Error

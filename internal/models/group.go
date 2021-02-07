@@ -36,7 +36,6 @@ func (obj *_GroupMgr) Gets() (results []*Group, err error) {
 	return
 }
 
-
 func (obj *_GroupMgr) WithIDGroup(idGroup uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_group"] = idGroup })
 }
@@ -86,7 +85,6 @@ func (obj *_GroupMgr) GetByOptions(opts ...Option) (results []*Group, err error)
 
 	return
 }
-
 
 func (obj *_GroupMgr) GetFromIDGroup(idGroup uint32) (result Group, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_group = ?", idGroup).Find(&result).Error
@@ -159,7 +157,6 @@ func (obj *_GroupMgr) GetBatchFromDateUpd(dateUpds []time.Time) (results []*Grou
 
 	return
 }
-
 
 func (obj *_GroupMgr) FetchByPrimaryKey(idGroup uint32) (result Group, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_group = ?", idGroup).Find(&result).Error

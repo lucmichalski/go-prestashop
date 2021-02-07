@@ -35,7 +35,6 @@ func (obj *_SpecificPricePriorityMgr) Gets() (results []*SpecificPricePriority, 
 	return
 }
 
-
 func (obj *_SpecificPricePriorityMgr) WithIDSpecificPricePriority(idSpecificPricePriority int) Option {
 	return optionFunc(func(o *options) { o.query["id_specific_price_priority"] = idSpecificPricePriority })
 }
@@ -74,7 +73,6 @@ func (obj *_SpecificPricePriorityMgr) GetByOptions(opts ...Option) (results []*S
 	return
 }
 
-
 func (obj *_SpecificPricePriorityMgr) GetFromIDSpecificPricePriority(idSpecificPricePriority int) (results []*SpecificPricePriority, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_specific_price_priority = ?", idSpecificPricePriority).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_SpecificPricePriorityMgr) GetBatchFromPriority(prioritys []string) (
 
 	return
 }
-
 
 func (obj *_SpecificPricePriorityMgr) FetchByPrimaryKey(idSpecificPricePriority int, idProduct int) (result SpecificPricePriority, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_specific_price_priority = ? AND id_product = ?", idSpecificPricePriority, idProduct).Find(&result).Error

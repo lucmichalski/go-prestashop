@@ -35,7 +35,6 @@ func (obj *_TabLangMgr) Gets() (results []*TabLang, err error) {
 	return
 }
 
-
 func (obj *_TabLangMgr) WithIDTab(idTab int) Option {
 	return optionFunc(func(o *options) { o.query["id_tab"] = idTab })
 }
@@ -74,7 +73,6 @@ func (obj *_TabLangMgr) GetByOptions(opts ...Option) (results []*TabLang, err er
 	return
 }
 
-
 func (obj *_TabLangMgr) GetFromIDTab(idTab int) (results []*TabLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tab = ?", idTab).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_TabLangMgr) GetBatchFromName(names []string) (results []*TabLang, er
 
 	return
 }
-
 
 func (obj *_TabLangMgr) FetchByPrimaryKey(idTab int, idLang int) (result TabLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tab = ? AND id_lang = ?", idTab, idLang).Find(&result).Error

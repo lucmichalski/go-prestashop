@@ -35,7 +35,6 @@ func (obj *_OperatingSystemMgr) Gets() (results []*OperatingSystem, err error) {
 	return
 }
 
-
 func (obj *_OperatingSystemMgr) WithIDOperatingSystem(idOperatingSystem uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_operating_system"] = idOperatingSystem })
 }
@@ -70,7 +69,6 @@ func (obj *_OperatingSystemMgr) GetByOptions(opts ...Option) (results []*Operati
 	return
 }
 
-
 func (obj *_OperatingSystemMgr) GetFromIDOperatingSystem(idOperatingSystem uint32) (result OperatingSystem, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_operating_system = ?", idOperatingSystem).Find(&result).Error
 
@@ -94,7 +92,6 @@ func (obj *_OperatingSystemMgr) GetBatchFromName(names []string) (results []*Ope
 
 	return
 }
-
 
 func (obj *_OperatingSystemMgr) FetchByPrimaryKey(idOperatingSystem uint32) (result OperatingSystem, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_operating_system = ?", idOperatingSystem).Find(&result).Error

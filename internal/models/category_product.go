@@ -35,7 +35,6 @@ func (obj *_CategoryProductMgr) Gets() (results []*CategoryProduct, err error) {
 	return
 }
 
-
 func (obj *_CategoryProductMgr) WithIDCategory(idCategory uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_category"] = idCategory })
 }
@@ -74,7 +73,6 @@ func (obj *_CategoryProductMgr) GetByOptions(opts ...Option) (results []*Categor
 	return
 }
 
-
 func (obj *_CategoryProductMgr) GetFromIDCategory(idCategory uint32) (results []*CategoryProduct, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_category = ?", idCategory).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_CategoryProductMgr) GetBatchFromPosition(positions []uint32) (result
 
 	return
 }
-
 
 func (obj *_CategoryProductMgr) FetchByPrimaryKey(idCategory uint32, idProduct uint32) (result CategoryProduct, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_category = ? AND id_product = ?", idCategory, idProduct).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_ReferrerShopMgr) Gets() (results []*ReferrerShop, err error) {
 	return
 }
 
-
 func (obj *_ReferrerShopMgr) WithIDReferrer(idReferrer uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_referrer"] = idReferrer })
 }
@@ -101,7 +100,6 @@ func (obj *_ReferrerShopMgr) GetByOptions(opts ...Option) (results []*ReferrerSh
 
 	return
 }
-
 
 func (obj *_ReferrerShopMgr) GetFromIDReferrer(idReferrer uint32) (results []*ReferrerShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_referrer = ?", idReferrer).Find(&results).Error
@@ -222,7 +220,6 @@ func (obj *_ReferrerShopMgr) GetBatchFromCacheOrderRate(cacheOrderRates []float6
 
 	return
 }
-
 
 func (obj *_ReferrerShopMgr) FetchByPrimaryKey(idReferrer uint32, idShop uint32) (result ReferrerShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_referrer = ? AND id_shop = ?", idReferrer, idShop).Find(&result).Error

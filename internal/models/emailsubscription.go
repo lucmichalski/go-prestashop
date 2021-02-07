@@ -36,7 +36,6 @@ func (obj *_EmailsubscriptionMgr) Gets() (results []*Emailsubscription, err erro
 	return
 }
 
-
 func (obj *_EmailsubscriptionMgr) WithID(id int) Option {
 	return optionFunc(func(o *options) { o.query["id"] = id })
 }
@@ -98,7 +97,6 @@ func (obj *_EmailsubscriptionMgr) GetByOptions(opts ...Option) (results []*Email
 
 	return
 }
-
 
 func (obj *_EmailsubscriptionMgr) GetFromID(id int) (result Emailsubscription, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id = ?", id).Find(&result).Error
@@ -207,7 +205,6 @@ func (obj *_EmailsubscriptionMgr) GetBatchFromIDLang(idLangs []int) (results []*
 
 	return
 }
-
 
 func (obj *_EmailsubscriptionMgr) FetchByPrimaryKey(id int) (result Emailsubscription, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id = ?", id).Find(&result).Error

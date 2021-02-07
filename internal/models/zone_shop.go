@@ -35,7 +35,6 @@ func (obj *_ZoneShopMgr) Gets() (results []*ZoneShop, err error) {
 	return
 }
 
-
 func (obj *_ZoneShopMgr) WithIDZone(idZone uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_zone"] = idZone })
 }
@@ -70,7 +69,6 @@ func (obj *_ZoneShopMgr) GetByOptions(opts ...Option) (results []*ZoneShop, err 
 	return
 }
 
-
 func (obj *_ZoneShopMgr) GetFromIDZone(idZone uint32) (results []*ZoneShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_zone = ?", idZone).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_ZoneShopMgr) GetBatchFromIDShop(idShops []uint32) (results []*ZoneSh
 
 	return
 }
-
 
 func (obj *_ZoneShopMgr) FetchByPrimaryKey(idZone uint32, idShop uint32) (result ZoneShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_zone = ? AND id_shop = ?", idZone, idShop).Find(&result).Error

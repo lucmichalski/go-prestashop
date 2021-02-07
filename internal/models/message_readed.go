@@ -36,7 +36,6 @@ func (obj *_MessageReadedMgr) Gets() (results []*MessageReaded, err error) {
 	return
 }
 
-
 func (obj *_MessageReadedMgr) WithIDMessage(idMessage uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_message"] = idMessage })
 }
@@ -75,7 +74,6 @@ func (obj *_MessageReadedMgr) GetByOptions(opts ...Option) (results []*MessageRe
 	return
 }
 
-
 func (obj *_MessageReadedMgr) GetFromIDMessage(idMessage uint32) (results []*MessageReaded, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_message = ?", idMessage).Find(&results).Error
 
@@ -111,7 +109,6 @@ func (obj *_MessageReadedMgr) GetBatchFromDateAdd(dateAdds []time.Time) (results
 
 	return
 }
-
 
 func (obj *_MessageReadedMgr) FetchByPrimaryKey(idMessage uint32, idEmployee uint32) (result MessageReaded, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_message = ? AND id_employee = ?", idMessage, idEmployee).Find(&result).Error

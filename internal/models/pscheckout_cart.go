@@ -36,7 +36,6 @@ func (obj *_PscheckoutCartMgr) Gets() (results []*PscheckoutCart, err error) {
 	return
 }
 
-
 func (obj *_PscheckoutCartMgr) WithIDPscheckoutCart(idPscheckoutCart uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_pscheckout_cart"] = idPscheckoutCart })
 }
@@ -114,7 +113,6 @@ func (obj *_PscheckoutCartMgr) GetByOptions(opts ...Option) (results []*Pschecko
 
 	return
 }
-
 
 func (obj *_PscheckoutCartMgr) GetFromIDPscheckoutCart(idPscheckoutCart uint32) (result PscheckoutCart, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_pscheckout_cart = ?", idPscheckoutCart).Find(&result).Error
@@ -271,7 +269,6 @@ func (obj *_PscheckoutCartMgr) GetBatchFromDateUpd(dateUpds []time.Time) (result
 
 	return
 }
-
 
 func (obj *_PscheckoutCartMgr) FetchByPrimaryKey(idPscheckoutCart uint32) (result PscheckoutCart, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_pscheckout_cart = ?", idPscheckoutCart).Find(&result).Error

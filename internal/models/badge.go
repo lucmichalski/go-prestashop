@@ -35,7 +35,6 @@ func (obj *_BadgeMgr) Gets() (results []*Badge, err error) {
 	return
 }
 
-
 func (obj *_BadgeMgr) WithIDBadge(idBadge int) Option {
 	return optionFunc(func(o *options) { o.query["id_badge"] = idBadge })
 }
@@ -93,7 +92,6 @@ func (obj *_BadgeMgr) GetByOptions(opts ...Option) (results []*Badge, err error)
 
 	return
 }
-
 
 func (obj *_BadgeMgr) GetFromIDBadge(idBadge int) (result Badge, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_badge = ?", idBadge).Find(&result).Error
@@ -190,7 +188,6 @@ func (obj *_BadgeMgr) GetBatchFromValidated(validateds []bool) (results []*Badge
 
 	return
 }
-
 
 func (obj *_BadgeMgr) FetchByPrimaryKey(idBadge int) (result Badge, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_badge = ?", idBadge).Find(&result).Error

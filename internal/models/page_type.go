@@ -35,7 +35,6 @@ func (obj *_PageTypeMgr) Gets() (results []*PageType, err error) {
 	return
 }
 
-
 func (obj *_PageTypeMgr) WithIDPageType(idPageType uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_page_type"] = idPageType })
 }
@@ -70,7 +69,6 @@ func (obj *_PageTypeMgr) GetByOptions(opts ...Option) (results []*PageType, err 
 	return
 }
 
-
 func (obj *_PageTypeMgr) GetFromIDPageType(idPageType uint32) (result PageType, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_page_type = ?", idPageType).Find(&result).Error
 
@@ -94,7 +92,6 @@ func (obj *_PageTypeMgr) GetBatchFromName(names []string) (results []*PageType, 
 
 	return
 }
-
 
 func (obj *_PageTypeMgr) FetchByPrimaryKey(idPageType uint32) (result PageType, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_page_type = ?", idPageType).Find(&result).Error

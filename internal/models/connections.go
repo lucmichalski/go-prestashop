@@ -36,7 +36,6 @@ func (obj *_ConnectionsMgr) Gets() (results []*Connections, err error) {
 	return
 }
 
-
 func (obj *_ConnectionsMgr) WithIDConnections(idConnections uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_connections"] = idConnections })
 }
@@ -94,7 +93,6 @@ func (obj *_ConnectionsMgr) GetByOptions(opts ...Option) (results []*Connections
 
 	return
 }
-
 
 func (obj *_ConnectionsMgr) GetFromIDConnections(idConnections uint32) (result Connections, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_connections = ?", idConnections).Find(&result).Error
@@ -191,7 +189,6 @@ func (obj *_ConnectionsMgr) GetBatchFromHTTPReferer(httpReferers []string) (resu
 
 	return
 }
-
 
 func (obj *_ConnectionsMgr) FetchByPrimaryKey(idConnections uint32) (result Connections, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_connections = ?", idConnections).Find(&result).Error

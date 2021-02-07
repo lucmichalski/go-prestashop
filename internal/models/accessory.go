@@ -35,7 +35,6 @@ func (obj *_AccessoryMgr) Gets() (results []*Accessory, err error) {
 	return
 }
 
-
 func (obj *_AccessoryMgr) WithIDProduct1(idProduct1 uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product_1"] = idProduct1 })
 }
@@ -70,7 +69,6 @@ func (obj *_AccessoryMgr) GetByOptions(opts ...Option) (results []*Accessory, er
 	return
 }
 
-
 func (obj *_AccessoryMgr) GetFromIDProduct1(idProduct1 uint32) (results []*Accessory, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_1 = ?", idProduct1).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_AccessoryMgr) GetBatchFromIDProduct2(idProduct2s []uint32) (results 
 
 	return
 }
-
 
 func (obj *_AccessoryMgr) FetchIndexByAccessoryProduct(idProduct1 uint32, idProduct2 uint32) (results []*Accessory, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_1 = ? AND id_product_2 = ?", idProduct1, idProduct2).Find(&results).Error

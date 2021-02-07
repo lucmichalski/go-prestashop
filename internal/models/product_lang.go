@@ -35,7 +35,6 @@ func (obj *_ProductLangMgr) Gets() (results []*ProductLang, err error) {
 	return
 }
 
-
 func (obj *_ProductLangMgr) WithIDProduct(idProduct uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product"] = idProduct })
 }
@@ -117,7 +116,6 @@ func (obj *_ProductLangMgr) GetByOptions(opts ...Option) (results []*ProductLang
 
 	return
 }
-
 
 func (obj *_ProductLangMgr) GetFromIDProduct(idProduct uint32) (results []*ProductLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ?", idProduct).Find(&results).Error
@@ -286,7 +284,6 @@ func (obj *_ProductLangMgr) GetBatchFromDeliveryOutStock(deliveryOutStocks []str
 
 	return
 }
-
 
 func (obj *_ProductLangMgr) FetchByPrimaryKey(idProduct uint32, idShop uint32, idLang uint32) (result ProductLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ? AND id_shop = ? AND id_lang = ?", idProduct, idShop, idLang).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_PsgdprConsentLangMgr) Gets() (results []*PsgdprConsentLang, err erro
 	return
 }
 
-
 func (obj *_PsgdprConsentLangMgr) WithIDGdprConsent(idGdprConsent uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_gdpr_consent"] = idGdprConsent })
 }
@@ -77,7 +76,6 @@ func (obj *_PsgdprConsentLangMgr) GetByOptions(opts ...Option) (results []*Psgdp
 
 	return
 }
-
 
 func (obj *_PsgdprConsentLangMgr) GetFromIDGdprConsent(idGdprConsent uint32) (results []*PsgdprConsentLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_gdpr_consent = ?", idGdprConsent).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_PsgdprConsentLangMgr) GetBatchFromIDShop(idShops []uint32) (results 
 
 	return
 }
-
 
 func (obj *_PsgdprConsentLangMgr) FetchByPrimaryKey(idGdprConsent uint32, idLang uint32, idShop uint32) (result PsgdprConsentLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_gdpr_consent = ? AND id_lang = ? AND id_shop = ?", idGdprConsent, idLang, idShop).Find(&result).Error

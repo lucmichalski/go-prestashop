@@ -35,7 +35,6 @@ func (obj *_HomesliderSlidesLangMgr) Gets() (results []*HomesliderSlidesLang, er
 	return
 }
 
-
 func (obj *_HomesliderSlidesLangMgr) WithIDHomesliderSlides(idHomesliderSlides uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_homeslider_slides"] = idHomesliderSlides })
 }
@@ -89,7 +88,6 @@ func (obj *_HomesliderSlidesLangMgr) GetByOptions(opts ...Option) (results []*Ho
 
 	return
 }
-
 
 func (obj *_HomesliderSlidesLangMgr) GetFromIDHomesliderSlides(idHomesliderSlides uint32) (results []*HomesliderSlidesLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_homeslider_slides = ?", idHomesliderSlides).Find(&results).Error
@@ -174,7 +172,6 @@ func (obj *_HomesliderSlidesLangMgr) GetBatchFromImage(images []string) (results
 
 	return
 }
-
 
 func (obj *_HomesliderSlidesLangMgr) FetchByPrimaryKey(idHomesliderSlides uint32, idLang uint32) (result HomesliderSlidesLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_homeslider_slides = ? AND id_lang = ?", idHomesliderSlides, idLang).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_AttributeShopMgr) Gets() (results []*AttributeShop, err error) {
 	return
 }
 
-
 func (obj *_AttributeShopMgr) WithIDAttribute(idAttribute int) Option {
 	return optionFunc(func(o *options) { o.query["id_attribute"] = idAttribute })
 }
@@ -70,7 +69,6 @@ func (obj *_AttributeShopMgr) GetByOptions(opts ...Option) (results []*Attribute
 	return
 }
 
-
 func (obj *_AttributeShopMgr) GetFromIDAttribute(idAttribute int) (results []*AttributeShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute = ?", idAttribute).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_AttributeShopMgr) GetBatchFromIDShop(idShops []int) (results []*Attr
 
 	return
 }
-
 
 func (obj *_AttributeShopMgr) FetchByPrimaryKey(idAttribute int, idShop int) (result AttributeShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute = ? AND id_shop = ?", idAttribute, idShop).Find(&result).Error

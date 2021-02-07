@@ -36,7 +36,6 @@ func (obj *_StockMvtReasonMgr) Gets() (results []*StockMvtReason, err error) {
 	return
 }
 
-
 func (obj *_StockMvtReasonMgr) WithIDStockMvtReason(idStockMvtReason uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_stock_mvt_reason"] = idStockMvtReason })
 }
@@ -82,7 +81,6 @@ func (obj *_StockMvtReasonMgr) GetByOptions(opts ...Option) (results []*StockMvt
 
 	return
 }
-
 
 func (obj *_StockMvtReasonMgr) GetFromIDStockMvtReason(idStockMvtReason uint32) (result StockMvtReason, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_stock_mvt_reason = ?", idStockMvtReason).Find(&result).Error
@@ -143,7 +141,6 @@ func (obj *_StockMvtReasonMgr) GetBatchFromDeleted(deleteds []bool) (results []*
 
 	return
 }
-
 
 func (obj *_StockMvtReasonMgr) FetchByPrimaryKey(idStockMvtReason uint32) (result StockMvtReason, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_stock_mvt_reason = ?", idStockMvtReason).Find(&result).Error

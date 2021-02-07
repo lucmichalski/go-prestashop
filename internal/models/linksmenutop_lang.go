@@ -35,7 +35,6 @@ func (obj *_LinksmenutopLangMgr) Gets() (results []*LinksmenutopLang, err error)
 	return
 }
 
-
 func (obj *_LinksmenutopLangMgr) WithIDLinksmenutop(idLinksmenutop uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_linksmenutop"] = idLinksmenutop })
 }
@@ -81,7 +80,6 @@ func (obj *_LinksmenutopLangMgr) GetByOptions(opts ...Option) (results []*Linksm
 
 	return
 }
-
 
 func (obj *_LinksmenutopLangMgr) GetFromIDLinksmenutop(idLinksmenutop uint32) (results []*LinksmenutopLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_linksmenutop = ?", idLinksmenutop).Find(&results).Error
@@ -142,7 +140,6 @@ func (obj *_LinksmenutopLangMgr) GetBatchFromLink(links []string) (results []*Li
 
 	return
 }
-
 
 func (obj *_LinksmenutopLangMgr) FetchIndexByIDLinksmenutop(idLinksmenutop uint32, idLang uint32, idShop uint32) (results []*LinksmenutopLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_linksmenutop = ? AND id_lang = ? AND id_shop = ?", idLinksmenutop, idLang, idShop).Find(&results).Error

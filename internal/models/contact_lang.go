@@ -35,7 +35,6 @@ func (obj *_ContactLangMgr) Gets() (results []*ContactLang, err error) {
 	return
 }
 
-
 func (obj *_ContactLangMgr) WithIDContact(idContact uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_contact"] = idContact })
 }
@@ -77,7 +76,6 @@ func (obj *_ContactLangMgr) GetByOptions(opts ...Option) (results []*ContactLang
 
 	return
 }
-
 
 func (obj *_ContactLangMgr) GetFromIDContact(idContact uint32) (results []*ContactLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_contact = ?", idContact).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_ContactLangMgr) GetBatchFromDescription(descriptions []string) (resu
 
 	return
 }
-
 
 func (obj *_ContactLangMgr) FetchByPrimaryKey(idContact uint32, idLang uint32) (result ContactLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_contact = ? AND id_lang = ?", idContact, idLang).Find(&result).Error

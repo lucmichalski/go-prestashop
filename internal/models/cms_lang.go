@@ -35,7 +35,6 @@ func (obj *_CmsLangMgr) Gets() (results []*CmsLang, err error) {
 	return
 }
 
-
 func (obj *_CmsLangMgr) WithIDCms(idCms uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_cms"] = idCms })
 }
@@ -97,7 +96,6 @@ func (obj *_CmsLangMgr) GetByOptions(opts ...Option) (results []*CmsLang, err er
 
 	return
 }
-
 
 func (obj *_CmsLangMgr) GetFromIDCms(idCms uint32) (results []*CmsLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cms = ?", idCms).Find(&results).Error
@@ -206,7 +204,6 @@ func (obj *_CmsLangMgr) GetBatchFromLinkRewrite(linkRewrites []string) (results 
 
 	return
 }
-
 
 func (obj *_CmsLangMgr) FetchByPrimaryKey(idCms uint32, idLang uint32, idShop uint32) (result CmsLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cms = ? AND id_lang = ? AND id_shop = ?", idCms, idLang, idShop).Find(&result).Error

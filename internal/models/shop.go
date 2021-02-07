@@ -35,7 +35,6 @@ func (obj *_ShopMgr) Gets() (results []*Shop, err error) {
 	return
 }
 
-
 func (obj *_ShopMgr) WithIDShop(idShop int) Option {
 	return optionFunc(func(o *options) { o.query["id_shop"] = idShop })
 }
@@ -89,7 +88,6 @@ func (obj *_ShopMgr) GetByOptions(opts ...Option) (results []*Shop, err error) {
 
 	return
 }
-
 
 func (obj *_ShopMgr) GetFromIDShop(idShop int) (result Shop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_shop = ?", idShop).Find(&result).Error
@@ -174,7 +172,6 @@ func (obj *_ShopMgr) GetBatchFromDeleted(deleteds []bool) (results []*Shop, err 
 
 	return
 }
-
 
 func (obj *_ShopMgr) FetchByPrimaryKey(idShop int) (result Shop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_shop = ?", idShop).Find(&result).Error

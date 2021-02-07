@@ -6,7 +6,7 @@ import (
 
 // Address was generated 2021-02-06 11:37:24 by evolutive on eg-cdn.gsi-network.com.
 type Address struct {
-	XMLName xml.Name `xml:"address"`
+	XMLName xml.Name `xml:"entity_address"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

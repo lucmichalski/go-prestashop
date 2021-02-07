@@ -35,7 +35,6 @@ func (obj *_TabModulePreferenceMgr) Gets() (results []*TabModulePreference, err 
 	return
 }
 
-
 func (obj *_TabModulePreferenceMgr) WithIDTabModulePreference(idTabModulePreference int) Option {
 	return optionFunc(func(o *options) { o.query["id_tab_module_preference"] = idTabModulePreference })
 }
@@ -77,7 +76,6 @@ func (obj *_TabModulePreferenceMgr) GetByOptions(opts ...Option) (results []*Tab
 
 	return
 }
-
 
 func (obj *_TabModulePreferenceMgr) GetFromIDTabModulePreference(idTabModulePreference int) (result TabModulePreference, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tab_module_preference = ?", idTabModulePreference).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_TabModulePreferenceMgr) GetBatchFromModule(modules []string) (result
 
 	return
 }
-
 
 func (obj *_TabModulePreferenceMgr) FetchByPrimaryKey(idTabModulePreference int) (result TabModulePreference, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tab_module_preference = ?", idTabModulePreference).Find(&result).Error

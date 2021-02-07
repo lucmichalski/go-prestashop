@@ -35,7 +35,6 @@ func (obj *_OrderStateLangMgr) Gets() (results []*OrderStateLang, err error) {
 	return
 }
 
-
 func (obj *_OrderStateLangMgr) WithIDOrderState(idOrderState uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_order_state"] = idOrderState })
 }
@@ -77,7 +76,6 @@ func (obj *_OrderStateLangMgr) GetByOptions(opts ...Option) (results []*OrderSta
 
 	return
 }
-
 
 func (obj *_OrderStateLangMgr) GetFromIDOrderState(idOrderState uint32) (results []*OrderStateLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_state = ?", idOrderState).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_OrderStateLangMgr) GetBatchFromTemplate(templates []string) (results
 
 	return
 }
-
 
 func (obj *_OrderStateLangMgr) FetchByPrimaryKey(idOrderState uint32, idLang uint32) (result OrderStateLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_state = ? AND id_lang = ?", idOrderState, idLang).Find(&result).Error

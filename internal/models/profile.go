@@ -35,7 +35,6 @@ func (obj *_ProfileMgr) Gets() (results []*Profile, err error) {
 	return
 }
 
-
 func (obj *_ProfileMgr) WithIDProfile(idProfile uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_profile"] = idProfile })
 }
@@ -66,7 +65,6 @@ func (obj *_ProfileMgr) GetByOptions(opts ...Option) (results []*Profile, err er
 	return
 }
 
-
 func (obj *_ProfileMgr) GetFromIDProfile(idProfile uint32) (result Profile, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_profile = ?", idProfile).Find(&result).Error
 
@@ -78,7 +76,6 @@ func (obj *_ProfileMgr) GetBatchFromIDProfile(idProfiles []uint32) (results []*P
 
 	return
 }
-
 
 func (obj *_ProfileMgr) FetchByPrimaryKey(idProfile uint32) (result Profile, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_profile = ?", idProfile).Find(&result).Error

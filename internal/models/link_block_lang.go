@@ -35,7 +35,6 @@ func (obj *_LinkBlockLangMgr) Gets() (results []*LinkBlockLang, err error) {
 	return
 }
 
-
 func (obj *_LinkBlockLangMgr) WithIDLinkBlock(idLinkBlock uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_link_block"] = idLinkBlock })
 }
@@ -77,7 +76,6 @@ func (obj *_LinkBlockLangMgr) GetByOptions(opts ...Option) (results []*LinkBlock
 
 	return
 }
-
 
 func (obj *_LinkBlockLangMgr) GetFromIDLinkBlock(idLinkBlock uint32) (results []*LinkBlockLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_link_block = ?", idLinkBlock).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_LinkBlockLangMgr) GetBatchFromCustomContent(customContents []string)
 
 	return
 }
-
 
 func (obj *_LinkBlockLangMgr) FetchByPrimaryKey(idLinkBlock uint32, idLang uint32) (result LinkBlockLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_link_block = ? AND id_lang = ?", idLinkBlock, idLang).Find(&result).Error

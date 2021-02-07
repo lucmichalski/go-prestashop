@@ -35,7 +35,6 @@ func (obj *_CurrencyLangMgr) Gets() (results []*CurrencyLang, err error) {
 	return
 }
 
-
 func (obj *_CurrencyLangMgr) WithIDCurrency(idCurrency uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_currency"] = idCurrency })
 }
@@ -81,7 +80,6 @@ func (obj *_CurrencyLangMgr) GetByOptions(opts ...Option) (results []*CurrencyLa
 
 	return
 }
-
 
 func (obj *_CurrencyLangMgr) GetFromIDCurrency(idCurrency uint32) (results []*CurrencyLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_currency = ?", idCurrency).Find(&results).Error
@@ -142,7 +140,6 @@ func (obj *_CurrencyLangMgr) GetBatchFromPattern(patterns []string) (results []*
 
 	return
 }
-
 
 func (obj *_CurrencyLangMgr) FetchByPrimaryKey(idCurrency uint32, idLang uint32) (result CurrencyLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_currency = ? AND id_lang = ?", idCurrency, idLang).Find(&result).Error

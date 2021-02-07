@@ -35,7 +35,6 @@ func (obj *_PageViewedMgr) Gets() (results []*PageViewed, err error) {
 	return
 }
 
-
 func (obj *_PageViewedMgr) WithIDPage(idPage uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_page"] = idPage })
 }
@@ -81,7 +80,6 @@ func (obj *_PageViewedMgr) GetByOptions(opts ...Option) (results []*PageViewed, 
 
 	return
 }
-
 
 func (obj *_PageViewedMgr) GetFromIDPage(idPage uint32) (results []*PageViewed, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_page = ?", idPage).Find(&results).Error
@@ -142,7 +140,6 @@ func (obj *_PageViewedMgr) GetBatchFromCounter(counters []uint32) (results []*Pa
 
 	return
 }
-
 
 func (obj *_PageViewedMgr) FetchByPrimaryKey(idPage uint32, idShop uint32, idDateRange uint32) (result PageViewed, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_page = ? AND id_shop = ? AND id_date_range = ?", idPage, idShop, idDateRange).Find(&result).Error

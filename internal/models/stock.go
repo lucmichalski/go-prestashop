@@ -35,7 +35,6 @@ func (obj *_StockMgr) Gets() (results []*Stock, err error) {
 	return
 }
 
-
 func (obj *_StockMgr) WithIDStock(idStock uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_stock"] = idStock })
 }
@@ -109,7 +108,6 @@ func (obj *_StockMgr) GetByOptions(opts ...Option) (results []*Stock, err error)
 
 	return
 }
-
 
 func (obj *_StockMgr) GetFromIDStock(idStock uint32) (result Stock, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_stock = ?", idStock).Find(&result).Error
@@ -254,7 +252,6 @@ func (obj *_StockMgr) GetBatchFromPriceTe(priceTes []float64) (results []*Stock,
 
 	return
 }
-
 
 func (obj *_StockMgr) FetchByPrimaryKey(idStock uint32) (result Stock, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_stock = ?", idStock).Find(&result).Error

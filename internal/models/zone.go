@@ -35,7 +35,6 @@ func (obj *_ZoneMgr) Gets() (results []*Zone, err error) {
 	return
 }
 
-
 func (obj *_ZoneMgr) WithIDZone(idZone uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_zone"] = idZone })
 }
@@ -74,7 +73,6 @@ func (obj *_ZoneMgr) GetByOptions(opts ...Option) (results []*Zone, err error) {
 	return
 }
 
-
 func (obj *_ZoneMgr) GetFromIDZone(idZone uint32) (result Zone, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_zone = ?", idZone).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_ZoneMgr) GetBatchFromActive(actives []bool) (results []*Zone, err er
 
 	return
 }
-
 
 func (obj *_ZoneMgr) FetchByPrimaryKey(idZone uint32) (result Zone, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_zone = ?", idZone).Find(&result).Error

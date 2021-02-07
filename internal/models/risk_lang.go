@@ -35,7 +35,6 @@ func (obj *_RiskLangMgr) Gets() (results []*RiskLang, err error) {
 	return
 }
 
-
 func (obj *_RiskLangMgr) WithIDRisk(idRisk uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_risk"] = idRisk })
 }
@@ -74,7 +73,6 @@ func (obj *_RiskLangMgr) GetByOptions(opts ...Option) (results []*RiskLang, err 
 	return
 }
 
-
 func (obj *_RiskLangMgr) GetFromIDRisk(idRisk uint32) (results []*RiskLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_risk = ?", idRisk).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_RiskLangMgr) GetBatchFromName(names []string) (results []*RiskLang, 
 
 	return
 }
-
 
 func (obj *_RiskLangMgr) FetchByPrimaryKey(idRisk uint32, idLang uint32) (result RiskLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_risk = ? AND id_lang = ?", idRisk, idLang).Find(&result).Error

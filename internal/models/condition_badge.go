@@ -35,7 +35,6 @@ func (obj *_ConditionBadgeMgr) Gets() (results []*ConditionBadge, err error) {
 	return
 }
 
-
 func (obj *_ConditionBadgeMgr) WithIDCondition(idCondition int) Option {
 	return optionFunc(func(o *options) { o.query["id_condition"] = idCondition })
 }
@@ -70,7 +69,6 @@ func (obj *_ConditionBadgeMgr) GetByOptions(opts ...Option) (results []*Conditio
 	return
 }
 
-
 func (obj *_ConditionBadgeMgr) GetFromIDCondition(idCondition int) (results []*ConditionBadge, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_condition = ?", idCondition).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_ConditionBadgeMgr) GetBatchFromIDBadge(idBadges []int) (results []*C
 
 	return
 }
-
 
 func (obj *_ConditionBadgeMgr) FetchByPrimaryKey(idCondition int, idBadge int) (result ConditionBadge, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_condition = ? AND id_badge = ?", idCondition, idBadge).Find(&result).Error

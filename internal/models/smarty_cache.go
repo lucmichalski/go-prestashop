@@ -36,7 +36,6 @@ func (obj *_SmartyCacheMgr) Gets() (results []*SmartyCache, err error) {
 	return
 }
 
-
 func (obj *_SmartyCacheMgr) WithIDSmartyCache(idSmartyCache string) Option {
 	return optionFunc(func(o *options) { o.query["id_smarty_cache"] = idSmartyCache })
 }
@@ -82,7 +81,6 @@ func (obj *_SmartyCacheMgr) GetByOptions(opts ...Option) (results []*SmartyCache
 
 	return
 }
-
 
 func (obj *_SmartyCacheMgr) GetFromIDSmartyCache(idSmartyCache string) (result SmartyCache, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_smarty_cache = ?", idSmartyCache).Find(&result).Error
@@ -143,7 +141,6 @@ func (obj *_SmartyCacheMgr) GetBatchFromContent(contents []string) (results []*S
 
 	return
 }
-
 
 func (obj *_SmartyCacheMgr) FetchByPrimaryKey(idSmartyCache string) (result SmartyCache, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_smarty_cache = ?", idSmartyCache).Find(&result).Error

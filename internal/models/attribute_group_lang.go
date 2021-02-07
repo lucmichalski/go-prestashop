@@ -35,7 +35,6 @@ func (obj *_AttributeGroupLangMgr) Gets() (results []*AttributeGroupLang, err er
 	return
 }
 
-
 func (obj *_AttributeGroupLangMgr) WithIDAttributeGroup(idAttributeGroup int) Option {
 	return optionFunc(func(o *options) { o.query["id_attribute_group"] = idAttributeGroup })
 }
@@ -77,7 +76,6 @@ func (obj *_AttributeGroupLangMgr) GetByOptions(opts ...Option) (results []*Attr
 
 	return
 }
-
 
 func (obj *_AttributeGroupLangMgr) GetFromIDAttributeGroup(idAttributeGroup int) (results []*AttributeGroupLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_group = ?", idAttributeGroup).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_AttributeGroupLangMgr) GetBatchFromPublicName(publicNames []string) 
 
 	return
 }
-
 
 func (obj *_AttributeGroupLangMgr) FetchByPrimaryKey(idAttributeGroup int, idLang int) (result AttributeGroupLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_group = ? AND id_lang = ?", idAttributeGroup, idLang).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_CmsRoleMgr) Gets() (results []*CmsRole, err error) {
 	return
 }
 
-
 func (obj *_CmsRoleMgr) WithIDCmsRole(idCmsRole uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_cms_role"] = idCmsRole })
 }
@@ -74,7 +73,6 @@ func (obj *_CmsRoleMgr) GetByOptions(opts ...Option) (results []*CmsRole, err er
 	return
 }
 
-
 func (obj *_CmsRoleMgr) GetFromIDCmsRole(idCmsRole uint32) (results []*CmsRole, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cms_role = ?", idCmsRole).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_CmsRoleMgr) GetBatchFromIDCms(idCmss []uint32) (results []*CmsRole, 
 
 	return
 }
-
 
 func (obj *_CmsRoleMgr) FetchByPrimaryKey(idCmsRole uint32, idCms uint32) (result CmsRole, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cms_role = ? AND id_cms = ?", idCmsRole, idCms).Find(&result).Error

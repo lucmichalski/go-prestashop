@@ -35,7 +35,6 @@ func (obj *_ContactShopMgr) Gets() (results []*ContactShop, err error) {
 	return
 }
 
-
 func (obj *_ContactShopMgr) WithIDContact(idContact uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_contact"] = idContact })
 }
@@ -70,7 +69,6 @@ func (obj *_ContactShopMgr) GetByOptions(opts ...Option) (results []*ContactShop
 	return
 }
 
-
 func (obj *_ContactShopMgr) GetFromIDContact(idContact uint32) (results []*ContactShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_contact = ?", idContact).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_ContactShopMgr) GetBatchFromIDShop(idShops []uint32) (results []*Con
 
 	return
 }
-
 
 func (obj *_ContactShopMgr) FetchByPrimaryKey(idContact uint32, idShop uint32) (result ContactShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_contact = ? AND id_shop = ?", idContact, idShop).Find(&result).Error

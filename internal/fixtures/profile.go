@@ -6,7 +6,7 @@ import (
 
 // Profile was generated 2021-02-06 11:40:20 by evolutive on eg-cdn.gsi-network.com.
 type Profile struct {
-	XMLName xml.Name `xml:"profile"`
+	XMLName xml.Name `xml:"entity_profile"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

@@ -35,7 +35,6 @@ func (obj *_CartRuleProductRuleGroupMgr) Gets() (results []*CartRuleProductRuleG
 	return
 }
 
-
 func (obj *_CartRuleProductRuleGroupMgr) WithIDProductRuleGroup(idProductRuleGroup uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product_rule_group"] = idProductRuleGroup })
 }
@@ -74,7 +73,6 @@ func (obj *_CartRuleProductRuleGroupMgr) GetByOptions(opts ...Option) (results [
 	return
 }
 
-
 func (obj *_CartRuleProductRuleGroupMgr) GetFromIDProductRuleGroup(idProductRuleGroup uint32) (result CartRuleProductRuleGroup, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_rule_group = ?", idProductRuleGroup).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_CartRuleProductRuleGroupMgr) GetBatchFromQuantity(quantitys []uint32
 
 	return
 }
-
 
 func (obj *_CartRuleProductRuleGroupMgr) FetchByPrimaryKey(idProductRuleGroup uint32) (result CartRuleProductRuleGroup, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_rule_group = ?", idProductRuleGroup).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_LayeredPriceIndexMgr) Gets() (results []*LayeredPriceIndex, err erro
 	return
 }
 
-
 func (obj *_LayeredPriceIndexMgr) WithIDProduct(idProduct int) Option {
 	return optionFunc(func(o *options) { o.query["id_product"] = idProduct })
 }
@@ -85,7 +84,6 @@ func (obj *_LayeredPriceIndexMgr) GetByOptions(opts ...Option) (results []*Layer
 
 	return
 }
-
 
 func (obj *_LayeredPriceIndexMgr) GetFromIDProduct(idProduct int) (results []*LayeredPriceIndex, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ?", idProduct).Find(&results).Error
@@ -158,7 +156,6 @@ func (obj *_LayeredPriceIndexMgr) GetBatchFromIDCountry(idCountrys []int) (resul
 
 	return
 }
-
 
 func (obj *_LayeredPriceIndexMgr) FetchByPrimaryKey(idProduct int, idCurrency int, idShop int, idCountry int) (result LayeredPriceIndex, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ? AND id_currency = ? AND id_shop = ? AND id_country = ?", idProduct, idCurrency, idShop, idCountry).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_StockAvailableMgr) Gets() (results []*StockAvailable, err error) {
 	return
 }
 
-
 func (obj *_StockAvailableMgr) WithIDStockAvailable(idStockAvailable uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_stock_available"] = idStockAvailable })
 }
@@ -105,7 +104,6 @@ func (obj *_StockAvailableMgr) GetByOptions(opts ...Option) (results []*StockAva
 
 	return
 }
-
 
 func (obj *_StockAvailableMgr) GetFromIDStockAvailable(idStockAvailable uint32) (result StockAvailable, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_stock_available = ?", idStockAvailable).Find(&result).Error
@@ -238,7 +236,6 @@ func (obj *_StockAvailableMgr) GetBatchFromLocation(locations []string) (results
 
 	return
 }
-
 
 func (obj *_StockAvailableMgr) FetchByPrimaryKey(idStockAvailable uint32) (result StockAvailable, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_stock_available = ?", idStockAvailable).Find(&result).Error

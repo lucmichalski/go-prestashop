@@ -36,7 +36,6 @@ func (obj *_PsgdprConsentMgr) Gets() (results []*PsgdprConsent, err error) {
 	return
 }
 
-
 func (obj *_PsgdprConsentMgr) WithIDGdprConsent(idGdprConsent uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_gdpr_consent"] = idGdprConsent })
 }
@@ -90,7 +89,6 @@ func (obj *_PsgdprConsentMgr) GetByOptions(opts ...Option) (results []*PsgdprCon
 
 	return
 }
-
 
 func (obj *_PsgdprConsentMgr) GetFromIDGdprConsent(idGdprConsent uint32) (results []*PsgdprConsent, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_gdpr_consent = ?", idGdprConsent).Find(&results).Error
@@ -175,7 +173,6 @@ func (obj *_PsgdprConsentMgr) GetBatchFromDateUpd(dateUpds []time.Time) (results
 
 	return
 }
-
 
 func (obj *_PsgdprConsentMgr) FetchByPrimaryKey(idGdprConsent uint32, idModule uint32) (result PsgdprConsent, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_gdpr_consent = ? AND id_module = ?", idGdprConsent, idModule).Find(&result).Error

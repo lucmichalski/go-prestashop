@@ -35,7 +35,6 @@ func (obj *_ModulePreferenceMgr) Gets() (results []*ModulePreference, err error)
 	return
 }
 
-
 func (obj *_ModulePreferenceMgr) WithIDModulePreference(idModulePreference int) Option {
 	return optionFunc(func(o *options) { o.query["id_module_preference"] = idModulePreference })
 }
@@ -81,7 +80,6 @@ func (obj *_ModulePreferenceMgr) GetByOptions(opts ...Option) (results []*Module
 
 	return
 }
-
 
 func (obj *_ModulePreferenceMgr) GetFromIDModulePreference(idModulePreference int) (result ModulePreference, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_module_preference = ?", idModulePreference).Find(&result).Error
@@ -142,7 +140,6 @@ func (obj *_ModulePreferenceMgr) GetBatchFromFavorite(favorites []bool) (results
 
 	return
 }
-
 
 func (obj *_ModulePreferenceMgr) FetchByPrimaryKey(idModulePreference int) (result ModulePreference, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_module_preference = ?", idModulePreference).Find(&result).Error

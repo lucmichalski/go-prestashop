@@ -35,7 +35,6 @@ func (obj *_GroupReductionMgr) Gets() (results []*GroupReduction, err error) {
 	return
 }
 
-
 func (obj *_GroupReductionMgr) WithIDGroupReduction(idGroupReduction string) Option {
 	return optionFunc(func(o *options) { o.query["id_group_reduction"] = idGroupReduction })
 }
@@ -77,7 +76,6 @@ func (obj *_GroupReductionMgr) GetByOptions(opts ...Option) (results []*GroupRed
 
 	return
 }
-
 
 func (obj *_GroupReductionMgr) GetFromIDGroupReduction(idGroupReduction string) (result GroupReduction, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_group_reduction = ?", idGroupReduction).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_GroupReductionMgr) GetBatchFromReduction(reductions []float64) (resu
 
 	return
 }
-
 
 func (obj *_GroupReductionMgr) FetchByPrimaryKey(idGroupReduction string) (result GroupReduction, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_group_reduction = ?", idGroupReduction).Find(&result).Error

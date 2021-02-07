@@ -35,7 +35,6 @@ func (obj *_TabMgr) Gets() (results []*Tab, err error) {
 	return
 }
 
-
 func (obj *_TabMgr) WithIDTab(idTab int) Option {
 	return optionFunc(func(o *options) { o.query["id_tab"] = idTab })
 }
@@ -101,7 +100,6 @@ func (obj *_TabMgr) GetByOptions(opts ...Option) (results []*Tab, err error) {
 
 	return
 }
-
 
 func (obj *_TabMgr) GetFromIDTab(idTab int) (result Tab, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tab = ?", idTab).Find(&result).Error
@@ -222,7 +220,6 @@ func (obj *_TabMgr) GetBatchFromIcon(icons []string) (results []*Tab, err error)
 
 	return
 }
-
 
 func (obj *_TabMgr) FetchByPrimaryKey(idTab int) (result Tab, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tab = ?", idTab).Find(&result).Error

@@ -36,7 +36,6 @@ func (obj *_PagenotfoundMgr) Gets() (results []*Pagenotfound, err error) {
 	return
 }
 
-
 func (obj *_PagenotfoundMgr) WithIDPagenotfound(idPagenotfound uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_pagenotfound"] = idPagenotfound })
 }
@@ -86,7 +85,6 @@ func (obj *_PagenotfoundMgr) GetByOptions(opts ...Option) (results []*Pagenotfou
 
 	return
 }
-
 
 func (obj *_PagenotfoundMgr) GetFromIDPagenotfound(idPagenotfound uint32) (result Pagenotfound, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_pagenotfound = ?", idPagenotfound).Find(&result).Error
@@ -159,7 +157,6 @@ func (obj *_PagenotfoundMgr) GetBatchFromDateAdd(dateAdds []time.Time) (results 
 
 	return
 }
-
 
 func (obj *_PagenotfoundMgr) FetchByPrimaryKey(idPagenotfound uint32) (result Pagenotfound, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_pagenotfound = ?", idPagenotfound).Find(&result).Error

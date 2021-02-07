@@ -6,7 +6,7 @@ import (
 
 // Connections was generated 2021-02-06 11:40:35 by evolutive on eg-cdn.gsi-network.com.
 type Connections struct {
-	XMLName xml.Name `xml:"connections"`
+	XMLName xml.Name `xml:"entity_connections"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

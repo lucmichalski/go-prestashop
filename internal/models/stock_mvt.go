@@ -36,7 +36,6 @@ func (obj *_StockMvtMgr) Gets() (results []*StockMvt, err error) {
 	return
 }
 
-
 func (obj *_StockMvtMgr) WithIDStockMvt(idStockMvt int64) Option {
 	return optionFunc(func(o *options) { o.query["id_stock_mvt"] = idStockMvt })
 }
@@ -122,7 +121,6 @@ func (obj *_StockMvtMgr) GetByOptions(opts ...Option) (results []*StockMvt, err 
 
 	return
 }
-
 
 func (obj *_StockMvtMgr) GetFromIDStockMvt(idStockMvt int64) (result StockMvt, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_stock_mvt = ?", idStockMvt).Find(&result).Error
@@ -303,7 +301,6 @@ func (obj *_StockMvtMgr) GetBatchFromReferer(referers []int64) (results []*Stock
 
 	return
 }
-
 
 func (obj *_StockMvtMgr) FetchByPrimaryKey(idStockMvt int64) (result StockMvt, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_stock_mvt = ?", idStockMvt).Find(&result).Error

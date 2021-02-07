@@ -35,7 +35,6 @@ func (obj *_CarrierLangMgr) Gets() (results []*CarrierLang, err error) {
 	return
 }
 
-
 func (obj *_CarrierLangMgr) WithIDCarrier(idCarrier uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_carrier"] = idCarrier })
 }
@@ -77,7 +76,6 @@ func (obj *_CarrierLangMgr) GetByOptions(opts ...Option) (results []*CarrierLang
 
 	return
 }
-
 
 func (obj *_CarrierLangMgr) GetFromIDCarrier(idCarrier uint32) (results []*CarrierLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_carrier = ?", idCarrier).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_CarrierLangMgr) GetBatchFromDelay(delays []string) (results []*Carri
 
 	return
 }
-
 
 func (obj *_CarrierLangMgr) FetchByPrimaryKey(idCarrier uint32, idShop uint32, idLang uint32) (result CarrierLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_carrier = ? AND id_shop = ? AND id_lang = ?", idCarrier, idShop, idLang).Find(&result).Error

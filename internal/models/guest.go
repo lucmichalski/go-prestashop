@@ -35,7 +35,6 @@ func (obj *_GuestMgr) Gets() (results []*Guest, err error) {
 	return
 }
 
-
 func (obj *_GuestMgr) WithIDGuest(idGuest uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_guest"] = idGuest })
 }
@@ -125,7 +124,6 @@ func (obj *_GuestMgr) GetByOptions(opts ...Option) (results []*Guest, err error)
 
 	return
 }
-
 
 func (obj *_GuestMgr) GetFromIDGuest(idGuest uint32) (result Guest, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_guest = ?", idGuest).Find(&result).Error
@@ -318,7 +316,6 @@ func (obj *_GuestMgr) GetBatchFromMobileTheme(mobileThemes []bool) (results []*G
 
 	return
 }
-
 
 func (obj *_GuestMgr) FetchByPrimaryKey(idGuest uint32) (result Guest, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_guest = ?", idGuest).Find(&result).Error

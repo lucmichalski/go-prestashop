@@ -36,7 +36,6 @@ func (obj *_OrderCarrierMgr) Gets() (results []*OrderCarrier, err error) {
 	return
 }
 
-
 func (obj *_OrderCarrierMgr) WithIDOrderCarrier(idOrderCarrier int) Option {
 	return optionFunc(func(o *options) { o.query["id_order_carrier"] = idOrderCarrier })
 }
@@ -98,7 +97,6 @@ func (obj *_OrderCarrierMgr) GetByOptions(opts ...Option) (results []*OrderCarri
 
 	return
 }
-
 
 func (obj *_OrderCarrierMgr) GetFromIDOrderCarrier(idOrderCarrier int) (result OrderCarrier, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_carrier = ?", idOrderCarrier).Find(&result).Error
@@ -207,7 +205,6 @@ func (obj *_OrderCarrierMgr) GetBatchFromDateAdd(dateAdds []time.Time) (results 
 
 	return
 }
-
 
 func (obj *_OrderCarrierMgr) FetchByPrimaryKey(idOrderCarrier int) (result OrderCarrier, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_carrier = ?", idOrderCarrier).Find(&result).Error

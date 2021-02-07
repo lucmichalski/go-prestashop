@@ -35,7 +35,6 @@ func (obj *_TaxLangMgr) Gets() (results []*TaxLang, err error) {
 	return
 }
 
-
 func (obj *_TaxLangMgr) WithIDTax(idTax uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_tax"] = idTax })
 }
@@ -74,7 +73,6 @@ func (obj *_TaxLangMgr) GetByOptions(opts ...Option) (results []*TaxLang, err er
 	return
 }
 
-
 func (obj *_TaxLangMgr) GetFromIDTax(idTax uint32) (results []*TaxLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tax = ?", idTax).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_TaxLangMgr) GetBatchFromName(names []string) (results []*TaxLang, er
 
 	return
 }
-
 
 func (obj *_TaxLangMgr) FetchByPrimaryKey(idTax uint32, idLang uint32) (result TaxLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tax = ? AND id_lang = ?", idTax, idLang).Find(&result).Error

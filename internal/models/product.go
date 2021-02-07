@@ -37,7 +37,6 @@ func (obj *_ProductMgr) Gets() (results []*Product, err error) {
 	return
 }
 
-
 func (obj *_ProductMgr) WithIDProduct(idProduct uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product"] = idProduct })
 }
@@ -279,7 +278,6 @@ func (obj *_ProductMgr) GetByOptions(opts ...Option) (results []*Product, err er
 
 	return
 }
-
 
 func (obj *_ProductMgr) GetFromIDProduct(idProduct uint32) (result Product, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ?", idProduct).Find(&result).Error
@@ -928,7 +926,6 @@ func (obj *_ProductMgr) GetBatchFromState(states []uint32) (results []*Product, 
 
 	return
 }
-
 
 func (obj *_ProductMgr) FetchByPrimaryKey(idProduct uint32) (result Product, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ?", idProduct).Find(&result).Error

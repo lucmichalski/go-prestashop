@@ -36,7 +36,6 @@ func (obj *_ProductDownloadMgr) Gets() (results []*ProductDownload, err error) {
 	return
 }
 
-
 func (obj *_ProductDownloadMgr) WithIDProductDownload(idProductDownload uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product_download"] = idProductDownload })
 }
@@ -102,7 +101,6 @@ func (obj *_ProductDownloadMgr) GetByOptions(opts ...Option) (results []*Product
 
 	return
 }
-
 
 func (obj *_ProductDownloadMgr) GetFromIDProductDownload(idProductDownload uint32) (result ProductDownload, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_download = ?", idProductDownload).Find(&result).Error
@@ -223,7 +221,6 @@ func (obj *_ProductDownloadMgr) GetBatchFromIsShareable(isShareables []bool) (re
 
 	return
 }
-
 
 func (obj *_ProductDownloadMgr) FetchByPrimaryKey(idProductDownload uint32) (result ProductDownload, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_download = ?", idProductDownload).Find(&result).Error

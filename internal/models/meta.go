@@ -35,7 +35,6 @@ func (obj *_MetaMgr) Gets() (results []*Meta, err error) {
 	return
 }
 
-
 func (obj *_MetaMgr) WithIDMeta(idMeta uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_meta"] = idMeta })
 }
@@ -74,7 +73,6 @@ func (obj *_MetaMgr) GetByOptions(opts ...Option) (results []*Meta, err error) {
 	return
 }
 
-
 func (obj *_MetaMgr) GetFromIDMeta(idMeta uint32) (result Meta, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_meta = ?", idMeta).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_MetaMgr) GetBatchFromConfigurable(configurables []bool) (results []*
 
 	return
 }
-
 
 func (obj *_MetaMgr) FetchByPrimaryKey(idMeta uint32) (result Meta, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_meta = ?", idMeta).Find(&result).Error

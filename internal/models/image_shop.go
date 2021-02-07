@@ -35,7 +35,6 @@ func (obj *_ImageShopMgr) Gets() (results []*ImageShop, err error) {
 	return
 }
 
-
 func (obj *_ImageShopMgr) WithIDProduct(idProduct uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product"] = idProduct })
 }
@@ -77,7 +76,6 @@ func (obj *_ImageShopMgr) GetByOptions(opts ...Option) (results []*ImageShop, er
 
 	return
 }
-
 
 func (obj *_ImageShopMgr) GetFromIDProduct(idProduct uint32) (results []*ImageShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ?", idProduct).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_ImageShopMgr) GetBatchFromCover(covers []bool) (results []*ImageShop
 
 	return
 }
-
 
 func (obj *_ImageShopMgr) FetchByPrimaryKey(idImage uint32, idShop uint32) (result ImageShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_image = ? AND id_shop = ?", idImage, idShop).Find(&result).Error

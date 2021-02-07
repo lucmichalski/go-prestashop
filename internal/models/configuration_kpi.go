@@ -36,7 +36,6 @@ func (obj *_ConfigurationKpiMgr) Gets() (results []*ConfigurationKpi, err error)
 	return
 }
 
-
 func (obj *_ConfigurationKpiMgr) WithIDConfigurationKpi(idConfigurationKpi uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_configuration_kpi"] = idConfigurationKpi })
 }
@@ -90,7 +89,6 @@ func (obj *_ConfigurationKpiMgr) GetByOptions(opts ...Option) (results []*Config
 
 	return
 }
-
 
 func (obj *_ConfigurationKpiMgr) GetFromIDConfigurationKpi(idConfigurationKpi uint32) (result ConfigurationKpi, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_configuration_kpi = ?", idConfigurationKpi).Find(&result).Error
@@ -175,7 +173,6 @@ func (obj *_ConfigurationKpiMgr) GetBatchFromDateUpd(dateUpds []time.Time) (resu
 
 	return
 }
-
 
 func (obj *_ConfigurationKpiMgr) FetchByPrimaryKey(idConfigurationKpi uint32) (result ConfigurationKpi, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_configuration_kpi = ?", idConfigurationKpi).Find(&result).Error

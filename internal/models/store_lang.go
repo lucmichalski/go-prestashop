@@ -35,7 +35,6 @@ func (obj *_StoreLangMgr) Gets() (results []*StoreLang, err error) {
 	return
 }
 
-
 func (obj *_StoreLangMgr) WithIDStore(idStore uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_store"] = idStore })
 }
@@ -89,7 +88,6 @@ func (obj *_StoreLangMgr) GetByOptions(opts ...Option) (results []*StoreLang, er
 
 	return
 }
-
 
 func (obj *_StoreLangMgr) GetFromIDStore(idStore uint32) (results []*StoreLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_store = ?", idStore).Find(&results).Error
@@ -174,7 +172,6 @@ func (obj *_StoreLangMgr) GetBatchFromNote(notes []string) (results []*StoreLang
 
 	return
 }
-
 
 func (obj *_StoreLangMgr) FetchByPrimaryKey(idStore uint32, idLang uint32) (result StoreLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_store = ? AND id_lang = ?", idStore, idLang).Find(&result).Error

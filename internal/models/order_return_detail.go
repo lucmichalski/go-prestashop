@@ -35,7 +35,6 @@ func (obj *_OrderReturnDetailMgr) Gets() (results []*OrderReturnDetail, err erro
 	return
 }
 
-
 func (obj *_OrderReturnDetailMgr) WithIDOrderReturn(idOrderReturn uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_order_return"] = idOrderReturn })
 }
@@ -77,7 +76,6 @@ func (obj *_OrderReturnDetailMgr) GetByOptions(opts ...Option) (results []*Order
 
 	return
 }
-
 
 func (obj *_OrderReturnDetailMgr) GetFromIDOrderReturn(idOrderReturn uint32) (results []*OrderReturnDetail, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_return = ?", idOrderReturn).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_OrderReturnDetailMgr) GetBatchFromProductQuantity(productQuantitys [
 
 	return
 }
-
 
 func (obj *_OrderReturnDetailMgr) FetchByPrimaryKey(idOrderReturn uint32, idOrderDetail uint32, idCustomization uint32) (result OrderReturnDetail, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_return = ? AND id_order_detail = ? AND id_customization = ?", idOrderReturn, idOrderDetail, idCustomization).Find(&result).Error

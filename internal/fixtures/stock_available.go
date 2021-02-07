@@ -6,7 +6,7 @@ import (
 
 // StockAvailable was generated 2021-02-06 11:40:20 by evolutive on eg-cdn.gsi-network.com.
 type StockAvailable struct {
-	XMLName xml.Name `xml:"stock_available"`
+	XMLName xml.Name `xml:"entity_stock_available"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text    string `xml:",chardata"`

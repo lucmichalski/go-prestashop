@@ -35,7 +35,6 @@ func (obj *_StateMgr) Gets() (results []*State, err error) {
 	return
 }
 
-
 func (obj *_StateMgr) WithIDState(idState uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_state"] = idState })
 }
@@ -89,7 +88,6 @@ func (obj *_StateMgr) GetByOptions(opts ...Option) (results []*State, err error)
 
 	return
 }
-
 
 func (obj *_StateMgr) GetFromIDState(idState uint32) (result State, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_state = ?", idState).Find(&result).Error
@@ -174,7 +172,6 @@ func (obj *_StateMgr) GetBatchFromActive(actives []bool) (results []*State, err 
 
 	return
 }
-
 
 func (obj *_StateMgr) FetchByPrimaryKey(idState uint32) (result State, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_state = ?", idState).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_AttributeMgr) Gets() (results []*Attribute, err error) {
 	return
 }
 
-
 func (obj *_AttributeMgr) WithIDAttribute(idAttribute int) Option {
 	return optionFunc(func(o *options) { o.query["id_attribute"] = idAttribute })
 }
@@ -77,7 +76,6 @@ func (obj *_AttributeMgr) GetByOptions(opts ...Option) (results []*Attribute, er
 
 	return
 }
-
 
 func (obj *_AttributeMgr) GetFromIDAttribute(idAttribute int) (result Attribute, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute = ?", idAttribute).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_AttributeMgr) GetBatchFromPosition(positions []int) (results []*Attr
 
 	return
 }
-
 
 func (obj *_AttributeMgr) FetchByPrimaryKey(idAttribute int) (result Attribute, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute = ?", idAttribute).Find(&result).Error

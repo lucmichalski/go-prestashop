@@ -35,7 +35,6 @@ func (obj *_LayeredFilterBlockMgr) Gets() (results []*LayeredFilterBlock, err er
 	return
 }
 
-
 func (obj *_LayeredFilterBlockMgr) WithHash(hash string) Option {
 	return optionFunc(func(o *options) { o.query["hash"] = hash })
 }
@@ -70,7 +69,6 @@ func (obj *_LayeredFilterBlockMgr) GetByOptions(opts ...Option) (results []*Laye
 	return
 }
 
-
 func (obj *_LayeredFilterBlockMgr) GetFromHash(hash string) (result LayeredFilterBlock, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("hash = ?", hash).Find(&result).Error
 
@@ -94,7 +92,6 @@ func (obj *_LayeredFilterBlockMgr) GetBatchFromData(datas []string) (results []*
 
 	return
 }
-
 
 func (obj *_LayeredFilterBlockMgr) FetchByPrimaryKey(hash string) (result LayeredFilterBlock, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("hash = ?", hash).Find(&result).Error

@@ -6,7 +6,7 @@ import (
 
 // ProductAttributeCombination was generated 2021-02-06 11:37:24 by evolutive on eg-cdn.gsi-network.com.
 type ProductAttributeCombination struct {
-	XMLName xml.Name `xml:"product_attribute_combination"`
+	XMLName xml.Name `xml:"entity_product_attribute_combination"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text    string `xml:",chardata"`

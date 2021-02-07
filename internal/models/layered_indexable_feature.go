@@ -35,7 +35,6 @@ func (obj *_LayeredIndexableFeatureMgr) Gets() (results []*LayeredIndexableFeatu
 	return
 }
 
-
 func (obj *_LayeredIndexableFeatureMgr) WithIDFeature(idFeature int) Option {
 	return optionFunc(func(o *options) { o.query["id_feature"] = idFeature })
 }
@@ -70,7 +69,6 @@ func (obj *_LayeredIndexableFeatureMgr) GetByOptions(opts ...Option) (results []
 	return
 }
 
-
 func (obj *_LayeredIndexableFeatureMgr) GetFromIDFeature(idFeature int) (result LayeredIndexableFeature, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_feature = ?", idFeature).Find(&result).Error
 
@@ -94,7 +92,6 @@ func (obj *_LayeredIndexableFeatureMgr) GetBatchFromIndexable(indexables []bool)
 
 	return
 }
-
 
 func (obj *_LayeredIndexableFeatureMgr) FetchByPrimaryKey(idFeature int) (result LayeredIndexableFeature, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_feature = ?", idFeature).Find(&result).Error

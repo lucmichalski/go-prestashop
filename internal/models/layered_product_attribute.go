@@ -35,7 +35,6 @@ func (obj *_LayeredProductAttributeMgr) Gets() (results []*LayeredProductAttribu
 	return
 }
 
-
 func (obj *_LayeredProductAttributeMgr) WithIDAttribute(idAttribute uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_attribute"] = idAttribute })
 }
@@ -77,7 +76,6 @@ func (obj *_LayeredProductAttributeMgr) GetByOptions(opts ...Option) (results []
 
 	return
 }
-
 
 func (obj *_LayeredProductAttributeMgr) GetFromIDAttribute(idAttribute uint32) (results []*LayeredProductAttribute, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute = ?", idAttribute).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_LayeredProductAttributeMgr) GetBatchFromIDShop(idShops []uint32) (re
 
 	return
 }
-
 
 func (obj *_LayeredProductAttributeMgr) FetchByPrimaryKey(idAttribute uint32, idProduct uint32, idShop uint32) (result LayeredProductAttribute, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute = ? AND id_product = ? AND id_shop = ?", idAttribute, idProduct, idShop).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_WebBrowserMgr) Gets() (results []*WebBrowser, err error) {
 	return
 }
 
-
 func (obj *_WebBrowserMgr) WithIDWebBrowser(idWebBrowser uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_web_browser"] = idWebBrowser })
 }
@@ -70,7 +69,6 @@ func (obj *_WebBrowserMgr) GetByOptions(opts ...Option) (results []*WebBrowser, 
 	return
 }
 
-
 func (obj *_WebBrowserMgr) GetFromIDWebBrowser(idWebBrowser uint32) (result WebBrowser, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_web_browser = ?", idWebBrowser).Find(&result).Error
 
@@ -94,7 +92,6 @@ func (obj *_WebBrowserMgr) GetBatchFromName(names []string) (results []*WebBrows
 
 	return
 }
-
 
 func (obj *_WebBrowserMgr) FetchByPrimaryKey(idWebBrowser uint32) (result WebBrowser, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_web_browser = ?", idWebBrowser).Find(&result).Error

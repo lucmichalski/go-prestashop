@@ -35,7 +35,6 @@ func (obj *_ProductCommentReportMgr) Gets() (results []*ProductCommentReport, er
 	return
 }
 
-
 func (obj *_ProductCommentReportMgr) WithIDCustomer(idCustomer int) Option {
 	return optionFunc(func(o *options) { o.query["id_customer"] = idCustomer })
 }
@@ -70,7 +69,6 @@ func (obj *_ProductCommentReportMgr) GetByOptions(opts ...Option) (results []*Pr
 	return
 }
 
-
 func (obj *_ProductCommentReportMgr) GetFromIDCustomer(idCustomer int) (results []*ProductCommentReport, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customer = ?", idCustomer).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_ProductCommentReportMgr) GetBatchFromIDProductComment(idProductComme
 
 	return
 }
-
 
 func (obj *_ProductCommentReportMgr) FetchByPrimaryKey(idCustomer int, idProductComment int) (result ProductCommentReport, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customer = ? AND id_product_comment = ?", idCustomer, idProductComment).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_StockMvtReasonLangMgr) Gets() (results []*StockMvtReasonLang, err er
 	return
 }
 
-
 func (obj *_StockMvtReasonLangMgr) WithIDStockMvtReason(idStockMvtReason uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_stock_mvt_reason"] = idStockMvtReason })
 }
@@ -74,7 +73,6 @@ func (obj *_StockMvtReasonLangMgr) GetByOptions(opts ...Option) (results []*Stoc
 	return
 }
 
-
 func (obj *_StockMvtReasonLangMgr) GetFromIDStockMvtReason(idStockMvtReason uint32) (results []*StockMvtReasonLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_stock_mvt_reason = ?", idStockMvtReason).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_StockMvtReasonLangMgr) GetBatchFromName(names []string) (results []*
 
 	return
 }
-
 
 func (obj *_StockMvtReasonLangMgr) FetchByPrimaryKey(idStockMvtReason uint32, idLang uint32) (result StockMvtReasonLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_stock_mvt_reason = ? AND id_lang = ?", idStockMvtReason, idLang).Find(&result).Error

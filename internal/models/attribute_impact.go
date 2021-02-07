@@ -35,7 +35,6 @@ func (obj *_AttributeImpactMgr) Gets() (results []*AttributeImpact, err error) {
 	return
 }
 
-
 func (obj *_AttributeImpactMgr) WithIDAttributeImpact(idAttributeImpact uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_attribute_impact"] = idAttributeImpact })
 }
@@ -81,7 +80,6 @@ func (obj *_AttributeImpactMgr) GetByOptions(opts ...Option) (results []*Attribu
 
 	return
 }
-
 
 func (obj *_AttributeImpactMgr) GetFromIDAttributeImpact(idAttributeImpact uint32) (result AttributeImpact, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_impact = ?", idAttributeImpact).Find(&result).Error
@@ -142,7 +140,6 @@ func (obj *_AttributeImpactMgr) GetBatchFromPrice(prices []float64) (results []*
 
 	return
 }
-
 
 func (obj *_AttributeImpactMgr) FetchByPrimaryKey(idAttributeImpact uint32) (result AttributeImpact, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_impact = ?", idAttributeImpact).Find(&result).Error

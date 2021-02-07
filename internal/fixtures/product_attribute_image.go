@@ -6,7 +6,7 @@ import (
 
 // ProductAttributeImage was generated 2021-02-06 11:37:00 by evolutive on eg-cdn.gsi-network.com.
 type ProductAttributeImage struct {
-	XMLName xml.Name `xml:"product_attribute_image"`
+	XMLName xml.Name `xml:"entity_product_attribute_image"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text    string `xml:",chardata"`

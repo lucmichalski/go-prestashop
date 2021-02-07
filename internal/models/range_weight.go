@@ -35,7 +35,6 @@ func (obj *_RangeWeightMgr) Gets() (results []*RangeWeight, err error) {
 	return
 }
 
-
 func (obj *_RangeWeightMgr) WithIDRangeWeight(idRangeWeight uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_range_weight"] = idRangeWeight })
 }
@@ -77,7 +76,6 @@ func (obj *_RangeWeightMgr) GetByOptions(opts ...Option) (results []*RangeWeight
 
 	return
 }
-
 
 func (obj *_RangeWeightMgr) GetFromIDRangeWeight(idRangeWeight uint32) (result RangeWeight, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_range_weight = ?", idRangeWeight).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_RangeWeightMgr) GetBatchFromDelimiter2(delimiter2s []float64) (resul
 
 	return
 }
-
 
 func (obj *_RangeWeightMgr) FetchByPrimaryKey(idRangeWeight uint32) (result RangeWeight, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_range_weight = ?", idRangeWeight).Find(&result).Error

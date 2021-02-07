@@ -35,7 +35,6 @@ func (obj *_CountryMgr) Gets() (results []*Country, err error) {
 	return
 }
 
-
 func (obj *_CountryMgr) WithIDCountry(idCountry uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_country"] = idCountry })
 }
@@ -105,7 +104,6 @@ func (obj *_CountryMgr) GetByOptions(opts ...Option) (results []*Country, err er
 
 	return
 }
-
 
 func (obj *_CountryMgr) GetFromIDCountry(idCountry uint32) (result Country, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_country = ?", idCountry).Find(&result).Error
@@ -238,7 +236,6 @@ func (obj *_CountryMgr) GetBatchFromDisplayTaxLabel(displayTaxLabels []bool) (re
 
 	return
 }
-
 
 func (obj *_CountryMgr) FetchByPrimaryKey(idCountry uint32) (result Country, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_country = ?", idCountry).Find(&result).Error

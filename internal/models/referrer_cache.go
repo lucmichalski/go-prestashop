@@ -35,7 +35,6 @@ func (obj *_ReferrerCacheMgr) Gets() (results []*ReferrerCache, err error) {
 	return
 }
 
-
 func (obj *_ReferrerCacheMgr) WithIDConnectionsSource(idConnectionsSource uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_connections_source"] = idConnectionsSource })
 }
@@ -70,7 +69,6 @@ func (obj *_ReferrerCacheMgr) GetByOptions(opts ...Option) (results []*ReferrerC
 	return
 }
 
-
 func (obj *_ReferrerCacheMgr) GetFromIDConnectionsSource(idConnectionsSource uint32) (results []*ReferrerCache, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_connections_source = ?", idConnectionsSource).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_ReferrerCacheMgr) GetBatchFromIDReferrer(idReferrers []uint32) (resu
 
 	return
 }
-
 
 func (obj *_ReferrerCacheMgr) FetchByPrimaryKey(idConnectionsSource uint32, idReferrer uint32) (result ReferrerCache, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_connections_source = ? AND id_referrer = ?", idConnectionsSource, idReferrer).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_OrderStateMgr) Gets() (results []*OrderState, err error) {
 	return
 }
 
-
 func (obj *_OrderStateMgr) WithIDOrderState(idOrderState uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_order_state"] = idOrderState })
 }
@@ -117,7 +116,6 @@ func (obj *_OrderStateMgr) GetByOptions(opts ...Option) (results []*OrderState, 
 
 	return
 }
-
 
 func (obj *_OrderStateMgr) GetFromIDOrderState(idOrderState uint32) (result OrderState, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_state = ?", idOrderState).Find(&result).Error
@@ -286,7 +284,6 @@ func (obj *_OrderStateMgr) GetBatchFromDeleted(deleteds []bool) (results []*Orde
 
 	return
 }
-
 
 func (obj *_OrderStateMgr) FetchByPrimaryKey(idOrderState uint32) (result OrderState, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_state = ?", idOrderState).Find(&result).Error

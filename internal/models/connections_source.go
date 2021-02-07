@@ -36,7 +36,6 @@ func (obj *_ConnectionsSourceMgr) Gets() (results []*ConnectionsSource, err erro
 	return
 }
 
-
 func (obj *_ConnectionsSourceMgr) WithIDConnectionsSource(idConnectionsSource uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_connections_source"] = idConnectionsSource })
 }
@@ -86,7 +85,6 @@ func (obj *_ConnectionsSourceMgr) GetByOptions(opts ...Option) (results []*Conne
 
 	return
 }
-
 
 func (obj *_ConnectionsSourceMgr) GetFromIDConnectionsSource(idConnectionsSource uint32) (result ConnectionsSource, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_connections_source = ?", idConnectionsSource).Find(&result).Error
@@ -159,7 +157,6 @@ func (obj *_ConnectionsSourceMgr) GetBatchFromDateAdd(dateAdds []time.Time) (res
 
 	return
 }
-
 
 func (obj *_ConnectionsSourceMgr) FetchByPrimaryKey(idConnectionsSource uint32) (result ConnectionsSource, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_connections_source = ?", idConnectionsSource).Find(&result).Error

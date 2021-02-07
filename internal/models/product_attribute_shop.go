@@ -36,7 +36,6 @@ func (obj *_ProductAttributeShopMgr) Gets() (results []*ProductAttributeShop, er
 	return
 }
 
-
 func (obj *_ProductAttributeShopMgr) WithIDProduct(idProduct uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product"] = idProduct })
 }
@@ -114,7 +113,6 @@ func (obj *_ProductAttributeShopMgr) GetByOptions(opts ...Option) (results []*Pr
 
 	return
 }
-
 
 func (obj *_ProductAttributeShopMgr) GetFromIDProduct(idProduct uint32) (results []*ProductAttributeShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ?", idProduct).Find(&results).Error
@@ -271,7 +269,6 @@ func (obj *_ProductAttributeShopMgr) GetBatchFromAvailableDate(availableDates []
 
 	return
 }
-
 
 func (obj *_ProductAttributeShopMgr) FetchByPrimaryKey(idProductAttribute uint32, idShop uint32) (result ProductAttributeShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_attribute = ? AND id_shop = ?", idProductAttribute, idShop).Find(&result).Error

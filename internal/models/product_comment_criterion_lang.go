@@ -35,7 +35,6 @@ func (obj *_ProductCommentCriterionLangMgr) Gets() (results []*ProductCommentCri
 	return
 }
 
-
 func (obj *_ProductCommentCriterionLangMgr) WithIDProductCommentCriterion(idProductCommentCriterion uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product_comment_criterion"] = idProductCommentCriterion })
 }
@@ -74,7 +73,6 @@ func (obj *_ProductCommentCriterionLangMgr) GetByOptions(opts ...Option) (result
 	return
 }
 
-
 func (obj *_ProductCommentCriterionLangMgr) GetFromIDProductCommentCriterion(idProductCommentCriterion uint32) (results []*ProductCommentCriterionLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_comment_criterion = ?", idProductCommentCriterion).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_ProductCommentCriterionLangMgr) GetBatchFromName(names []string) (re
 
 	return
 }
-
 
 func (obj *_ProductCommentCriterionLangMgr) FetchByPrimaryKey(idProductCommentCriterion uint32, idLang uint32) (result ProductCommentCriterionLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_comment_criterion = ? AND id_lang = ?", idProductCommentCriterion, idLang).Find(&result).Error

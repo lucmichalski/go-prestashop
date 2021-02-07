@@ -35,7 +35,6 @@ func (obj *_AttributeGroupMgr) Gets() (results []*AttributeGroup, err error) {
 	return
 }
 
-
 func (obj *_AttributeGroupMgr) WithIDAttributeGroup(idAttributeGroup int) Option {
 	return optionFunc(func(o *options) { o.query["id_attribute_group"] = idAttributeGroup })
 }
@@ -77,7 +76,6 @@ func (obj *_AttributeGroupMgr) GetByOptions(opts ...Option) (results []*Attribut
 
 	return
 }
-
 
 func (obj *_AttributeGroupMgr) GetFromIDAttributeGroup(idAttributeGroup int) (result AttributeGroup, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_group = ?", idAttributeGroup).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_AttributeGroupMgr) GetBatchFromPosition(positions []int) (results []
 
 	return
 }
-
 
 func (obj *_AttributeGroupMgr) FetchByPrimaryKey(idAttributeGroup int) (result AttributeGroup, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_group = ?", idAttributeGroup).Find(&result).Error

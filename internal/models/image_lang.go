@@ -35,7 +35,6 @@ func (obj *_ImageLangMgr) Gets() (results []*ImageLang, err error) {
 	return
 }
 
-
 func (obj *_ImageLangMgr) WithIDImage(idImage uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_image"] = idImage })
 }
@@ -74,7 +73,6 @@ func (obj *_ImageLangMgr) GetByOptions(opts ...Option) (results []*ImageLang, er
 	return
 }
 
-
 func (obj *_ImageLangMgr) GetFromIDImage(idImage uint32) (results []*ImageLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_image = ?", idImage).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_ImageLangMgr) GetBatchFromLegend(legends []string) (results []*Image
 
 	return
 }
-
 
 func (obj *_ImageLangMgr) FetchByPrimaryKey(idImage uint32, idLang uint32) (result ImageLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_image = ? AND id_lang = ?", idImage, idLang).Find(&result).Error

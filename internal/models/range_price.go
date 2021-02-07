@@ -35,7 +35,6 @@ func (obj *_RangePriceMgr) Gets() (results []*RangePrice, err error) {
 	return
 }
 
-
 func (obj *_RangePriceMgr) WithIDRangePrice(idRangePrice uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_range_price"] = idRangePrice })
 }
@@ -77,7 +76,6 @@ func (obj *_RangePriceMgr) GetByOptions(opts ...Option) (results []*RangePrice, 
 
 	return
 }
-
 
 func (obj *_RangePriceMgr) GetFromIDRangePrice(idRangePrice uint32) (result RangePrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_range_price = ?", idRangePrice).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_RangePriceMgr) GetBatchFromDelimiter2(delimiter2s []float64) (result
 
 	return
 }
-
 
 func (obj *_RangePriceMgr) FetchByPrimaryKey(idRangePrice uint32) (result RangePrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_range_price = ?", idRangePrice).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_TaxRuleMgr) Gets() (results []*TaxRule, err error) {
 	return
 }
 
-
 func (obj *_TaxRuleMgr) WithIDTaxRule(idTaxRule int) Option {
 	return optionFunc(func(o *options) { o.query["id_tax_rule"] = idTaxRule })
 }
@@ -97,7 +96,6 @@ func (obj *_TaxRuleMgr) GetByOptions(opts ...Option) (results []*TaxRule, err er
 
 	return
 }
-
 
 func (obj *_TaxRuleMgr) GetFromIDTaxRule(idTaxRule int) (result TaxRule, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tax_rule = ?", idTaxRule).Find(&result).Error
@@ -206,7 +204,6 @@ func (obj *_TaxRuleMgr) GetBatchFromDescription(descriptions []string) (results 
 
 	return
 }
-
 
 func (obj *_TaxRuleMgr) FetchByPrimaryKey(idTaxRule int) (result TaxRule, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tax_rule = ?", idTaxRule).Find(&result).Error

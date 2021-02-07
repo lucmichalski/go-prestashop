@@ -35,7 +35,6 @@ func (obj *_GsitemapSitemapMgr) Gets() (results []*GsitemapSitemap, err error) {
 	return
 }
 
-
 func (obj *_GsitemapSitemapMgr) WithLink(link string) Option {
 	return optionFunc(func(o *options) { o.query["link"] = link })
 }
@@ -70,7 +69,6 @@ func (obj *_GsitemapSitemapMgr) GetByOptions(opts ...Option) (results []*Gsitema
 	return
 }
 
-
 func (obj *_GsitemapSitemapMgr) GetFromLink(link string) (results []*GsitemapSitemap, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("link = ?", link).Find(&results).Error
 
@@ -94,4 +92,3 @@ func (obj *_GsitemapSitemapMgr) GetBatchFromIDShop(idShops []int) (results []*Gs
 
 	return
 }
-

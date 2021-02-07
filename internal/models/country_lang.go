@@ -35,7 +35,6 @@ func (obj *_CountryLangMgr) Gets() (results []*CountryLang, err error) {
 	return
 }
 
-
 func (obj *_CountryLangMgr) WithIDCountry(idCountry uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_country"] = idCountry })
 }
@@ -74,7 +73,6 @@ func (obj *_CountryLangMgr) GetByOptions(opts ...Option) (results []*CountryLang
 	return
 }
 
-
 func (obj *_CountryLangMgr) GetFromIDCountry(idCountry uint32) (results []*CountryLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_country = ?", idCountry).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_CountryLangMgr) GetBatchFromName(names []string) (results []*Country
 
 	return
 }
-
 
 func (obj *_CountryLangMgr) FetchByPrimaryKey(idCountry uint32, idLang uint32) (result CountryLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_country = ? AND id_lang = ?", idCountry, idLang).Find(&result).Error

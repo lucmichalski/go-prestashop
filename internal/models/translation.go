@@ -35,7 +35,6 @@ func (obj *_TranslationMgr) Gets() (results []*Translation, err error) {
 	return
 }
 
-
 func (obj *_TranslationMgr) WithIDTranslation(idTranslation int) Option {
 	return optionFunc(func(o *options) { o.query["id_translation"] = idTranslation })
 }
@@ -85,7 +84,6 @@ func (obj *_TranslationMgr) GetByOptions(opts ...Option) (results []*Translation
 
 	return
 }
-
 
 func (obj *_TranslationMgr) GetFromIDTranslation(idTranslation int) (result Translation, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_translation = ?", idTranslation).Find(&result).Error
@@ -158,7 +156,6 @@ func (obj *_TranslationMgr) GetBatchFromTheme(themes []string) (results []*Trans
 
 	return
 }
-
 
 func (obj *_TranslationMgr) FetchByPrimaryKey(idTranslation int) (result Translation, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_translation = ?", idTranslation).Find(&result).Error

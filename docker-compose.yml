@@ -97,6 +97,8 @@ services:
       # SSL_KEY: /etc/letsencrypt/live/${DOMAIN}/privkey.pem
       # SSL_CA: /etc/letsencrypt/live/${DOMAIN}/chain.pem
       REQUIRE_SSL: ${MARIADB_REQUIRE_SSL}
+      LOCAL_INFILE: 1
+      # SECURE_FILE_PRIV:
     networks:
     - internal
     volumes:

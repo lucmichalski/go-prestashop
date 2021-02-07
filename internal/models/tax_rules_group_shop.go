@@ -35,7 +35,6 @@ func (obj *_TaxRulesGroupShopMgr) Gets() (results []*TaxRulesGroupShop, err erro
 	return
 }
 
-
 func (obj *_TaxRulesGroupShopMgr) WithIDTaxRulesGroup(idTaxRulesGroup uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_tax_rules_group"] = idTaxRulesGroup })
 }
@@ -70,7 +69,6 @@ func (obj *_TaxRulesGroupShopMgr) GetByOptions(opts ...Option) (results []*TaxRu
 	return
 }
 
-
 func (obj *_TaxRulesGroupShopMgr) GetFromIDTaxRulesGroup(idTaxRulesGroup uint32) (results []*TaxRulesGroupShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tax_rules_group = ?", idTaxRulesGroup).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_TaxRulesGroupShopMgr) GetBatchFromIDShop(idShops []uint32) (results 
 
 	return
 }
-
 
 func (obj *_TaxRulesGroupShopMgr) FetchByPrimaryKey(idTaxRulesGroup uint32, idShop uint32) (result TaxRulesGroupShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tax_rules_group = ? AND id_shop = ?", idTaxRulesGroup, idShop).Find(&result).Error

@@ -36,7 +36,6 @@ func (obj *_ManufacturerMgr) Gets() (results []*Manufacturer, err error) {
 	return
 }
 
-
 func (obj *_ManufacturerMgr) WithIDManufacturer(idManufacturer uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_manufacturer"] = idManufacturer })
 }
@@ -82,7 +81,6 @@ func (obj *_ManufacturerMgr) GetByOptions(opts ...Option) (results []*Manufactur
 
 	return
 }
-
 
 func (obj *_ManufacturerMgr) GetFromIDManufacturer(idManufacturer uint32) (result Manufacturer, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_manufacturer = ?", idManufacturer).Find(&result).Error
@@ -143,7 +141,6 @@ func (obj *_ManufacturerMgr) GetBatchFromActive(actives []bool) (results []*Manu
 
 	return
 }
-
 
 func (obj *_ManufacturerMgr) FetchByPrimaryKey(idManufacturer uint32) (result Manufacturer, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_manufacturer = ?", idManufacturer).Find(&result).Error

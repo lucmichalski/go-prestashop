@@ -35,7 +35,6 @@ func (obj *_ProductGroupReductionCacheMgr) Gets() (results []*ProductGroupReduct
 	return
 }
 
-
 func (obj *_ProductGroupReductionCacheMgr) WithIDProduct(idProduct uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product"] = idProduct })
 }
@@ -74,7 +73,6 @@ func (obj *_ProductGroupReductionCacheMgr) GetByOptions(opts ...Option) (results
 	return
 }
 
-
 func (obj *_ProductGroupReductionCacheMgr) GetFromIDProduct(idProduct uint32) (results []*ProductGroupReductionCache, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ?", idProduct).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_ProductGroupReductionCacheMgr) GetBatchFromReduction(reductions []fl
 
 	return
 }
-
 
 func (obj *_ProductGroupReductionCacheMgr) FetchByPrimaryKey(idProduct uint32, idGroup uint32) (result ProductGroupReductionCache, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ? AND id_group = ?", idProduct, idGroup).Find(&result).Error

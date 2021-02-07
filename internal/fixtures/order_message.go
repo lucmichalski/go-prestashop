@@ -6,7 +6,7 @@ import (
 
 // OrderMessage was generated 2021-02-06 11:38:40 by evolutive on eg-cdn.gsi-network.com.
 type OrderMessage struct {
-	XMLName xml.Name `xml:"order_message"`
+	XMLName xml.Name `xml:"entity_order_message"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

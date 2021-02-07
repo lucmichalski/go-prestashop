@@ -35,7 +35,6 @@ func (obj *_SupplyOrderStateLangMgr) Gets() (results []*SupplyOrderStateLang, er
 	return
 }
 
-
 func (obj *_SupplyOrderStateLangMgr) WithIDSupplyOrderState(idSupplyOrderState uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_supply_order_state"] = idSupplyOrderState })
 }
@@ -74,7 +73,6 @@ func (obj *_SupplyOrderStateLangMgr) GetByOptions(opts ...Option) (results []*Su
 	return
 }
 
-
 func (obj *_SupplyOrderStateLangMgr) GetFromIDSupplyOrderState(idSupplyOrderState uint32) (results []*SupplyOrderStateLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_supply_order_state = ?", idSupplyOrderState).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_SupplyOrderStateLangMgr) GetBatchFromName(names []string) (results [
 
 	return
 }
-
 
 func (obj *_SupplyOrderStateLangMgr) FetchByPrimaryKey(idSupplyOrderState uint32, idLang uint32) (result SupplyOrderStateLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_supply_order_state = ? AND id_lang = ?", idSupplyOrderState, idLang).Find(&result).Error

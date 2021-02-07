@@ -35,7 +35,6 @@ func (obj *_SpecificPriceRuleConditionMgr) Gets() (results []*SpecificPriceRuleC
 	return
 }
 
-
 func (obj *_SpecificPriceRuleConditionMgr) WithIDSpecificPriceRuleCondition(idSpecificPriceRuleCondition uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_specific_price_rule_condition"] = idSpecificPriceRuleCondition })
 }
@@ -79,7 +78,6 @@ func (obj *_SpecificPriceRuleConditionMgr) GetByOptions(opts ...Option) (results
 
 	return
 }
-
 
 func (obj *_SpecificPriceRuleConditionMgr) GetFromIDSpecificPriceRuleCondition(idSpecificPriceRuleCondition uint32) (result SpecificPriceRuleCondition, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_specific_price_rule_condition = ?", idSpecificPriceRuleCondition).Find(&result).Error
@@ -128,7 +126,6 @@ func (obj *_SpecificPriceRuleConditionMgr) GetBatchFromValue(values []string) (r
 
 	return
 }
-
 
 func (obj *_SpecificPriceRuleConditionMgr) FetchByPrimaryKey(idSpecificPriceRuleCondition uint32) (result SpecificPriceRuleCondition, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_specific_price_rule_condition = ?", idSpecificPriceRuleCondition).Find(&result).Error

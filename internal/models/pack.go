@@ -35,7 +35,6 @@ func (obj *_PackMgr) Gets() (results []*Pack, err error) {
 	return
 }
 
-
 func (obj *_PackMgr) WithIDProductPack(idProductPack uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product_pack"] = idProductPack })
 }
@@ -77,7 +76,6 @@ func (obj *_PackMgr) GetByOptions(opts ...Option) (results []*Pack, err error) {
 
 	return
 }
-
 
 func (obj *_PackMgr) GetFromIDProductPack(idProductPack uint32) (results []*Pack, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_pack = ?", idProductPack).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_PackMgr) GetBatchFromQuantity(quantitys []uint32) (results []*Pack, 
 
 	return
 }
-
 
 func (obj *_PackMgr) FetchByPrimaryKey(idProductPack uint32, idProductItem uint32, idProductAttributeItem uint32) (result Pack, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product_pack = ? AND id_product_item = ? AND id_product_attribute_item = ?", idProductPack, idProductItem, idProductAttributeItem).Find(&result).Error

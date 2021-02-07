@@ -35,7 +35,6 @@ func (obj *_CmsCategoryLangMgr) Gets() (results []*CmsCategoryLang, err error) {
 	return
 }
 
-
 func (obj *_CmsCategoryLangMgr) WithIDCmsCategory(idCmsCategory uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_cms_category"] = idCmsCategory })
 }
@@ -97,7 +96,6 @@ func (obj *_CmsCategoryLangMgr) GetByOptions(opts ...Option) (results []*CmsCate
 
 	return
 }
-
 
 func (obj *_CmsCategoryLangMgr) GetFromIDCmsCategory(idCmsCategory uint32) (results []*CmsCategoryLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cms_category = ?", idCmsCategory).Find(&results).Error
@@ -206,7 +204,6 @@ func (obj *_CmsCategoryLangMgr) GetBatchFromMetaDescription(metaDescriptions []s
 
 	return
 }
-
 
 func (obj *_CmsCategoryLangMgr) FetchByPrimaryKey(idCmsCategory uint32, idLang uint32, idShop uint32) (result CmsCategoryLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cms_category = ? AND id_lang = ? AND id_shop = ?", idCmsCategory, idLang, idShop).Find(&result).Error

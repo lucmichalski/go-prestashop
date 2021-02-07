@@ -35,7 +35,6 @@ func (obj *_ProfileLangMgr) Gets() (results []*ProfileLang, err error) {
 	return
 }
 
-
 func (obj *_ProfileLangMgr) WithIDLang(idLang uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_lang"] = idLang })
 }
@@ -74,7 +73,6 @@ func (obj *_ProfileLangMgr) GetByOptions(opts ...Option) (results []*ProfileLang
 	return
 }
 
-
 func (obj *_ProfileLangMgr) GetFromIDLang(idLang uint32) (results []*ProfileLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_lang = ?", idLang).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_ProfileLangMgr) GetBatchFromName(names []string) (results []*Profile
 
 	return
 }
-
 
 func (obj *_ProfileLangMgr) FetchByPrimaryKey(idLang uint32, idProfile uint32) (result ProfileLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_lang = ? AND id_profile = ?", idLang, idProfile).Find(&result).Error

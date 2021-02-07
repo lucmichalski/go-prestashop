@@ -36,7 +36,6 @@ func (obj *_ConnectionsPageMgr) Gets() (results []*ConnectionsPage, err error) {
 	return
 }
 
-
 func (obj *_ConnectionsPageMgr) WithIDConnections(idConnections uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_connections"] = idConnections })
 }
@@ -78,7 +77,6 @@ func (obj *_ConnectionsPageMgr) GetByOptions(opts ...Option) (results []*Connect
 
 	return
 }
-
 
 func (obj *_ConnectionsPageMgr) GetFromIDConnections(idConnections uint32) (results []*ConnectionsPage, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_connections = ?", idConnections).Find(&results).Error
@@ -127,7 +125,6 @@ func (obj *_ConnectionsPageMgr) GetBatchFromTimeEnd(timeEnds []time.Time) (resul
 
 	return
 }
-
 
 func (obj *_ConnectionsPageMgr) FetchByPrimaryKey(idConnections uint32, idPage uint32, timeStart time.Time) (result ConnectionsPage, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_connections = ? AND id_page = ? AND time_start = ?", idConnections, idPage, timeStart).Find(&result).Error

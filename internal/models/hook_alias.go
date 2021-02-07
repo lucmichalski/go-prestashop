@@ -35,7 +35,6 @@ func (obj *_HookAliasMgr) Gets() (results []*HookAlias, err error) {
 	return
 }
 
-
 func (obj *_HookAliasMgr) WithIDHookAlias(idHookAlias uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_hook_alias"] = idHookAlias })
 }
@@ -74,7 +73,6 @@ func (obj *_HookAliasMgr) GetByOptions(opts ...Option) (results []*HookAlias, er
 	return
 }
 
-
 func (obj *_HookAliasMgr) GetFromIDHookAlias(idHookAlias uint32) (result HookAlias, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_hook_alias = ?", idHookAlias).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_HookAliasMgr) GetBatchFromName(names []string) (results []*HookAlias
 
 	return
 }
-
 
 func (obj *_HookAliasMgr) FetchByPrimaryKey(idHookAlias uint32) (result HookAlias, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_hook_alias = ?", idHookAlias).Find(&result).Error

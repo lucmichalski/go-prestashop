@@ -35,7 +35,6 @@ func (obj *_CarrierTaxRulesGroupShopMgr) Gets() (results []*CarrierTaxRulesGroup
 	return
 }
 
-
 func (obj *_CarrierTaxRulesGroupShopMgr) WithIDCarrier(idCarrier uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_carrier"] = idCarrier })
 }
@@ -74,7 +73,6 @@ func (obj *_CarrierTaxRulesGroupShopMgr) GetByOptions(opts ...Option) (results [
 	return
 }
 
-
 func (obj *_CarrierTaxRulesGroupShopMgr) GetFromIDCarrier(idCarrier uint32) (results []*CarrierTaxRulesGroupShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_carrier = ?", idCarrier).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_CarrierTaxRulesGroupShopMgr) GetBatchFromIDShop(idShops []uint32) (r
 
 	return
 }
-
 
 func (obj *_CarrierTaxRulesGroupShopMgr) FetchByPrimaryKey(idCarrier uint32, idTaxRulesGroup uint32, idShop uint32) (result CarrierTaxRulesGroupShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_carrier = ? AND id_tax_rules_group = ? AND id_shop = ?", idCarrier, idTaxRulesGroup, idShop).Find(&result).Error

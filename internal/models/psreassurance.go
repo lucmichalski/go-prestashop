@@ -36,7 +36,6 @@ func (obj *_PsreassuranceMgr) Gets() (results []*Psreassurance, err error) {
 	return
 }
 
-
 func (obj *_PsreassuranceMgr) WithIDPsreassurance(idPsreassurance uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_psreassurance"] = idPsreassurance })
 }
@@ -102,7 +101,6 @@ func (obj *_PsreassuranceMgr) GetByOptions(opts ...Option) (results []*Psreassur
 
 	return
 }
-
 
 func (obj *_PsreassuranceMgr) GetFromIDPsreassurance(idPsreassurance uint32) (result Psreassurance, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_psreassurance = ?", idPsreassurance).Find(&result).Error
@@ -223,7 +221,6 @@ func (obj *_PsreassuranceMgr) GetBatchFromDateUpd(dateUpds []time.Time) (results
 
 	return
 }
-
 
 func (obj *_PsreassuranceMgr) FetchByPrimaryKey(idPsreassurance uint32) (result Psreassurance, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_psreassurance = ?", idPsreassurance).Find(&result).Error

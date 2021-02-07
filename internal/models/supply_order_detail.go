@@ -35,7 +35,6 @@ func (obj *_SupplyOrderDetailMgr) Gets() (results []*SupplyOrderDetail, err erro
 	return
 }
 
-
 func (obj *_SupplyOrderDetailMgr) WithIDSupplyOrderDetail(idSupplyOrderDetail uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_supply_order_detail"] = idSupplyOrderDetail })
 }
@@ -161,7 +160,6 @@ func (obj *_SupplyOrderDetailMgr) GetByOptions(opts ...Option) (results []*Suppl
 
 	return
 }
-
 
 func (obj *_SupplyOrderDetailMgr) GetFromIDSupplyOrderDetail(idSupplyOrderDetail uint32) (result SupplyOrderDetail, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_supply_order_detail = ?", idSupplyOrderDetail).Find(&result).Error
@@ -462,7 +460,6 @@ func (obj *_SupplyOrderDetailMgr) GetBatchFromPriceWithOrderDiscountTe(priceWith
 
 	return
 }
-
 
 func (obj *_SupplyOrderDetailMgr) FetchByPrimaryKey(idSupplyOrderDetail uint32) (result SupplyOrderDetail, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_supply_order_detail = ?", idSupplyOrderDetail).Find(&result).Error

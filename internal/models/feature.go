@@ -35,7 +35,6 @@ func (obj *_FeatureMgr) Gets() (results []*Feature, err error) {
 	return
 }
 
-
 func (obj *_FeatureMgr) WithIDFeature(idFeature uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_feature"] = idFeature })
 }
@@ -70,7 +69,6 @@ func (obj *_FeatureMgr) GetByOptions(opts ...Option) (results []*Feature, err er
 	return
 }
 
-
 func (obj *_FeatureMgr) GetFromIDFeature(idFeature uint32) (result Feature, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_feature = ?", idFeature).Find(&result).Error
 
@@ -94,7 +92,6 @@ func (obj *_FeatureMgr) GetBatchFromPosition(positions []uint32) (results []*Fea
 
 	return
 }
-
 
 func (obj *_FeatureMgr) FetchByPrimaryKey(idFeature uint32) (result Feature, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_feature = ?", idFeature).Find(&result).Error

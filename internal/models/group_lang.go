@@ -35,7 +35,6 @@ func (obj *_GroupLangMgr) Gets() (results []*GroupLang, err error) {
 	return
 }
 
-
 func (obj *_GroupLangMgr) WithIDGroup(idGroup uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_group"] = idGroup })
 }
@@ -74,7 +73,6 @@ func (obj *_GroupLangMgr) GetByOptions(opts ...Option) (results []*GroupLang, er
 	return
 }
 
-
 func (obj *_GroupLangMgr) GetFromIDGroup(idGroup uint32) (results []*GroupLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_group = ?", idGroup).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_GroupLangMgr) GetBatchFromName(names []string) (results []*GroupLang
 
 	return
 }
-
 
 func (obj *_GroupLangMgr) FetchByPrimaryKey(idGroup uint32, idLang uint32) (result GroupLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_group = ? AND id_lang = ?", idGroup, idLang).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_RequestSQLMgr) Gets() (results []*RequestSQL, err error) {
 	return
 }
 
-
 func (obj *_RequestSQLMgr) WithIDRequestSQL(idRequestSQL int) Option {
 	return optionFunc(func(o *options) { o.query["id_request_sql"] = idRequestSQL })
 }
@@ -74,7 +73,6 @@ func (obj *_RequestSQLMgr) GetByOptions(opts ...Option) (results []*RequestSQL, 
 	return
 }
 
-
 func (obj *_RequestSQLMgr) GetFromIDRequestSQL(idRequestSQL int) (result RequestSQL, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_request_sql = ?", idRequestSQL).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_RequestSQLMgr) GetBatchFromSQL(sqls []string) (results []*RequestSQL
 
 	return
 }
-
 
 func (obj *_RequestSQLMgr) FetchByPrimaryKey(idRequestSQL int) (result RequestSQL, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_request_sql = ?", idRequestSQL).Find(&result).Error

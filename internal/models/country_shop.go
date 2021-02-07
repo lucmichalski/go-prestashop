@@ -35,7 +35,6 @@ func (obj *_CountryShopMgr) Gets() (results []*CountryShop, err error) {
 	return
 }
 
-
 func (obj *_CountryShopMgr) WithIDCountry(idCountry uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_country"] = idCountry })
 }
@@ -70,7 +69,6 @@ func (obj *_CountryShopMgr) GetByOptions(opts ...Option) (results []*CountryShop
 	return
 }
 
-
 func (obj *_CountryShopMgr) GetFromIDCountry(idCountry uint32) (results []*CountryShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_country = ?", idCountry).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_CountryShopMgr) GetBatchFromIDShop(idShops []uint32) (results []*Cou
 
 	return
 }
-
 
 func (obj *_CountryShopMgr) FetchByPrimaryKey(idCountry uint32, idShop uint32) (result CountryShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_country = ? AND id_shop = ?", idCountry, idShop).Find(&result).Error

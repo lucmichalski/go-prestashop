@@ -35,7 +35,6 @@ func (obj *_LayeredIndexableFeatureValueLangValueMgr) Gets() (results []*Layered
 	return
 }
 
-
 func (obj *_LayeredIndexableFeatureValueLangValueMgr) WithIDFeatureValue(idFeatureValue int) Option {
 	return optionFunc(func(o *options) { o.query["id_feature_value"] = idFeatureValue })
 }
@@ -77,7 +76,6 @@ func (obj *_LayeredIndexableFeatureValueLangValueMgr) GetByOptions(opts ...Optio
 
 	return
 }
-
 
 func (obj *_LayeredIndexableFeatureValueLangValueMgr) GetFromIDFeatureValue(idFeatureValue int) (results []*LayeredIndexableFeatureValueLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_feature_value = ?", idFeatureValue).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_LayeredIndexableFeatureValueLangValueMgr) GetBatchFromMetaTitle(meta
 
 	return
 }
-
 
 func (obj *_LayeredIndexableFeatureValueLangValueMgr) FetchByPrimaryKey(idFeatureValue int, idLang int) (result LayeredIndexableFeatureValueLangValue, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_feature_value = ? AND id_lang = ?", idFeatureValue, idLang).Find(&result).Error

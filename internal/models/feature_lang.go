@@ -35,7 +35,6 @@ func (obj *_FeatureLangMgr) Gets() (results []*FeatureLang, err error) {
 	return
 }
 
-
 func (obj *_FeatureLangMgr) WithIDFeature(idFeature uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_feature"] = idFeature })
 }
@@ -74,7 +73,6 @@ func (obj *_FeatureLangMgr) GetByOptions(opts ...Option) (results []*FeatureLang
 	return
 }
 
-
 func (obj *_FeatureLangMgr) GetFromIDFeature(idFeature uint32) (results []*FeatureLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_feature = ?", idFeature).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_FeatureLangMgr) GetBatchFromName(names []string) (results []*Feature
 
 	return
 }
-
 
 func (obj *_FeatureLangMgr) FetchByPrimaryKey(idFeature uint32, idLang uint32) (result FeatureLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_feature = ? AND id_lang = ?", idFeature, idLang).Find(&result).Error

@@ -36,7 +36,6 @@ func (obj *_SupplyOrderReceiptHistoryMgr) Gets() (results []*SupplyOrderReceiptH
 	return
 }
 
-
 func (obj *_SupplyOrderReceiptHistoryMgr) WithIDSupplyOrderReceiptHistory(idSupplyOrderReceiptHistory uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_supply_order_receipt_history"] = idSupplyOrderReceiptHistory })
 }
@@ -94,7 +93,6 @@ func (obj *_SupplyOrderReceiptHistoryMgr) GetByOptions(opts ...Option) (results 
 
 	return
 }
-
 
 func (obj *_SupplyOrderReceiptHistoryMgr) GetFromIDSupplyOrderReceiptHistory(idSupplyOrderReceiptHistory uint32) (result SupplyOrderReceiptHistory, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_supply_order_receipt_history = ?", idSupplyOrderReceiptHistory).Find(&result).Error
@@ -191,7 +189,6 @@ func (obj *_SupplyOrderReceiptHistoryMgr) GetBatchFromDateAdd(dateAdds []time.Ti
 
 	return
 }
-
 
 func (obj *_SupplyOrderReceiptHistoryMgr) FetchByPrimaryKey(idSupplyOrderReceiptHistory uint32) (result SupplyOrderReceiptHistory, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_supply_order_receipt_history = ?", idSupplyOrderReceiptHistory).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_TaxMgr) Gets() (results []*Tax, err error) {
 	return
 }
 
-
 func (obj *_TaxMgr) WithIDTax(idTax uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_tax"] = idTax })
 }
@@ -77,7 +76,6 @@ func (obj *_TaxMgr) GetByOptions(opts ...Option) (results []*Tax, err error) {
 
 	return
 }
-
 
 func (obj *_TaxMgr) GetFromIDTax(idTax uint32) (result Tax, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tax = ?", idTax).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_TaxMgr) GetBatchFromDeleted(deleteds []bool) (results []*Tax, err er
 
 	return
 }
-
 
 func (obj *_TaxMgr) FetchByPrimaryKey(idTax uint32) (result Tax, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tax = ?", idTax).Find(&result).Error

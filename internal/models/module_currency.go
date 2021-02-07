@@ -35,7 +35,6 @@ func (obj *_ModuleCurrencyMgr) Gets() (results []*ModuleCurrency, err error) {
 	return
 }
 
-
 func (obj *_ModuleCurrencyMgr) WithIDModule(idModule uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_module"] = idModule })
 }
@@ -74,7 +73,6 @@ func (obj *_ModuleCurrencyMgr) GetByOptions(opts ...Option) (results []*ModuleCu
 	return
 }
 
-
 func (obj *_ModuleCurrencyMgr) GetFromIDModule(idModule uint32) (results []*ModuleCurrency, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_module = ?", idModule).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_ModuleCurrencyMgr) GetBatchFromIDCurrency(idCurrencys []int) (result
 
 	return
 }
-
 
 func (obj *_ModuleCurrencyMgr) FetchByPrimaryKey(idModule uint32, idShop uint32, idCurrency int) (result ModuleCurrency, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_module = ? AND id_shop = ? AND id_currency = ?", idModule, idShop, idCurrency).Find(&result).Error

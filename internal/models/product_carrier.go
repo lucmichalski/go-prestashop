@@ -35,7 +35,6 @@ func (obj *_ProductCarrierMgr) Gets() (results []*ProductCarrier, err error) {
 	return
 }
 
-
 func (obj *_ProductCarrierMgr) WithIDProduct(idProduct uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product"] = idProduct })
 }
@@ -74,7 +73,6 @@ func (obj *_ProductCarrierMgr) GetByOptions(opts ...Option) (results []*ProductC
 	return
 }
 
-
 func (obj *_ProductCarrierMgr) GetFromIDProduct(idProduct uint32) (results []*ProductCarrier, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ?", idProduct).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_ProductCarrierMgr) GetBatchFromIDShop(idShops []uint32) (results []*
 
 	return
 }
-
 
 func (obj *_ProductCarrierMgr) FetchByPrimaryKey(idProduct uint32, idCarrierReference uint32, idShop uint32) (result ProductCarrier, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ? AND id_carrier_reference = ? AND id_shop = ?", idProduct, idCarrierReference, idShop).Find(&result).Error

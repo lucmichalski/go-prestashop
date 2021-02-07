@@ -35,7 +35,6 @@ func (obj *_LayeredFilterShopMgr) Gets() (results []*LayeredFilterShop, err erro
 	return
 }
 
-
 func (obj *_LayeredFilterShopMgr) WithIDLayeredFilter(idLayeredFilter uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_layered_filter"] = idLayeredFilter })
 }
@@ -70,7 +69,6 @@ func (obj *_LayeredFilterShopMgr) GetByOptions(opts ...Option) (results []*Layer
 	return
 }
 
-
 func (obj *_LayeredFilterShopMgr) GetFromIDLayeredFilter(idLayeredFilter uint32) (results []*LayeredFilterShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_layered_filter = ?", idLayeredFilter).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_LayeredFilterShopMgr) GetBatchFromIDShop(idShops []uint32) (results 
 
 	return
 }
-
 
 func (obj *_LayeredFilterShopMgr) FetchByPrimaryKey(idLayeredFilter uint32, idShop uint32) (result LayeredFilterShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_layered_filter = ? AND id_shop = ?", idLayeredFilter, idShop).Find(&result).Error

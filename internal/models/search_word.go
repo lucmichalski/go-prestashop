@@ -35,7 +35,6 @@ func (obj *_SearchWordMgr) Gets() (results []*SearchWord, err error) {
 	return
 }
 
-
 func (obj *_SearchWordMgr) WithIDWord(idWord uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_word"] = idWord })
 }
@@ -77,7 +76,6 @@ func (obj *_SearchWordMgr) GetByOptions(opts ...Option) (results []*SearchWord, 
 
 	return
 }
-
 
 func (obj *_SearchWordMgr) GetFromIDWord(idWord uint32) (result SearchWord, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_word = ?", idWord).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_SearchWordMgr) GetBatchFromWord(words []string) (results []*SearchWo
 
 	return
 }
-
 
 func (obj *_SearchWordMgr) FetchByPrimaryKey(idWord uint32) (result SearchWord, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_word = ?", idWord).Find(&result).Error

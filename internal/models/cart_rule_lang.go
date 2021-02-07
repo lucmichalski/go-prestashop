@@ -35,7 +35,6 @@ func (obj *_CartRuleLangMgr) Gets() (results []*CartRuleLang, err error) {
 	return
 }
 
-
 func (obj *_CartRuleLangMgr) WithIDCartRule(idCartRule uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_cart_rule"] = idCartRule })
 }
@@ -74,7 +73,6 @@ func (obj *_CartRuleLangMgr) GetByOptions(opts ...Option) (results []*CartRuleLa
 	return
 }
 
-
 func (obj *_CartRuleLangMgr) GetFromIDCartRule(idCartRule uint32) (results []*CartRuleLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cart_rule = ?", idCartRule).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_CartRuleLangMgr) GetBatchFromName(names []string) (results []*CartRu
 
 	return
 }
-
 
 func (obj *_CartRuleLangMgr) FetchByPrimaryKey(idCartRule uint32, idLang uint32) (result CartRuleLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cart_rule = ? AND id_lang = ?", idCartRule, idLang).Find(&result).Error

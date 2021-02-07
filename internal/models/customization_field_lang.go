@@ -35,7 +35,6 @@ func (obj *_CustomizationFieldLangMgr) Gets() (results []*CustomizationFieldLang
 	return
 }
 
-
 func (obj *_CustomizationFieldLangMgr) WithIDCustomizationField(idCustomizationField uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_customization_field"] = idCustomizationField })
 }
@@ -77,7 +76,6 @@ func (obj *_CustomizationFieldLangMgr) GetByOptions(opts ...Option) (results []*
 
 	return
 }
-
 
 func (obj *_CustomizationFieldLangMgr) GetFromIDCustomizationField(idCustomizationField uint32) (results []*CustomizationFieldLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customization_field = ?", idCustomizationField).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_CustomizationFieldLangMgr) GetBatchFromName(names []string) (results
 
 	return
 }
-
 
 func (obj *_CustomizationFieldLangMgr) FetchByPrimaryKey(idCustomizationField uint32, idLang uint32, idShop uint32) (result CustomizationFieldLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customization_field = ? AND id_lang = ? AND id_shop = ?", idCustomizationField, idLang, idShop).Find(&result).Error

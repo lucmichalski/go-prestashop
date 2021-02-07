@@ -35,7 +35,6 @@ func (obj *_OrderInvoiceTaxMgr) Gets() (results []*OrderInvoiceTax, err error) {
 	return
 }
 
-
 func (obj *_OrderInvoiceTaxMgr) WithIDOrderInvoice(idOrderInvoice int) Option {
 	return optionFunc(func(o *options) { o.query["id_order_invoice"] = idOrderInvoice })
 }
@@ -77,7 +76,6 @@ func (obj *_OrderInvoiceTaxMgr) GetByOptions(opts ...Option) (results []*OrderIn
 
 	return
 }
-
 
 func (obj *_OrderInvoiceTaxMgr) GetFromIDOrderInvoice(idOrderInvoice int) (results []*OrderInvoiceTax, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_invoice = ?", idOrderInvoice).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_OrderInvoiceTaxMgr) GetBatchFromAmount(amounts []float64) (results [
 
 	return
 }
-
 
 func (obj *_OrderInvoiceTaxMgr) FetchIndexByIDTax(idTax int) (results []*OrderInvoiceTax, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tax = ?", idTax).Find(&results).Error

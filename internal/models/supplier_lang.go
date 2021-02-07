@@ -35,7 +35,6 @@ func (obj *_SupplierLangMgr) Gets() (results []*SupplierLang, err error) {
 	return
 }
 
-
 func (obj *_SupplierLangMgr) WithIDSupplier(idSupplier uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_supplier"] = idSupplier })
 }
@@ -85,7 +84,6 @@ func (obj *_SupplierLangMgr) GetByOptions(opts ...Option) (results []*SupplierLa
 
 	return
 }
-
 
 func (obj *_SupplierLangMgr) GetFromIDSupplier(idSupplier uint32) (results []*SupplierLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_supplier = ?", idSupplier).Find(&results).Error
@@ -158,7 +156,6 @@ func (obj *_SupplierLangMgr) GetBatchFromMetaDescription(metaDescriptions []stri
 
 	return
 }
-
 
 func (obj *_SupplierLangMgr) FetchByPrimaryKey(idSupplier uint32, idLang uint32) (result SupplierLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_supplier = ? AND id_lang = ?", idSupplier, idLang).Find(&result).Error

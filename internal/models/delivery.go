@@ -35,7 +35,6 @@ func (obj *_DeliveryMgr) Gets() (results []*Delivery, err error) {
 	return
 }
 
-
 func (obj *_DeliveryMgr) WithIDDelivery(idDelivery uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_delivery"] = idDelivery })
 }
@@ -93,7 +92,6 @@ func (obj *_DeliveryMgr) GetByOptions(opts ...Option) (results []*Delivery, err 
 
 	return
 }
-
 
 func (obj *_DeliveryMgr) GetFromIDDelivery(idDelivery uint32) (result Delivery, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_delivery = ?", idDelivery).Find(&result).Error
@@ -190,7 +188,6 @@ func (obj *_DeliveryMgr) GetBatchFromPrice(prices []float64) (results []*Deliver
 
 	return
 }
-
 
 func (obj *_DeliveryMgr) FetchByPrimaryKey(idDelivery uint32) (result Delivery, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_delivery = ?", idDelivery).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_PageMgr) Gets() (results []*Page, err error) {
 	return
 }
 
-
 func (obj *_PageMgr) WithIDPage(idPage uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_page"] = idPage })
 }
@@ -74,7 +73,6 @@ func (obj *_PageMgr) GetByOptions(opts ...Option) (results []*Page, err error) {
 	return
 }
 
-
 func (obj *_PageMgr) GetFromIDPage(idPage uint32) (result Page, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_page = ?", idPage).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_PageMgr) GetBatchFromIDObject(idObjects []uint32) (results []*Page, 
 
 	return
 }
-
 
 func (obj *_PageMgr) FetchByPrimaryKey(idPage uint32) (result Page, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_page = ?", idPage).Find(&result).Error

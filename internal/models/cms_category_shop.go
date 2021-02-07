@@ -35,7 +35,6 @@ func (obj *_CmsCategoryShopMgr) Gets() (results []*CmsCategoryShop, err error) {
 	return
 }
 
-
 func (obj *_CmsCategoryShopMgr) WithIDCmsCategory(idCmsCategory uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_cms_category"] = idCmsCategory })
 }
@@ -70,7 +69,6 @@ func (obj *_CmsCategoryShopMgr) GetByOptions(opts ...Option) (results []*CmsCate
 	return
 }
 
-
 func (obj *_CmsCategoryShopMgr) GetFromIDCmsCategory(idCmsCategory uint32) (results []*CmsCategoryShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cms_category = ?", idCmsCategory).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_CmsCategoryShopMgr) GetBatchFromIDShop(idShops []uint32) (results []
 
 	return
 }
-
 
 func (obj *_CmsCategoryShopMgr) FetchByPrimaryKey(idCmsCategory uint32, idShop uint32) (result CmsCategoryShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cms_category = ? AND id_shop = ?", idCmsCategory, idShop).Find(&result).Error

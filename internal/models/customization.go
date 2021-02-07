@@ -35,7 +35,6 @@ func (obj *_CustomizationMgr) Gets() (results []*Customization, err error) {
 	return
 }
 
-
 func (obj *_CustomizationMgr) WithIDCustomization(idCustomization uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_customization"] = idCustomization })
 }
@@ -97,7 +96,6 @@ func (obj *_CustomizationMgr) GetByOptions(opts ...Option) (results []*Customiza
 
 	return
 }
-
 
 func (obj *_CustomizationMgr) GetFromIDCustomization(idCustomization uint32) (results []*Customization, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customization = ?", idCustomization).Find(&results).Error
@@ -206,7 +204,6 @@ func (obj *_CustomizationMgr) GetBatchFromInCart(inCarts []bool) (results []*Cus
 
 	return
 }
-
 
 func (obj *_CustomizationMgr) FetchByPrimaryKey(idCustomization uint32, idAddressDelivery uint32, idCart uint32, idProduct int) (result Customization, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customization = ? AND id_address_delivery = ? AND id_cart = ? AND id_product = ?", idCustomization, idAddressDelivery, idCart, idProduct).Find(&result).Error

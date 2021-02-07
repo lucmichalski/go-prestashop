@@ -36,7 +36,6 @@ func (obj *_ReferrerMgr) Gets() (results []*Referrer, err error) {
 	return
 }
 
-
 func (obj *_ReferrerMgr) WithIDReferrer(idReferrer uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_referrer"] = idReferrer })
 }
@@ -122,7 +121,6 @@ func (obj *_ReferrerMgr) GetByOptions(opts ...Option) (results []*Referrer, err 
 
 	return
 }
-
 
 func (obj *_ReferrerMgr) GetFromIDReferrer(idReferrer uint32) (result Referrer, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_referrer = ?", idReferrer).Find(&result).Error
@@ -303,7 +301,6 @@ func (obj *_ReferrerMgr) GetBatchFromDateAdd(dateAdds []time.Time) (results []*R
 
 	return
 }
-
 
 func (obj *_ReferrerMgr) FetchByPrimaryKey(idReferrer uint32) (result Referrer, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_referrer = ?", idReferrer).Find(&result).Error

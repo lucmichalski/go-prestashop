@@ -35,7 +35,6 @@ func (obj *_PscheckoutOrderMatriceMgr) Gets() (results []*PscheckoutOrderMatrice
 	return
 }
 
-
 func (obj *_PscheckoutOrderMatriceMgr) WithIDOrderMatrice(idOrderMatrice uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_order_matrice"] = idOrderMatrice })
 }
@@ -74,7 +73,6 @@ func (obj *_PscheckoutOrderMatriceMgr) GetByOptions(opts ...Option) (results []*
 	return
 }
 
-
 func (obj *_PscheckoutOrderMatriceMgr) GetFromIDOrderMatrice(idOrderMatrice uint32) (result PscheckoutOrderMatrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_matrice = ?", idOrderMatrice).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_PscheckoutOrderMatriceMgr) GetBatchFromIDOrderPaypal(idOrderPaypals 
 
 	return
 }
-
 
 func (obj *_PscheckoutOrderMatriceMgr) FetchByPrimaryKey(idOrderMatrice uint32) (result PscheckoutOrderMatrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_matrice = ?", idOrderMatrice).Find(&result).Error

@@ -6,7 +6,7 @@ import (
 
 // OrderCarrier was generated 2021-02-06 11:40:27 by evolutive on eg-cdn.gsi-network.com.
 type OrderCarrier struct {
-	XMLName xml.Name `xml:"order_carrier"`
+	XMLName xml.Name `xml:"entity_order_carrier"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

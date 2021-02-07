@@ -35,7 +35,6 @@ func (obj *_CustomerSessionMgr) Gets() (results []*CustomerSession, err error) {
 	return
 }
 
-
 func (obj *_CustomerSessionMgr) WithIDCustomerSession(idCustomerSession uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_customer_session"] = idCustomerSession })
 }
@@ -74,7 +73,6 @@ func (obj *_CustomerSessionMgr) GetByOptions(opts ...Option) (results []*Custome
 	return
 }
 
-
 func (obj *_CustomerSessionMgr) GetFromIDCustomerSession(idCustomerSession uint32) (result CustomerSession, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customer_session = ?", idCustomerSession).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_CustomerSessionMgr) GetBatchFromToken(tokens []string) (results []*C
 
 	return
 }
-
 
 func (obj *_CustomerSessionMgr) FetchByPrimaryKey(idCustomerSession uint32) (result CustomerSession, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customer_session = ?", idCustomerSession).Find(&result).Error

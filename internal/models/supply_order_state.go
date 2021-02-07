@@ -35,7 +35,6 @@ func (obj *_SupplyOrderStateMgr) Gets() (results []*SupplyOrderState, err error)
 	return
 }
 
-
 func (obj *_SupplyOrderStateMgr) WithIDSupplyOrderState(idSupplyOrderState uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_supply_order_state"] = idSupplyOrderState })
 }
@@ -89,7 +88,6 @@ func (obj *_SupplyOrderStateMgr) GetByOptions(opts ...Option) (results []*Supply
 
 	return
 }
-
 
 func (obj *_SupplyOrderStateMgr) GetFromIDSupplyOrderState(idSupplyOrderState uint32) (result SupplyOrderState, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_supply_order_state = ?", idSupplyOrderState).Find(&result).Error
@@ -174,7 +172,6 @@ func (obj *_SupplyOrderStateMgr) GetBatchFromColor(colors []string) (results []*
 
 	return
 }
-
 
 func (obj *_SupplyOrderStateMgr) FetchByPrimaryKey(idSupplyOrderState uint32) (result SupplyOrderState, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_supply_order_state = ?", idSupplyOrderState).Find(&result).Error

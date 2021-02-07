@@ -36,7 +36,6 @@ func (obj *_CustomerMessageMgr) Gets() (results []*CustomerMessage, err error) {
 	return
 }
 
-
 func (obj *_CustomerMessageMgr) WithIDCustomerMessage(idCustomerMessage uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_customer_message"] = idCustomerMessage })
 }
@@ -106,7 +105,6 @@ func (obj *_CustomerMessageMgr) GetByOptions(opts ...Option) (results []*Custome
 
 	return
 }
-
 
 func (obj *_CustomerMessageMgr) GetFromIDCustomerMessage(idCustomerMessage uint32) (result CustomerMessage, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customer_message = ?", idCustomerMessage).Find(&result).Error
@@ -239,7 +237,6 @@ func (obj *_CustomerMessageMgr) GetBatchFromRead(reads []bool) (results []*Custo
 
 	return
 }
-
 
 func (obj *_CustomerMessageMgr) FetchByPrimaryKey(idCustomerMessage uint32) (result CustomerMessage, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customer_message = ?", idCustomerMessage).Find(&result).Error

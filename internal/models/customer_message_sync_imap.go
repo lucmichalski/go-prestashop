@@ -35,7 +35,6 @@ func (obj *_CustomerMessageSyncImapMgr) Gets() (results []*CustomerMessageSyncIm
 	return
 }
 
-
 func (obj *_CustomerMessageSyncImapMgr) WithMd5Header(md5Header []byte) Option {
 	return optionFunc(func(o *options) { o.query["md5_header"] = md5Header })
 }
@@ -66,7 +65,6 @@ func (obj *_CustomerMessageSyncImapMgr) GetByOptions(opts ...Option) (results []
 	return
 }
 
-
 func (obj *_CustomerMessageSyncImapMgr) GetFromMd5Header(md5Header []byte) (results []*CustomerMessageSyncImap, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("md5_header = ?", md5Header).Find(&results).Error
 
@@ -78,7 +76,6 @@ func (obj *_CustomerMessageSyncImapMgr) GetBatchFromMd5Header(md5Headers [][]byt
 
 	return
 }
-
 
 func (obj *_CustomerMessageSyncImapMgr) FetchIndexByMd5HeaderIndex(md5Header []byte) (results []*CustomerMessageSyncImap, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("md5_header = ?", md5Header).Find(&results).Error

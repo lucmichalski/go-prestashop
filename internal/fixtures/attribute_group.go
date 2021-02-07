@@ -6,7 +6,7 @@ import (
 
 // AttributeGroup was generated 2021-02-06 11:37:27 by evolutive on eg-cdn.gsi-network.com.
 type AttributeGroup struct {
-	XMLName xml.Name `xml:"attribute_group"`
+	XMLName xml.Name `xml:"entity_attribute_group"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

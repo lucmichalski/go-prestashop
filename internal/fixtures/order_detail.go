@@ -6,7 +6,7 @@ import (
 
 // OrderDetail was generated 2021-02-06 11:38:30 by evolutive on eg-cdn.gsi-network.com.
 type OrderDetail struct {
-	XMLName xml.Name `xml:"order_detail"`
+	XMLName xml.Name `xml:"entity_order_detail"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

@@ -35,7 +35,6 @@ func (obj *_SearchIndexMgr) Gets() (results []*SearchIndex, err error) {
 	return
 }
 
-
 func (obj *_SearchIndexMgr) WithIDProduct(idProduct uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product"] = idProduct })
 }
@@ -74,7 +73,6 @@ func (obj *_SearchIndexMgr) GetByOptions(opts ...Option) (results []*SearchIndex
 	return
 }
 
-
 func (obj *_SearchIndexMgr) GetFromIDProduct(idProduct uint32) (results []*SearchIndex, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ?", idProduct).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_SearchIndexMgr) GetBatchFromWeight(weights []uint16) (results []*Sea
 
 	return
 }
-
 
 func (obj *_SearchIndexMgr) FetchByPrimaryKey(idProduct uint32, idWord uint32) (result SearchIndex, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ? AND id_word = ?", idProduct, idWord).Find(&result).Error

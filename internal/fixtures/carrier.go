@@ -6,7 +6,7 @@ import (
 
 // Carrier was generated 2021-02-06 11:38:40 by evolutive on eg-cdn.gsi-network.com.
 type Carrier struct {
-	XMLName xml.Name `xml:"carrier"`
+	XMLName xml.Name `xml:"entity_carrier"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`
@@ -26,7 +26,7 @@ type Carrier struct {
 			IDReference      string `xml:"id_reference,attr"`
 			Active           string `xml:"active,attr"`
 			ShippingHandling string `xml:"shipping_handling,attr"`
-			RangeBehaviour   string `xml:"range_behaviour,attr"`
+			// RangeBehaviour   string `xml:"range_behaviour,attr"`
 			IsFree           string `xml:"is_free,attr"`
 			ShippingExternal string `xml:"shipping_external,attr"`
 			NeedRange        string `xml:"need_range,attr"`

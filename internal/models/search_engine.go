@@ -35,7 +35,6 @@ func (obj *_SearchEngineMgr) Gets() (results []*SearchEngine, err error) {
 	return
 }
 
-
 func (obj *_SearchEngineMgr) WithIDSearchEngine(idSearchEngine uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_search_engine"] = idSearchEngine })
 }
@@ -74,7 +73,6 @@ func (obj *_SearchEngineMgr) GetByOptions(opts ...Option) (results []*SearchEngi
 	return
 }
 
-
 func (obj *_SearchEngineMgr) GetFromIDSearchEngine(idSearchEngine uint32) (result SearchEngine, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_search_engine = ?", idSearchEngine).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_SearchEngineMgr) GetBatchFromGetvar(getvars []string) (results []*Se
 
 	return
 }
-
 
 func (obj *_SearchEngineMgr) FetchByPrimaryKey(idSearchEngine uint32) (result SearchEngine, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_search_engine = ?", idSearchEngine).Find(&result).Error

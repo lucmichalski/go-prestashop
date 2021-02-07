@@ -35,7 +35,6 @@ func (obj *_InfoMgr) Gets() (results []*Info, err error) {
 	return
 }
 
-
 func (obj *_InfoMgr) WithIDInfo(idInfo uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_info"] = idInfo })
 }
@@ -66,7 +65,6 @@ func (obj *_InfoMgr) GetByOptions(opts ...Option) (results []*Info, err error) {
 	return
 }
 
-
 func (obj *_InfoMgr) GetFromIDInfo(idInfo uint32) (result Info, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_info = ?", idInfo).Find(&result).Error
 
@@ -78,7 +76,6 @@ func (obj *_InfoMgr) GetBatchFromIDInfo(idInfos []uint32) (results []*Info, err 
 
 	return
 }
-
 
 func (obj *_InfoMgr) FetchByPrimaryKey(idInfo uint32) (result Info, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_info = ?", idInfo).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_CartRuleCombinationMgr) Gets() (results []*CartRuleCombination, err 
 	return
 }
 
-
 func (obj *_CartRuleCombinationMgr) WithIDCartRule1(idCartRule1 uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_cart_rule_1"] = idCartRule1 })
 }
@@ -70,7 +69,6 @@ func (obj *_CartRuleCombinationMgr) GetByOptions(opts ...Option) (results []*Car
 	return
 }
 
-
 func (obj *_CartRuleCombinationMgr) GetFromIDCartRule1(idCartRule1 uint32) (results []*CartRuleCombination, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cart_rule_1 = ?", idCartRule1).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_CartRuleCombinationMgr) GetBatchFromIDCartRule2(idCartRule2s []uint3
 
 	return
 }
-
 
 func (obj *_CartRuleCombinationMgr) FetchByPrimaryKey(idCartRule1 uint32, idCartRule2 uint32) (result CartRuleCombination, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cart_rule_1 = ? AND id_cart_rule_2 = ?", idCartRule1, idCartRule2).Find(&result).Error

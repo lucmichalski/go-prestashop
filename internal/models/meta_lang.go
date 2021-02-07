@@ -35,7 +35,6 @@ func (obj *_MetaLangMgr) Gets() (results []*MetaLang, err error) {
 	return
 }
 
-
 func (obj *_MetaLangMgr) WithIDMeta(idMeta uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_meta"] = idMeta })
 }
@@ -89,7 +88,6 @@ func (obj *_MetaLangMgr) GetByOptions(opts ...Option) (results []*MetaLang, err 
 
 	return
 }
-
 
 func (obj *_MetaLangMgr) GetFromIDMeta(idMeta uint32) (results []*MetaLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_meta = ?", idMeta).Find(&results).Error
@@ -174,7 +172,6 @@ func (obj *_MetaLangMgr) GetBatchFromURLRewrite(urlRewrites []string) (results [
 
 	return
 }
-
 
 func (obj *_MetaLangMgr) FetchByPrimaryKey(idMeta uint32, idShop uint32, idLang uint32) (result MetaLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_meta = ? AND id_shop = ? AND id_lang = ?", idMeta, idShop, idLang).Find(&result).Error

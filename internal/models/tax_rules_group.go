@@ -36,7 +36,6 @@ func (obj *_TaxRulesGroupMgr) Gets() (results []*TaxRulesGroup, err error) {
 	return
 }
 
-
 func (obj *_TaxRulesGroupMgr) WithIDTaxRulesGroup(idTaxRulesGroup int) Option {
 	return optionFunc(func(o *options) { o.query["id_tax_rules_group"] = idTaxRulesGroup })
 }
@@ -86,7 +85,6 @@ func (obj *_TaxRulesGroupMgr) GetByOptions(opts ...Option) (results []*TaxRulesG
 
 	return
 }
-
 
 func (obj *_TaxRulesGroupMgr) GetFromIDTaxRulesGroup(idTaxRulesGroup int) (result TaxRulesGroup, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tax_rules_group = ?", idTaxRulesGroup).Find(&result).Error
@@ -159,7 +157,6 @@ func (obj *_TaxRulesGroupMgr) GetBatchFromDateUpd(dateUpds []time.Time) (results
 
 	return
 }
-
 
 func (obj *_TaxRulesGroupMgr) FetchByPrimaryKey(idTaxRulesGroup int) (result TaxRulesGroup, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tax_rules_group = ?", idTaxRulesGroup).Find(&result).Error

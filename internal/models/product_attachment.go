@@ -35,7 +35,6 @@ func (obj *_ProductAttachmentMgr) Gets() (results []*ProductAttachment, err erro
 	return
 }
 
-
 func (obj *_ProductAttachmentMgr) WithIDProduct(idProduct uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_product"] = idProduct })
 }
@@ -70,7 +69,6 @@ func (obj *_ProductAttachmentMgr) GetByOptions(opts ...Option) (results []*Produ
 	return
 }
 
-
 func (obj *_ProductAttachmentMgr) GetFromIDProduct(idProduct uint32) (results []*ProductAttachment, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ?", idProduct).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_ProductAttachmentMgr) GetBatchFromIDAttachment(idAttachments []uint3
 
 	return
 }
-
 
 func (obj *_ProductAttachmentMgr) FetchByPrimaryKey(idProduct uint32, idAttachment uint32) (result ProductAttachment, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ? AND id_attachment = ?", idProduct, idAttachment).Find(&result).Error

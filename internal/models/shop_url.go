@@ -35,7 +35,6 @@ func (obj *_ShopURLMgr) Gets() (results []*ShopURL, err error) {
 	return
 }
 
-
 func (obj *_ShopURLMgr) WithIDShopURL(idShopURL uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_shop_url"] = idShopURL })
 }
@@ -93,7 +92,6 @@ func (obj *_ShopURLMgr) GetByOptions(opts ...Option) (results []*ShopURL, err er
 
 	return
 }
-
 
 func (obj *_ShopURLMgr) GetFromIDShopURL(idShopURL uint32) (result ShopURL, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_shop_url = ?", idShopURL).Find(&result).Error
@@ -190,7 +188,6 @@ func (obj *_ShopURLMgr) GetBatchFromActive(actives []bool) (results []*ShopURL, 
 
 	return
 }
-
 
 func (obj *_ShopURLMgr) FetchByPrimaryKey(idShopURL uint32) (result ShopURL, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_shop_url = ?", idShopURL).Find(&result).Error

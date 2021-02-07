@@ -6,7 +6,7 @@ import (
 
 // OrderHistory was generated 2021-02-06 11:37:30 by evolutive on eg-cdn.gsi-network.com.
 type OrderHistory struct {
-	XMLName xml.Name `xml:"order_history"`
+	XMLName xml.Name `xml:"entity_order_history"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

@@ -745,7 +745,7 @@ type Delivery struct {
 	Price         float64 `gorm:"column:price;type:decimal(20,6);not null"`
 }
 
-type Mailsubscription struct {
+type Emailsubscription struct {
 	ID                       int       `gorm:"primaryKey;column:id;type:int(6);not null"`
 	IDShop                   uint32    `gorm:"column:id_shop;type:int(10) unsigned;not null;default:1"`
 	IDShopGroup              uint32    `gorm:"column:id_shop_group;type:int(10) unsigned;not null;default:1"`
@@ -757,7 +757,7 @@ type Mailsubscription struct {
 	IDLang                   int       `gorm:"column:id_lang;type:int(10);not null;default:0"`
 }
 
-type Mployee struct {
+type Employee struct {
 	IDEmployee            uint32         `gorm:"primaryKey;index:id_employee_passwd;column:id_employee;type:int(10) unsigned;not null"`
 	IDProfile             uint32         `gorm:"index:id_profile;column:id_profile;type:int(10) unsigned;not null"`
 	IDLang                uint32         `gorm:"column:id_lang;type:int(10) unsigned;not null;default:0"`
@@ -788,13 +788,13 @@ type Mployee struct {
 	ResetPasswordValidity time.Time      `gorm:"column:reset_password_validity;type:datetime"`
 }
 
-type MployeeSession struct {
+type EmployeeSession struct {
 	IDEmployeeSession uint32 `gorm:"primaryKey;column:id_employee_session;type:int(11) unsigned;not null"`
 	IDEmployee        uint32 `gorm:"column:id_employee;type:int(10) unsigned"`
 	Token             string `gorm:"column:token;type:varchar(40)"`
 }
 
-type MployeeShop struct {
+type EmployeeShop struct {
 	IDEmployee uint32 `gorm:"primaryKey;column:id_employee;type:int(11) unsigned;not null"`
 	IDShop     uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
@@ -833,18 +833,18 @@ type FeatureValueLang struct {
 	Value          string `gorm:"column:value;type:varchar(255)"`
 }
 
-type Nder struct {
+type Gender struct {
 	IDGender int  `gorm:"primaryKey;column:id_gender;type:int(11);not null"`
 	Type     bool `gorm:"column:type;type:tinyint(1);not null"`
 }
 
-type NderLang struct {
+type GenderLang struct {
 	IDGender uint32 `gorm:"primaryKey;index:id_gender;column:id_gender;type:int(10) unsigned;not null"`
 	IDLang   uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
 	Name     string `gorm:"column:name;type:varchar(20);not null"`
 }
 
-type Roup struct {
+type Group struct {
 	IDGroup            uint32    `gorm:"primaryKey;column:id_group;type:int(10) unsigned;not null"`
 	Reduction          float64   `gorm:"column:reduction;type:decimal(5,2);not null;default:0.00"`
 	PriceDisplayMethod int8      `gorm:"column:price_display_method;type:tinyint(4);not null;default:0"`
@@ -853,30 +853,30 @@ type Roup struct {
 	DateUpd            time.Time `gorm:"column:date_upd;type:datetime;not null"`
 }
 
-type RoupLang struct {
+type GroupLang struct {
 	IDGroup uint32 `gorm:"primaryKey;column:id_group;type:int(10) unsigned;not null"`
 	IDLang  uint32 `gorm:"primaryKey;column:id_lang;type:int(10) unsigned;not null"`
 	Name    string `gorm:"column:name;type:varchar(32);not null"`
 }
 
-type RoupReduction struct {
+type GroupReduction struct {
 	IDGroupReduction string  `gorm:"primaryKey;column:id_group_reduction;type:mediumint(8) unsigned;not null"`
 	IDGroup          uint32  `gorm:"uniqueIndex:id_group;column:id_group;type:int(10) unsigned;not null"`
 	IDCategory       uint32  `gorm:"uniqueIndex:id_group;column:id_category;type:int(10) unsigned;not null"`
 	Reduction        float64 `gorm:"column:reduction;type:decimal(5,4);not null"`
 }
 
-type RoupShop struct {
+type GroupShop struct {
 	IDGroup uint32 `gorm:"primaryKey;column:id_group;type:int(11) unsigned;not null"`
 	IDShop  uint32 `gorm:"primaryKey;index:id_shop;column:id_shop;type:int(11) unsigned;not null"`
 }
 
-type SitemapSitemap struct {
+type GsitemapSitemap struct {
 	Link   string `gorm:"column:link;type:varchar(255)"`
 	IDShop int    `gorm:"column:id_shop;type:int(11);default:0"`
 }
 
-type Uest struct {
+type Guest struct {
 	IDGuest           uint32 `gorm:"primaryKey;column:id_guest;type:int(10) unsigned;not null"`
 	IDOperatingSystem uint32 `gorm:"index:id_operating_system;column:id_operating_system;type:int(10) unsigned"`
 	IDWebBrowser      uint32 `gorm:"index:id_web_browser;column:id_web_browser;type:int(10) unsigned"`

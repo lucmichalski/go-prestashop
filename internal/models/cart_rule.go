@@ -36,7 +36,6 @@ func (obj *_CartRuleMgr) Gets() (results []*CartRule, err error) {
 	return
 }
 
-
 func (obj *_CartRuleMgr) WithIDCartRule(idCartRule uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_cart_rule"] = idCartRule })
 }
@@ -194,7 +193,6 @@ func (obj *_CartRuleMgr) GetByOptions(opts ...Option) (results []*CartRule, err 
 
 	return
 }
-
 
 func (obj *_CartRuleMgr) GetFromIDCartRule(idCartRule uint32) (result CartRule, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cart_rule = ?", idCartRule).Find(&result).Error
@@ -591,7 +589,6 @@ func (obj *_CartRuleMgr) GetBatchFromDateUpd(dateUpds []time.Time) (results []*C
 
 	return
 }
-
 
 func (obj *_CartRuleMgr) FetchByPrimaryKey(idCartRule uint32) (result CartRule, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cart_rule = ?", idCartRule).Find(&result).Error

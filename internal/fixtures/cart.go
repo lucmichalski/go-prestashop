@@ -6,7 +6,7 @@ import (
 
 // Cart was generated 2021-02-06 11:37:27 by evolutive on eg-cdn.gsi-network.com.
 type Cart struct {
-	XMLName xml.Name `xml:"cart"`
+	XMLName xml.Name `xml:"entity_cart"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

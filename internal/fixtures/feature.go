@@ -6,7 +6,7 @@ import (
 
 // Feature was generated 2021-02-06 11:40:25 by evolutive on eg-cdn.gsi-network.com.
 type Feature struct {
-	XMLName xml.Name `xml:"feature"`
+	XMLName xml.Name `xml:"entity_feature"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

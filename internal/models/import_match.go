@@ -35,7 +35,6 @@ func (obj *_ImportMatchMgr) Gets() (results []*ImportMatch, err error) {
 	return
 }
 
-
 func (obj *_ImportMatchMgr) WithIDImportMatch(idImportMatch int) Option {
 	return optionFunc(func(o *options) { o.query["id_import_match"] = idImportMatch })
 }
@@ -77,7 +76,6 @@ func (obj *_ImportMatchMgr) GetByOptions(opts ...Option) (results []*ImportMatch
 
 	return
 }
-
 
 func (obj *_ImportMatchMgr) GetFromIDImportMatch(idImportMatch int) (result ImportMatch, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_import_match = ?", idImportMatch).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_ImportMatchMgr) GetBatchFromSkip(skips []int) (results []*ImportMatc
 
 	return
 }
-
 
 func (obj *_ImportMatchMgr) FetchByPrimaryKey(idImportMatch int) (result ImportMatch, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_import_match = ?", idImportMatch).Find(&result).Error

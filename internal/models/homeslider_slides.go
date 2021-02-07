@@ -35,7 +35,6 @@ func (obj *_HomesliderSlidesMgr) Gets() (results []*HomesliderSlides, err error)
 	return
 }
 
-
 func (obj *_HomesliderSlidesMgr) WithIDHomesliderSlides(idHomesliderSlides uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_homeslider_slides"] = idHomesliderSlides })
 }
@@ -74,7 +73,6 @@ func (obj *_HomesliderSlidesMgr) GetByOptions(opts ...Option) (results []*Homesl
 	return
 }
 
-
 func (obj *_HomesliderSlidesMgr) GetFromIDHomesliderSlides(idHomesliderSlides uint32) (result HomesliderSlides, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_homeslider_slides = ?", idHomesliderSlides).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_HomesliderSlidesMgr) GetBatchFromActive(actives []bool) (results []*
 
 	return
 }
-
 
 func (obj *_HomesliderSlidesMgr) FetchByPrimaryKey(idHomesliderSlides uint32) (result HomesliderSlides, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_homeslider_slides = ?", idHomesliderSlides).Find(&result).Error

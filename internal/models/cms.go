@@ -35,7 +35,6 @@ func (obj *_CmsMgr) Gets() (results []*Cms, err error) {
 	return
 }
 
-
 func (obj *_CmsMgr) WithIDCms(idCms uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_cms"] = idCms })
 }
@@ -81,7 +80,6 @@ func (obj *_CmsMgr) GetByOptions(opts ...Option) (results []*Cms, err error) {
 
 	return
 }
-
 
 func (obj *_CmsMgr) GetFromIDCms(idCms uint32) (result Cms, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cms = ?", idCms).Find(&result).Error
@@ -142,7 +140,6 @@ func (obj *_CmsMgr) GetBatchFromIndexation(indexations []bool) (results []*Cms, 
 
 	return
 }
-
 
 func (obj *_CmsMgr) FetchByPrimaryKey(idCms uint32) (result Cms, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_cms = ?", idCms).Find(&result).Error

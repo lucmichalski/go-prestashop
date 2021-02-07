@@ -35,7 +35,6 @@ func (obj *_CarrierZoneMgr) Gets() (results []*CarrierZone, err error) {
 	return
 }
 
-
 func (obj *_CarrierZoneMgr) WithIDCarrier(idCarrier uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_carrier"] = idCarrier })
 }
@@ -70,7 +69,6 @@ func (obj *_CarrierZoneMgr) GetByOptions(opts ...Option) (results []*CarrierZone
 	return
 }
 
-
 func (obj *_CarrierZoneMgr) GetFromIDCarrier(idCarrier uint32) (results []*CarrierZone, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_carrier = ?", idCarrier).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_CarrierZoneMgr) GetBatchFromIDZone(idZones []uint32) (results []*Car
 
 	return
 }
-
 
 func (obj *_CarrierZoneMgr) FetchByPrimaryKey(idCarrier uint32, idZone uint32) (result CarrierZone, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_carrier = ? AND id_zone = ?", idCarrier, idZone).Find(&result).Error

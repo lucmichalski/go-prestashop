@@ -35,7 +35,6 @@ func (obj *_BadgeLangMgr) Gets() (results []*BadgeLang, err error) {
 	return
 }
 
-
 func (obj *_BadgeLangMgr) WithIDBadge(idBadge int) Option {
 	return optionFunc(func(o *options) { o.query["id_badge"] = idBadge })
 }
@@ -81,7 +80,6 @@ func (obj *_BadgeLangMgr) GetByOptions(opts ...Option) (results []*BadgeLang, er
 
 	return
 }
-
 
 func (obj *_BadgeLangMgr) GetFromIDBadge(idBadge int) (results []*BadgeLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_badge = ?", idBadge).Find(&results).Error
@@ -142,7 +140,6 @@ func (obj *_BadgeLangMgr) GetBatchFromGroupName(groupNames []string) (results []
 
 	return
 }
-
 
 func (obj *_BadgeLangMgr) FetchByPrimaryKey(idBadge int, idLang int) (result BadgeLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_badge = ? AND id_lang = ?", idBadge, idLang).Find(&result).Error

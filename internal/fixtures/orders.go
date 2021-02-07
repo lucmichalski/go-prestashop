@@ -6,7 +6,7 @@ import (
 
 // Orders was generated 2021-02-06 11:40:15 by evolutive on eg-cdn.gsi-network.com.
 type Orders struct {
-	XMLName xml.Name `xml:"orders"`
+	XMLName xml.Name `xml:"entity_orders"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`
@@ -21,15 +21,15 @@ type Orders struct {
 	Entities struct {
 		Text   string `xml:",chardata"`
 		Orders []struct {
-			Text                  string `xml:",chardata"`
-			IDCart                string `xml:"id_cart,attr"`
-			IDCarrier             string `xml:"id_carrier,attr"`
-			IDCustomer            string `xml:"id_customer,attr"`
-			IDAddressDelivery     string `xml:"id_address_delivery,attr"`
-			IDAddressInvoice      string `xml:"id_address_invoice,attr"`
-			ID                    string `xml:"id,attr"`
-			IDOrder               string `xml:"id_order,attr"`
-			Name                  string `xml:"name,attr"`
+			Text              string `xml:",chardata"`
+			IDCart            string `xml:"id_cart,attr"`
+			IDCarrier         string `xml:"id_carrier,attr"`
+			IDCustomer        string `xml:"id_customer,attr"`
+			IDAddressDelivery string `xml:"id_address_delivery,attr"`
+			IDAddressInvoice  string `xml:"id_address_invoice,attr"`
+			ID                string `xml:"id,attr"`
+			IDOrder           string `xml:"id_order,attr"`
+			// Name                  string `xml:"name,attr"`
 			CurrentState          string `xml:"current_state,attr"`
 			SecureKey             string `xml:"secure_key,attr"`
 			Gift                  string `xml:"gift,attr"`

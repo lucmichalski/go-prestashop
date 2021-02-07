@@ -35,7 +35,6 @@ func (obj *_WarehouseMgr) Gets() (results []*Warehouse, err error) {
 	return
 }
 
-
 func (obj *_WarehouseMgr) WithIDWarehouse(idWarehouse uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_warehouse"] = idWarehouse })
 }
@@ -93,7 +92,6 @@ func (obj *_WarehouseMgr) GetByOptions(opts ...Option) (results []*Warehouse, er
 
 	return
 }
-
 
 func (obj *_WarehouseMgr) GetFromIDWarehouse(idWarehouse uint32) (result Warehouse, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_warehouse = ?", idWarehouse).Find(&result).Error
@@ -190,7 +188,6 @@ func (obj *_WarehouseMgr) GetBatchFromDeleted(deleteds []bool) (results []*Wareh
 
 	return
 }
-
 
 func (obj *_WarehouseMgr) FetchByPrimaryKey(idWarehouse uint32) (result Warehouse, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_warehouse = ?", idWarehouse).Find(&result).Error

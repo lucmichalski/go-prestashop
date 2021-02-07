@@ -6,7 +6,7 @@ import (
 
 // CategoryGroup was generated 2021-02-06 11:40:20 by evolutive on eg-cdn.gsi-network.com.
 type CategoryGroup struct {
-	XMLName xml.Name `xml:"category_group"`
+	XMLName xml.Name `xml:"entity_category_group"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text    string `xml:",chardata"`

@@ -35,7 +35,6 @@ func (obj *_AttachmentMgr) Gets() (results []*Attachment, err error) {
 	return
 }
 
-
 func (obj *_AttachmentMgr) WithIDAttachment(idAttachment uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_attachment"] = idAttachment })
 }
@@ -81,7 +80,6 @@ func (obj *_AttachmentMgr) GetByOptions(opts ...Option) (results []*Attachment, 
 
 	return
 }
-
 
 func (obj *_AttachmentMgr) GetFromIDAttachment(idAttachment uint32) (result Attachment, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attachment = ?", idAttachment).Find(&result).Error
@@ -142,7 +140,6 @@ func (obj *_AttachmentMgr) GetBatchFromMime(mimes []string) (results []*Attachme
 
 	return
 }
-
 
 func (obj *_AttachmentMgr) FetchByPrimaryKey(idAttachment uint32) (result Attachment, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attachment = ?", idAttachment).Find(&result).Error

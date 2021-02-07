@@ -35,7 +35,6 @@ func (obj *_LinksmenutopMgr) Gets() (results []*Linksmenutop, err error) {
 	return
 }
 
-
 func (obj *_LinksmenutopMgr) WithIDLinksmenutop(idLinksmenutop uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_linksmenutop"] = idLinksmenutop })
 }
@@ -74,7 +73,6 @@ func (obj *_LinksmenutopMgr) GetByOptions(opts ...Option) (results []*Linksmenut
 	return
 }
 
-
 func (obj *_LinksmenutopMgr) GetFromIDLinksmenutop(idLinksmenutop uint32) (result Linksmenutop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_linksmenutop = ?", idLinksmenutop).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_LinksmenutopMgr) GetBatchFromNewWindow(newWindows []bool) (results [
 
 	return
 }
-
 
 func (obj *_LinksmenutopMgr) FetchByPrimaryKey(idLinksmenutop uint32) (result Linksmenutop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_linksmenutop = ?", idLinksmenutop).Find(&result).Error

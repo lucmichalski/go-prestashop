@@ -35,7 +35,6 @@ func (obj *_QuickAccessLangMgr) Gets() (results []*QuickAccessLang, err error) {
 	return
 }
 
-
 func (obj *_QuickAccessLangMgr) WithIDQuickAccess(idQuickAccess uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_quick_access"] = idQuickAccess })
 }
@@ -74,7 +73,6 @@ func (obj *_QuickAccessLangMgr) GetByOptions(opts ...Option) (results []*QuickAc
 	return
 }
 
-
 func (obj *_QuickAccessLangMgr) GetFromIDQuickAccess(idQuickAccess uint32) (results []*QuickAccessLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_quick_access = ?", idQuickAccess).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_QuickAccessLangMgr) GetBatchFromName(names []string) (results []*Qui
 
 	return
 }
-
 
 func (obj *_QuickAccessLangMgr) FetchByPrimaryKey(idQuickAccess uint32, idLang uint32) (result QuickAccessLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_quick_access = ? AND id_lang = ?", idQuickAccess, idLang).Find(&result).Error

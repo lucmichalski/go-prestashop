@@ -35,7 +35,6 @@ func (obj *_LinkBlockMgr) Gets() (results []*LinkBlock, err error) {
 	return
 }
 
-
 func (obj *_LinkBlockMgr) WithIDLinkBlock(idLinkBlock uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_link_block"] = idLinkBlock })
 }
@@ -77,7 +76,6 @@ func (obj *_LinkBlockMgr) GetByOptions(opts ...Option) (results []*LinkBlock, er
 
 	return
 }
-
 
 func (obj *_LinkBlockMgr) GetFromIDLinkBlock(idLinkBlock uint32) (result LinkBlock, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_link_block = ?", idLinkBlock).Find(&result).Error
@@ -126,7 +124,6 @@ func (obj *_LinkBlockMgr) GetBatchFromContent(contents []string) (results []*Lin
 
 	return
 }
-
 
 func (obj *_LinkBlockMgr) FetchByPrimaryKey(idLinkBlock uint32) (result LinkBlock, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_link_block = ?", idLinkBlock).Find(&result).Error

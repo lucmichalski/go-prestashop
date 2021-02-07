@@ -35,7 +35,6 @@ func (obj *_AdviceMgr) Gets() (results []*Advice, err error) {
 	return
 }
 
-
 func (obj *_AdviceMgr) WithIDAdvice(idAdvice int) Option {
 	return optionFunc(func(o *options) { o.query["id_advice"] = idAdvice })
 }
@@ -105,7 +104,6 @@ func (obj *_AdviceMgr) GetByOptions(opts ...Option) (results []*Advice, err erro
 
 	return
 }
-
 
 func (obj *_AdviceMgr) GetFromIDAdvice(idAdvice int) (result Advice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_advice = ?", idAdvice).Find(&result).Error
@@ -238,7 +236,6 @@ func (obj *_AdviceMgr) GetBatchFromWeight(weights []int) (results []*Advice, err
 
 	return
 }
-
 
 func (obj *_AdviceMgr) FetchByPrimaryKey(idAdvice int) (result Advice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_advice = ?", idAdvice).Find(&result).Error

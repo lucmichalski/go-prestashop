@@ -36,7 +36,6 @@ func (obj *_OrderReturnMgr) Gets() (results []*OrderReturn, err error) {
 	return
 }
 
-
 func (obj *_OrderReturnMgr) WithIDOrderReturn(idOrderReturn uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_order_return"] = idOrderReturn })
 }
@@ -90,7 +89,6 @@ func (obj *_OrderReturnMgr) GetByOptions(opts ...Option) (results []*OrderReturn
 
 	return
 }
-
 
 func (obj *_OrderReturnMgr) GetFromIDOrderReturn(idOrderReturn uint32) (result OrderReturn, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_return = ?", idOrderReturn).Find(&result).Error
@@ -175,7 +173,6 @@ func (obj *_OrderReturnMgr) GetBatchFromDateUpd(dateUpds []time.Time) (results [
 
 	return
 }
-
 
 func (obj *_OrderReturnMgr) FetchByPrimaryKey(idOrderReturn uint32) (result OrderReturn, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_return = ?", idOrderReturn).Find(&result).Error

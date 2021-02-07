@@ -35,7 +35,6 @@ func (obj *_OrderMessageLangMgr) Gets() (results []*OrderMessageLang, err error)
 	return
 }
 
-
 func (obj *_OrderMessageLangMgr) WithIDOrderMessage(idOrderMessage uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_order_message"] = idOrderMessage })
 }
@@ -77,7 +76,6 @@ func (obj *_OrderMessageLangMgr) GetByOptions(opts ...Option) (results []*OrderM
 
 	return
 }
-
 
 func (obj *_OrderMessageLangMgr) GetFromIDOrderMessage(idOrderMessage uint32) (results []*OrderMessageLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_message = ?", idOrderMessage).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_OrderMessageLangMgr) GetBatchFromMessage(messages []string) (results
 
 	return
 }
-
 
 func (obj *_OrderMessageLangMgr) FetchByPrimaryKey(idOrderMessage uint32, idLang uint32) (result OrderMessageLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_message = ? AND id_lang = ?", idOrderMessage, idLang).Find(&result).Error

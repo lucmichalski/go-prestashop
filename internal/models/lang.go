@@ -35,7 +35,6 @@ func (obj *_LangMgr) Gets() (results []*Lang, err error) {
 	return
 }
 
-
 func (obj *_LangMgr) WithIDLang(idLang int) Option {
 	return optionFunc(func(o *options) { o.query["id_lang"] = idLang })
 }
@@ -97,7 +96,6 @@ func (obj *_LangMgr) GetByOptions(opts ...Option) (results []*Lang, err error) {
 
 	return
 }
-
 
 func (obj *_LangMgr) GetFromIDLang(idLang int) (result Lang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_lang = ?", idLang).Find(&result).Error
@@ -206,7 +204,6 @@ func (obj *_LangMgr) GetBatchFromIsRtl(isRtls []bool) (results []*Lang, err erro
 
 	return
 }
-
 
 func (obj *_LangMgr) FetchByPrimaryKey(idLang int) (result Lang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_lang = ?", idLang).Find(&result).Error

@@ -36,7 +36,6 @@ func (obj *_LogMgr) Gets() (results []*Log, err error) {
 	return
 }
 
-
 func (obj *_LogMgr) WithIDLog(idLog uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_log"] = idLog })
 }
@@ -98,7 +97,6 @@ func (obj *_LogMgr) GetByOptions(opts ...Option) (results []*Log, err error) {
 
 	return
 }
-
 
 func (obj *_LogMgr) GetFromIDLog(idLog uint32) (result Log, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_log = ?", idLog).Find(&result).Error
@@ -207,7 +205,6 @@ func (obj *_LogMgr) GetBatchFromDateUpd(dateUpds []time.Time) (results []*Log, e
 
 	return
 }
-
 
 func (obj *_LogMgr) FetchByPrimaryKey(idLog uint32) (result Log, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_log = ?", idLog).Find(&result).Error

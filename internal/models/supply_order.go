@@ -36,7 +36,6 @@ func (obj *_SupplyOrderMgr) Gets() (results []*SupplyOrder, err error) {
 	return
 }
 
-
 func (obj *_SupplyOrderMgr) WithIDSupplyOrder(idSupplyOrder uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_supply_order"] = idSupplyOrder })
 }
@@ -138,7 +137,6 @@ func (obj *_SupplyOrderMgr) GetByOptions(opts ...Option) (results []*SupplyOrder
 
 	return
 }
-
 
 func (obj *_SupplyOrderMgr) GetFromIDSupplyOrder(idSupplyOrder uint32) (result SupplyOrder, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_supply_order = ?", idSupplyOrder).Find(&result).Error
@@ -367,7 +365,6 @@ func (obj *_SupplyOrderMgr) GetBatchFromIsTemplate(isTemplates []bool) (results 
 
 	return
 }
-
 
 func (obj *_SupplyOrderMgr) FetchByPrimaryKey(idSupplyOrder uint32) (result SupplyOrder, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_supply_order = ?", idSupplyOrder).Find(&result).Error

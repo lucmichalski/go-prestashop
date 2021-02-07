@@ -35,7 +35,6 @@ func (obj *_PsreassuranceLangMgr) Gets() (results []*PsreassuranceLang, err erro
 	return
 }
 
-
 func (obj *_PsreassuranceLangMgr) WithIDPsreassurance(idPsreassurance uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_psreassurance"] = idPsreassurance })
 }
@@ -85,7 +84,6 @@ func (obj *_PsreassuranceLangMgr) GetByOptions(opts ...Option) (results []*Psrea
 
 	return
 }
-
 
 func (obj *_PsreassuranceLangMgr) GetFromIDPsreassurance(idPsreassurance uint32) (results []*PsreassuranceLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_psreassurance = ?", idPsreassurance).Find(&results).Error
@@ -158,7 +156,6 @@ func (obj *_PsreassuranceLangMgr) GetBatchFromLink(links []string) (results []*P
 
 	return
 }
-
 
 func (obj *_PsreassuranceLangMgr) FetchByPrimaryKey(idPsreassurance uint32, idLang uint32, idShop uint32) (result PsreassuranceLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_psreassurance = ? AND id_lang = ? AND id_shop = ?", idPsreassurance, idLang, idShop).Find(&result).Error

@@ -6,7 +6,7 @@ import (
 
 // Customer was generated 2021-02-06 11:37:30 by evolutive on eg-cdn.gsi-network.com.
 type Customer struct {
-	XMLName xml.Name `xml:"customer"`
+	XMLName xml.Name `xml:"entity_customer"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

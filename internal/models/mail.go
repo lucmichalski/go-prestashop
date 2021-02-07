@@ -36,7 +36,6 @@ func (obj *_MailMgr) Gets() (results []*Mail, err error) {
 	return
 }
 
-
 func (obj *_MailMgr) WithIDMail(idMail uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_mail"] = idMail })
 }
@@ -86,7 +85,6 @@ func (obj *_MailMgr) GetByOptions(opts ...Option) (results []*Mail, err error) {
 
 	return
 }
-
 
 func (obj *_MailMgr) GetFromIDMail(idMail uint32) (result Mail, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_mail = ?", idMail).Find(&result).Error
@@ -159,7 +157,6 @@ func (obj *_MailMgr) GetBatchFromDateAdd(dateAdds []time.Time) (results []*Mail,
 
 	return
 }
-
 
 func (obj *_MailMgr) FetchByPrimaryKey(idMail uint32) (result Mail, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_mail = ?", idMail).Find(&result).Error

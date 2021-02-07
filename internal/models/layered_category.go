@@ -35,7 +35,6 @@ func (obj *_LayeredCategoryMgr) Gets() (results []*LayeredCategory, err error) {
 	return
 }
 
-
 func (obj *_LayeredCategoryMgr) WithIDLayeredCategory(idLayeredCategory uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_layered_category"] = idLayeredCategory })
 }
@@ -93,7 +92,6 @@ func (obj *_LayeredCategoryMgr) GetByOptions(opts ...Option) (results []*Layered
 
 	return
 }
-
 
 func (obj *_LayeredCategoryMgr) GetFromIDLayeredCategory(idLayeredCategory uint32) (result LayeredCategory, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_layered_category = ?", idLayeredCategory).Find(&result).Error
@@ -190,7 +188,6 @@ func (obj *_LayeredCategoryMgr) GetBatchFromFilterShowLimit(filterShowLimits []u
 
 	return
 }
-
 
 func (obj *_LayeredCategoryMgr) FetchByPrimaryKey(idLayeredCategory uint32) (result LayeredCategory, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_layered_category = ?", idLayeredCategory).Find(&result).Error

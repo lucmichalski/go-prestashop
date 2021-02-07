@@ -35,7 +35,6 @@ func (obj *_AttachmentLangMgr) Gets() (results []*AttachmentLang, err error) {
 	return
 }
 
-
 func (obj *_AttachmentLangMgr) WithIDAttachment(idAttachment uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_attachment"] = idAttachment })
 }
@@ -77,7 +76,6 @@ func (obj *_AttachmentLangMgr) GetByOptions(opts ...Option) (results []*Attachme
 
 	return
 }
-
 
 func (obj *_AttachmentLangMgr) GetFromIDAttachment(idAttachment uint32) (results []*AttachmentLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attachment = ?", idAttachment).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_AttachmentLangMgr) GetBatchFromDescription(descriptions []string) (r
 
 	return
 }
-
 
 func (obj *_AttachmentLangMgr) FetchByPrimaryKey(idAttachment uint32, idLang uint32) (result AttachmentLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attachment = ? AND id_lang = ?", idAttachment, idLang).Find(&result).Error

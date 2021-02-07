@@ -35,7 +35,6 @@ func (obj *_TimezoneMgr) Gets() (results []*Timezone, err error) {
 	return
 }
 
-
 func (obj *_TimezoneMgr) WithIDTimezone(idTimezone uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_timezone"] = idTimezone })
 }
@@ -70,7 +69,6 @@ func (obj *_TimezoneMgr) GetByOptions(opts ...Option) (results []*Timezone, err 
 	return
 }
 
-
 func (obj *_TimezoneMgr) GetFromIDTimezone(idTimezone uint32) (result Timezone, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_timezone = ?", idTimezone).Find(&result).Error
 
@@ -94,7 +92,6 @@ func (obj *_TimezoneMgr) GetBatchFromName(names []string) (results []*Timezone, 
 
 	return
 }
-
 
 func (obj *_TimezoneMgr) FetchByPrimaryKey(idTimezone uint32) (result Timezone, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_timezone = ?", idTimezone).Find(&result).Error

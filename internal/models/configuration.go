@@ -36,7 +36,6 @@ func (obj *_ConfigurationMgr) Gets() (results []*Configuration, err error) {
 	return
 }
 
-
 func (obj *_ConfigurationMgr) WithIDConfiguration(idConfiguration uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_configuration"] = idConfiguration })
 }
@@ -90,7 +89,6 @@ func (obj *_ConfigurationMgr) GetByOptions(opts ...Option) (results []*Configura
 
 	return
 }
-
 
 func (obj *_ConfigurationMgr) GetFromIDConfiguration(idConfiguration uint32) (result Configuration, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_configuration = ?", idConfiguration).Find(&result).Error
@@ -175,7 +173,6 @@ func (obj *_ConfigurationMgr) GetBatchFromDateUpd(dateUpds []time.Time) (results
 
 	return
 }
-
 
 func (obj *_ConfigurationMgr) FetchByPrimaryKey(idConfiguration uint32) (result Configuration, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_configuration = ?", idConfiguration).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_CustomizedDataMgr) Gets() (results []*CustomizedData, err error) {
 	return
 }
 
-
 func (obj *_CustomizedDataMgr) WithIDCustomization(idCustomization uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_customization"] = idCustomization })
 }
@@ -89,7 +88,6 @@ func (obj *_CustomizedDataMgr) GetByOptions(opts ...Option) (results []*Customiz
 
 	return
 }
-
 
 func (obj *_CustomizedDataMgr) GetFromIDCustomization(idCustomization uint32) (results []*CustomizedData, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customization = ?", idCustomization).Find(&results).Error
@@ -174,7 +172,6 @@ func (obj *_CustomizedDataMgr) GetBatchFromWeight(weights []float64) (results []
 
 	return
 }
-
 
 func (obj *_CustomizedDataMgr) FetchByPrimaryKey(idCustomization uint32, _type bool, index int) (result CustomizedData, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customization = ? AND type = ? AND index = ?", idCustomization, _type, index).Find(&result).Error

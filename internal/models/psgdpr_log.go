@@ -36,7 +36,6 @@ func (obj *_PsgdprLogMgr) Gets() (results []*PsgdprLog, err error) {
 	return
 }
 
-
 func (obj *_PsgdprLogMgr) WithIDGdprLog(idGdprLog uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_gdpr_log"] = idGdprLog })
 }
@@ -94,7 +93,6 @@ func (obj *_PsgdprLogMgr) GetByOptions(opts ...Option) (results []*PsgdprLog, er
 
 	return
 }
-
 
 func (obj *_PsgdprLogMgr) GetFromIDGdprLog(idGdprLog uint32) (result PsgdprLog, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_gdpr_log = ?", idGdprLog).Find(&result).Error
@@ -191,7 +189,6 @@ func (obj *_PsgdprLogMgr) GetBatchFromDateUpd(dateUpds []time.Time) (results []*
 
 	return
 }
-
 
 func (obj *_PsgdprLogMgr) FetchByPrimaryKey(idGdprLog uint32) (result PsgdprLog, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_gdpr_log = ?", idGdprLog).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_TagCountMgr) Gets() (results []*TagCount, err error) {
 	return
 }
 
-
 func (obj *_TagCountMgr) WithIDGroup(idGroup uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_group"] = idGroup })
 }
@@ -81,7 +80,6 @@ func (obj *_TagCountMgr) GetByOptions(opts ...Option) (results []*TagCount, err 
 
 	return
 }
-
 
 func (obj *_TagCountMgr) GetFromIDGroup(idGroup uint32) (results []*TagCount, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_group = ?", idGroup).Find(&results).Error
@@ -142,7 +140,6 @@ func (obj *_TagCountMgr) GetBatchFromCounter(counters []uint32) (results []*TagC
 
 	return
 }
-
 
 func (obj *_TagCountMgr) FetchByPrimaryKey(idGroup uint32, idTag uint32) (result TagCount, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_group = ? AND id_tag = ?", idGroup, idTag).Find(&result).Error

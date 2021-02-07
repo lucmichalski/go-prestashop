@@ -35,7 +35,6 @@ func (obj *_TagMgr) Gets() (results []*Tag, err error) {
 	return
 }
 
-
 func (obj *_TagMgr) WithIDTag(idTag uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_tag"] = idTag })
 }
@@ -74,7 +73,6 @@ func (obj *_TagMgr) GetByOptions(opts ...Option) (results []*Tag, err error) {
 	return
 }
 
-
 func (obj *_TagMgr) GetFromIDTag(idTag uint32) (result Tag, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tag = ?", idTag).Find(&result).Error
 
@@ -110,7 +108,6 @@ func (obj *_TagMgr) GetBatchFromName(names []string) (results []*Tag, err error)
 
 	return
 }
-
 
 func (obj *_TagMgr) FetchByPrimaryKey(idTag uint32) (result Tag, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_tag = ?", idTag).Find(&result).Error

@@ -36,7 +36,6 @@ func (obj *_SmartyLastFlushMgr) Gets() (results []*SmartyLastFlush, err error) {
 	return
 }
 
-
 func (obj *_SmartyLastFlushMgr) WithType(_type string) Option {
 	return optionFunc(func(o *options) { o.query["type"] = _type })
 }
@@ -71,7 +70,6 @@ func (obj *_SmartyLastFlushMgr) GetByOptions(opts ...Option) (results []*SmartyL
 	return
 }
 
-
 func (obj *_SmartyLastFlushMgr) GetFromType(_type string) (result SmartyLastFlush, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("type = ?", _type).Find(&result).Error
 
@@ -95,7 +93,6 @@ func (obj *_SmartyLastFlushMgr) GetBatchFromLastFlush(lastFlushs []time.Time) (r
 
 	return
 }
-
 
 func (obj *_SmartyLastFlushMgr) FetchByPrimaryKey(_type string) (result SmartyLastFlush, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("type = ?", _type).Find(&result).Error

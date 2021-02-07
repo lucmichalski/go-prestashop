@@ -35,7 +35,6 @@ func (obj *_ProductCountryTaxMgr) Gets() (results []*ProductCountryTax, err erro
 	return
 }
 
-
 func (obj *_ProductCountryTaxMgr) WithIDProduct(idProduct int) Option {
 	return optionFunc(func(o *options) { o.query["id_product"] = idProduct })
 }
@@ -74,7 +73,6 @@ func (obj *_ProductCountryTaxMgr) GetByOptions(opts ...Option) (results []*Produ
 	return
 }
 
-
 func (obj *_ProductCountryTaxMgr) GetFromIDProduct(idProduct int) (results []*ProductCountryTax, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ?", idProduct).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_ProductCountryTaxMgr) GetBatchFromIDTax(idTaxs []int) (results []*Pr
 
 	return
 }
-
 
 func (obj *_ProductCountryTaxMgr) FetchByPrimaryKey(idProduct int, idCountry int) (result ProductCountryTax, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_product = ? AND id_country = ?", idProduct, idCountry).Find(&result).Error

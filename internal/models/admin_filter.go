@@ -35,7 +35,6 @@ func (obj *_AdminFilterMgr) Gets() (results []*AdminFilter, err error) {
 	return
 }
 
-
 func (obj *_AdminFilterMgr) WithID(id int) Option {
 	return optionFunc(func(o *options) { o.query["id"] = id })
 }
@@ -89,7 +88,6 @@ func (obj *_AdminFilterMgr) GetByOptions(opts ...Option) (results []*AdminFilter
 
 	return
 }
-
 
 func (obj *_AdminFilterMgr) GetFromID(id int) (result AdminFilter, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id = ?", id).Find(&result).Error
@@ -174,7 +172,6 @@ func (obj *_AdminFilterMgr) GetBatchFromFilterID(filterIDs []string) (results []
 
 	return
 }
-
 
 func (obj *_AdminFilterMgr) FetchByPrimaryKey(id int) (result AdminFilter, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id = ?", id).Find(&result).Error

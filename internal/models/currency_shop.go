@@ -35,7 +35,6 @@ func (obj *_CurrencyShopMgr) Gets() (results []*CurrencyShop, err error) {
 	return
 }
 
-
 func (obj *_CurrencyShopMgr) WithIDCurrency(idCurrency uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_currency"] = idCurrency })
 }
@@ -74,7 +73,6 @@ func (obj *_CurrencyShopMgr) GetByOptions(opts ...Option) (results []*CurrencySh
 	return
 }
 
-
 func (obj *_CurrencyShopMgr) GetFromIDCurrency(idCurrency uint32) (results []*CurrencyShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_currency = ?", idCurrency).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_CurrencyShopMgr) GetBatchFromConversionRate(conversionRates []float6
 
 	return
 }
-
 
 func (obj *_CurrencyShopMgr) FetchByPrimaryKey(idCurrency uint32, idShop uint32) (result CurrencyShop, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_currency = ? AND id_shop = ?", idCurrency, idShop).Find(&result).Error

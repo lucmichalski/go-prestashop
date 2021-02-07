@@ -35,7 +35,6 @@ func (obj *_AddressFormatMgr) Gets() (results []*AddressFormat, err error) {
 	return
 }
 
-
 func (obj *_AddressFormatMgr) WithIDCountry(idCountry uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_country"] = idCountry })
 }
@@ -70,7 +69,6 @@ func (obj *_AddressFormatMgr) GetByOptions(opts ...Option) (results []*AddressFo
 	return
 }
 
-
 func (obj *_AddressFormatMgr) GetFromIDCountry(idCountry uint32) (result AddressFormat, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_country = ?", idCountry).Find(&result).Error
 
@@ -94,7 +92,6 @@ func (obj *_AddressFormatMgr) GetBatchFromFormat(formats []string) (results []*A
 
 	return
 }
-
 
 func (obj *_AddressFormatMgr) FetchByPrimaryKey(idCountry uint32) (result AddressFormat, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_country = ?", idCountry).Find(&result).Error

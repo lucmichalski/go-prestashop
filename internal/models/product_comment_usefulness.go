@@ -35,7 +35,6 @@ func (obj *_ProductCommentUsefulnessMgr) Gets() (results []*ProductCommentUseful
 	return
 }
 
-
 func (obj *_ProductCommentUsefulnessMgr) WithIDCustomer(idCustomer int) Option {
 	return optionFunc(func(o *options) { o.query["id_customer"] = idCustomer })
 }
@@ -74,7 +73,6 @@ func (obj *_ProductCommentUsefulnessMgr) GetByOptions(opts ...Option) (results [
 	return
 }
 
-
 func (obj *_ProductCommentUsefulnessMgr) GetFromIDCustomer(idCustomer int) (results []*ProductCommentUsefulness, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customer = ?", idCustomer).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_ProductCommentUsefulnessMgr) GetBatchFromUsefulness(usefulnesss []bo
 
 	return
 }
-
 
 func (obj *_ProductCommentUsefulnessMgr) FetchByPrimaryKey(idCustomer int, idProductComment int) (result ProductCommentUsefulness, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customer = ? AND id_product_comment = ?", idCustomer, idProductComment).Find(&result).Error

@@ -35,7 +35,6 @@ func (obj *_WebserviceAccountMgr) Gets() (results []*WebserviceAccount, err erro
 	return
 }
 
-
 func (obj *_WebserviceAccountMgr) WithIDWebserviceAccount(idWebserviceAccount int) Option {
 	return optionFunc(func(o *options) { o.query["id_webservice_account"] = idWebserviceAccount })
 }
@@ -89,7 +88,6 @@ func (obj *_WebserviceAccountMgr) GetByOptions(opts ...Option) (results []*Webse
 
 	return
 }
-
 
 func (obj *_WebserviceAccountMgr) GetFromIDWebserviceAccount(idWebserviceAccount int) (result WebserviceAccount, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_webservice_account = ?", idWebserviceAccount).Find(&result).Error
@@ -174,7 +172,6 @@ func (obj *_WebserviceAccountMgr) GetBatchFromActive(actives []int8) (results []
 
 	return
 }
-
 
 func (obj *_WebserviceAccountMgr) FetchByPrimaryKey(idWebserviceAccount int) (result WebserviceAccount, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_webservice_account = ?", idWebserviceAccount).Find(&result).Error

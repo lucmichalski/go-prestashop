@@ -35,7 +35,6 @@ func (obj *_LayeredIndexableAttributeGroupMgr) Gets() (results []*LayeredIndexab
 	return
 }
 
-
 func (obj *_LayeredIndexableAttributeGroupMgr) WithIDAttributeGroup(idAttributeGroup int) Option {
 	return optionFunc(func(o *options) { o.query["id_attribute_group"] = idAttributeGroup })
 }
@@ -70,7 +69,6 @@ func (obj *_LayeredIndexableAttributeGroupMgr) GetByOptions(opts ...Option) (res
 	return
 }
 
-
 func (obj *_LayeredIndexableAttributeGroupMgr) GetFromIDAttributeGroup(idAttributeGroup int) (result LayeredIndexableAttributeGroup, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_group = ?", idAttributeGroup).Find(&result).Error
 
@@ -94,7 +92,6 @@ func (obj *_LayeredIndexableAttributeGroupMgr) GetBatchFromIndexable(indexables 
 
 	return
 }
-
 
 func (obj *_LayeredIndexableAttributeGroupMgr) FetchByPrimaryKey(idAttributeGroup int) (result LayeredIndexableAttributeGroup, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_attribute_group = ?", idAttributeGroup).Find(&result).Error

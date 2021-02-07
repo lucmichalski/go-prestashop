@@ -35,7 +35,6 @@ func (obj *_GenderLangMgr) Gets() (results []*GenderLang, err error) {
 	return
 }
 
-
 func (obj *_GenderLangMgr) WithIDGender(idGender uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_gender"] = idGender })
 }
@@ -74,7 +73,6 @@ func (obj *_GenderLangMgr) GetByOptions(opts ...Option) (results []*GenderLang, 
 	return
 }
 
-
 func (obj *_GenderLangMgr) GetFromIDGender(idGender uint32) (results []*GenderLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_gender = ?", idGender).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_GenderLangMgr) GetBatchFromName(names []string) (results []*GenderLa
 
 	return
 }
-
 
 func (obj *_GenderLangMgr) FetchByPrimaryKey(idGender uint32, idLang uint32) (result GenderLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_gender = ? AND id_lang = ?", idGender, idLang).Find(&result).Error

@@ -6,7 +6,7 @@ import (
 
 // Manufacturer was generated 2021-02-06 11:37:24 by evolutive on eg-cdn.gsi-network.com.
 type Manufacturer struct {
-	XMLName xml.Name `xml:"manufacturer"`
+	XMLName xml.Name `xml:"entity_manufacturer"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

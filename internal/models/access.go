@@ -35,7 +35,6 @@ func (obj *_AccessMgr) Gets() (results []*Access, err error) {
 	return
 }
 
-
 func (obj *_AccessMgr) WithIDProfile(idProfile uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_profile"] = idProfile })
 }
@@ -70,7 +69,6 @@ func (obj *_AccessMgr) GetByOptions(opts ...Option) (results []*Access, err erro
 	return
 }
 
-
 func (obj *_AccessMgr) GetFromIDProfile(idProfile uint32) (results []*Access, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_profile = ?", idProfile).Find(&results).Error
 
@@ -94,7 +92,6 @@ func (obj *_AccessMgr) GetBatchFromIDAuthorizationRole(idAuthorizationRoles []ui
 
 	return
 }
-
 
 func (obj *_AccessMgr) FetchByPrimaryKey(idProfile uint32, idAuthorizationRole uint32) (result Access, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_profile = ? AND id_authorization_role = ?", idProfile, idAuthorizationRole).Find(&result).Error

@@ -36,7 +36,6 @@ func (obj *_OrderDetailMgr) Gets() (results []*OrderDetail, err error) {
 	return
 }
 
-
 func (obj *_OrderDetailMgr) WithIDOrderDetail(idOrderDetail uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_order_detail"] = idOrderDetail })
 }
@@ -258,7 +257,6 @@ func (obj *_OrderDetailMgr) GetByOptions(opts ...Option) (results []*OrderDetail
 
 	return
 }
-
 
 func (obj *_OrderDetailMgr) GetFromIDOrderDetail(idOrderDetail uint32) (result OrderDetail, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_detail = ?", idOrderDetail).Find(&result).Error
@@ -847,7 +845,6 @@ func (obj *_OrderDetailMgr) GetBatchFromTotalRefundedTaxIncl(totalRefundedTaxInc
 
 	return
 }
-
 
 func (obj *_OrderDetailMgr) FetchByPrimaryKey(idOrderDetail uint32) (result OrderDetail, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_detail = ?", idOrderDetail).Find(&result).Error

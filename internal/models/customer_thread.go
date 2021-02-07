@@ -36,7 +36,6 @@ func (obj *_CustomerThreadMgr) Gets() (results []*CustomerThread, err error) {
 	return
 }
 
-
 func (obj *_CustomerThreadMgr) WithIDCustomerThread(idCustomerThread uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_customer_thread"] = idCustomerThread })
 }
@@ -110,7 +109,6 @@ func (obj *_CustomerThreadMgr) GetByOptions(opts ...Option) (results []*Customer
 
 	return
 }
-
 
 func (obj *_CustomerThreadMgr) GetFromIDCustomerThread(idCustomerThread uint32) (result CustomerThread, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customer_thread = ?", idCustomerThread).Find(&result).Error
@@ -255,7 +253,6 @@ func (obj *_CustomerThreadMgr) GetBatchFromDateUpd(dateUpds []time.Time) (result
 
 	return
 }
-
 
 func (obj *_CustomerThreadMgr) FetchByPrimaryKey(idCustomerThread uint32) (result CustomerThread, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customer_thread = ?", idCustomerThread).Find(&result).Error

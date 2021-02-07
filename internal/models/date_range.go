@@ -36,7 +36,6 @@ func (obj *_DateRangeMgr) Gets() (results []*DateRange, err error) {
 	return
 }
 
-
 func (obj *_DateRangeMgr) WithIDDateRange(idDateRange uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_date_range"] = idDateRange })
 }
@@ -75,7 +74,6 @@ func (obj *_DateRangeMgr) GetByOptions(opts ...Option) (results []*DateRange, er
 	return
 }
 
-
 func (obj *_DateRangeMgr) GetFromIDDateRange(idDateRange uint32) (result DateRange, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_date_range = ?", idDateRange).Find(&result).Error
 
@@ -111,7 +109,6 @@ func (obj *_DateRangeMgr) GetBatchFromTimeEnd(timeEnds []time.Time) (results []*
 
 	return
 }
-
 
 func (obj *_DateRangeMgr) FetchByPrimaryKey(idDateRange uint32) (result DateRange, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_date_range = ?", idDateRange).Find(&result).Error

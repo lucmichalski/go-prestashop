@@ -35,7 +35,6 @@ func (obj *_ConditionAdviceMgr) Gets() (results []*ConditionAdvice, err error) {
 	return
 }
 
-
 func (obj *_ConditionAdviceMgr) WithIDCondition(idCondition int) Option {
 	return optionFunc(func(o *options) { o.query["id_condition"] = idCondition })
 }
@@ -74,7 +73,6 @@ func (obj *_ConditionAdviceMgr) GetByOptions(opts ...Option) (results []*Conditi
 	return
 }
 
-
 func (obj *_ConditionAdviceMgr) GetFromIDCondition(idCondition int) (results []*ConditionAdvice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_condition = ?", idCondition).Find(&results).Error
 
@@ -110,7 +108,6 @@ func (obj *_ConditionAdviceMgr) GetBatchFromDisplay(displays []bool) (results []
 
 	return
 }
-
 
 func (obj *_ConditionAdviceMgr) FetchByPrimaryKey(idCondition int, idAdvice int) (result ConditionAdvice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_condition = ? AND id_advice = ?", idCondition, idAdvice).Find(&result).Error

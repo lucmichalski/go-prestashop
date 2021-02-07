@@ -35,7 +35,6 @@ func (obj *_InfoLangMgr) Gets() (results []*InfoLang, err error) {
 	return
 }
 
-
 func (obj *_InfoLangMgr) WithIDInfo(idInfo uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_info"] = idInfo })
 }
@@ -77,7 +76,6 @@ func (obj *_InfoLangMgr) GetByOptions(opts ...Option) (results []*InfoLang, err 
 
 	return
 }
-
 
 func (obj *_InfoLangMgr) GetFromIDInfo(idInfo uint32) (results []*InfoLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_info = ?", idInfo).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_InfoLangMgr) GetBatchFromText(texts []string) (results []*InfoLang, 
 
 	return
 }
-
 
 func (obj *_InfoLangMgr) FetchByPrimaryKey(idInfo uint32, idShop uint32, idLang uint32) (result InfoLang, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_info = ? AND id_shop = ? AND id_lang = ?", idInfo, idShop, idLang).Find(&result).Error

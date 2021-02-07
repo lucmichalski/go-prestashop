@@ -35,7 +35,6 @@ func (obj *_ImageTypeMgr) Gets() (results []*ImageType, err error) {
 	return
 }
 
-
 func (obj *_ImageTypeMgr) WithIDImageType(idImageType uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_image_type"] = idImageType })
 }
@@ -97,7 +96,6 @@ func (obj *_ImageTypeMgr) GetByOptions(opts ...Option) (results []*ImageType, er
 
 	return
 }
-
 
 func (obj *_ImageTypeMgr) GetFromIDImageType(idImageType uint32) (result ImageType, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_image_type = ?", idImageType).Find(&result).Error
@@ -206,7 +204,6 @@ func (obj *_ImageTypeMgr) GetBatchFromStores(storess []bool) (results []*ImageTy
 
 	return
 }
-
 
 func (obj *_ImageTypeMgr) FetchByPrimaryKey(idImageType uint32) (result ImageType, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_image_type = ?", idImageType).Find(&result).Error

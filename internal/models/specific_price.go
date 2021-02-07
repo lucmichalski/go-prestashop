@@ -36,7 +36,6 @@ func (obj *_SpecificPriceMgr) Gets() (results []*SpecificPrice, err error) {
 	return
 }
 
-
 func (obj *_SpecificPriceMgr) WithIDSpecificPrice(idSpecificPrice uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_specific_price"] = idSpecificPrice })
 }
@@ -134,7 +133,6 @@ func (obj *_SpecificPriceMgr) GetByOptions(opts ...Option) (results []*SpecificP
 
 	return
 }
-
 
 func (obj *_SpecificPriceMgr) GetFromIDSpecificPrice(idSpecificPrice uint32) (result SpecificPrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_specific_price = ?", idSpecificPrice).Find(&result).Error
@@ -351,7 +349,6 @@ func (obj *_SpecificPriceMgr) GetBatchFromTo(tos []time.Time) (results []*Specif
 
 	return
 }
-
 
 func (obj *_SpecificPriceMgr) FetchByPrimaryKey(idSpecificPrice uint32) (result SpecificPrice, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_specific_price = ?", idSpecificPrice).Find(&result).Error

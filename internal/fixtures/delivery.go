@@ -6,7 +6,7 @@ import (
 
 // Delivery was generated 2021-02-06 11:40:25 by evolutive on eg-cdn.gsi-network.com.
 type Delivery struct {
-	XMLName xml.Name `xml:"delivery"`
+	XMLName xml.Name `xml:"entity_delivery"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

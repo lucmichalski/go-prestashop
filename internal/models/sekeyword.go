@@ -36,7 +36,6 @@ func (obj *_SekeywordMgr) Gets() (results []*Sekeyword, err error) {
 	return
 }
 
-
 func (obj *_SekeywordMgr) WithIDSekeyword(idSekeyword uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_sekeyword"] = idSekeyword })
 }
@@ -82,7 +81,6 @@ func (obj *_SekeywordMgr) GetByOptions(opts ...Option) (results []*Sekeyword, er
 
 	return
 }
-
 
 func (obj *_SekeywordMgr) GetFromIDSekeyword(idSekeyword uint32) (result Sekeyword, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_sekeyword = ?", idSekeyword).Find(&result).Error
@@ -143,7 +141,6 @@ func (obj *_SekeywordMgr) GetBatchFromDateAdd(dateAdds []time.Time) (results []*
 
 	return
 }
-
 
 func (obj *_SekeywordMgr) FetchByPrimaryKey(idSekeyword uint32) (result Sekeyword, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_sekeyword = ?", idSekeyword).Find(&result).Error

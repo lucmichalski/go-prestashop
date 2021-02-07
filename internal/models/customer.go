@@ -37,7 +37,6 @@ func (obj *_CustomerMgr) Gets() (results []*Customer, err error) {
 	return
 }
 
-
 func (obj *_CustomerMgr) WithIDCustomer(idCustomer uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_customer"] = idCustomer })
 }
@@ -195,7 +194,6 @@ func (obj *_CustomerMgr) GetByOptions(opts ...Option) (results []*Customer, err 
 
 	return
 }
-
 
 func (obj *_CustomerMgr) GetFromIDCustomer(idCustomer uint32) (result Customer, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customer = ?", idCustomer).Find(&result).Error
@@ -592,7 +590,6 @@ func (obj *_CustomerMgr) GetBatchFromResetPasswordValidity(resetPasswordValidity
 
 	return
 }
-
 
 func (obj *_CustomerMgr) FetchByPrimaryKey(idCustomer uint32) (result Customer, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customer = ?", idCustomer).Find(&result).Error

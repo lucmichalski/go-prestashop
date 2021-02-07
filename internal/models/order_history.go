@@ -36,7 +36,6 @@ func (obj *_OrderHistoryMgr) Gets() (results []*OrderHistory, err error) {
 	return
 }
 
-
 func (obj *_OrderHistoryMgr) WithIDOrderHistory(idOrderHistory uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_order_history"] = idOrderHistory })
 }
@@ -82,7 +81,6 @@ func (obj *_OrderHistoryMgr) GetByOptions(opts ...Option) (results []*OrderHisto
 
 	return
 }
-
 
 func (obj *_OrderHistoryMgr) GetFromIDOrderHistory(idOrderHistory uint32) (result OrderHistory, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_history = ?", idOrderHistory).Find(&result).Error
@@ -143,7 +141,6 @@ func (obj *_OrderHistoryMgr) GetBatchFromDateAdd(dateAdds []time.Time) (results 
 
 	return
 }
-
 
 func (obj *_OrderHistoryMgr) FetchByPrimaryKey(idOrderHistory uint32) (result OrderHistory, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_history = ?", idOrderHistory).Find(&result).Error

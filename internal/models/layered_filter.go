@@ -36,7 +36,6 @@ func (obj *_LayeredFilterMgr) Gets() (results []*LayeredFilter, err error) {
 	return
 }
 
-
 func (obj *_LayeredFilterMgr) WithIDLayeredFilter(idLayeredFilter uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_layered_filter"] = idLayeredFilter })
 }
@@ -82,7 +81,6 @@ func (obj *_LayeredFilterMgr) GetByOptions(opts ...Option) (results []*LayeredFi
 
 	return
 }
-
 
 func (obj *_LayeredFilterMgr) GetFromIDLayeredFilter(idLayeredFilter uint32) (result LayeredFilter, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_layered_filter = ?", idLayeredFilter).Find(&result).Error
@@ -143,7 +141,6 @@ func (obj *_LayeredFilterMgr) GetBatchFromDateAdd(dateAdds []time.Time) (results
 
 	return
 }
-
 
 func (obj *_LayeredFilterMgr) FetchByPrimaryKey(idLayeredFilter uint32) (result LayeredFilter, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_layered_filter = ?", idLayeredFilter).Find(&result).Error

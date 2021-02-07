@@ -36,7 +36,6 @@ func (obj *_ModuleHistoryMgr) Gets() (results []*ModuleHistory, err error) {
 	return
 }
 
-
 func (obj *_ModuleHistoryMgr) WithID(id int) Option {
 	return optionFunc(func(o *options) { o.query["id"] = id })
 }
@@ -82,7 +81,6 @@ func (obj *_ModuleHistoryMgr) GetByOptions(opts ...Option) (results []*ModuleHis
 
 	return
 }
-
 
 func (obj *_ModuleHistoryMgr) GetFromID(id int) (result ModuleHistory, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id = ?", id).Find(&result).Error
@@ -143,7 +141,6 @@ func (obj *_ModuleHistoryMgr) GetBatchFromDateUpd(dateUpds []time.Time) (results
 
 	return
 }
-
 
 func (obj *_ModuleHistoryMgr) FetchByPrimaryKey(id int) (result ModuleHistory, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id = ?", id).Find(&result).Error

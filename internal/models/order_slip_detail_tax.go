@@ -35,7 +35,6 @@ func (obj *_OrderSlipDetailTaxMgr) Gets() (results []*OrderSlipDetailTax, err er
 	return
 }
 
-
 func (obj *_OrderSlipDetailTaxMgr) WithIDOrderSlipDetail(idOrderSlipDetail uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_order_slip_detail"] = idOrderSlipDetail })
 }
@@ -77,7 +76,6 @@ func (obj *_OrderSlipDetailTaxMgr) GetByOptions(opts ...Option) (results []*Orde
 
 	return
 }
-
 
 func (obj *_OrderSlipDetailTaxMgr) GetFromIDOrderSlipDetail(idOrderSlipDetail uint32) (results []*OrderSlipDetailTax, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_slip_detail = ?", idOrderSlipDetail).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_OrderSlipDetailTaxMgr) GetBatchFromTotalAmount(totalAmounts []float6
 
 	return
 }
-
 
 func (obj *_OrderSlipDetailTaxMgr) FetchIndexByIDOrderSlipDetail(idOrderSlipDetail uint32) (results []*OrderSlipDetailTax, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_order_slip_detail = ?", idOrderSlipDetail).Find(&results).Error

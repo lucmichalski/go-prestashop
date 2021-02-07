@@ -6,7 +6,7 @@ import (
 
 // Store was generated 2021-02-06 11:40:35 by evolutive on eg-cdn.gsi-network.com.
 type Store struct {
-	XMLName xml.Name `xml:"store"`
+	XMLName xml.Name `xml:"entity_store"`
 	Text    string   `xml:",chardata"`
 	Fields  struct {
 		Text  string `xml:",chardata"`

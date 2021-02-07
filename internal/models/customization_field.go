@@ -35,7 +35,6 @@ func (obj *_CustomizationFieldMgr) Gets() (results []*CustomizationField, err er
 	return
 }
 
-
 func (obj *_CustomizationFieldMgr) WithIDCustomizationField(idCustomizationField uint32) Option {
 	return optionFunc(func(o *options) { o.query["id_customization_field"] = idCustomizationField })
 }
@@ -85,7 +84,6 @@ func (obj *_CustomizationFieldMgr) GetByOptions(opts ...Option) (results []*Cust
 
 	return
 }
-
 
 func (obj *_CustomizationFieldMgr) GetFromIDCustomizationField(idCustomizationField uint32) (result CustomizationField, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customization_field = ?", idCustomizationField).Find(&result).Error
@@ -158,7 +156,6 @@ func (obj *_CustomizationFieldMgr) GetBatchFromIsDeleted(isDeleteds []bool) (res
 
 	return
 }
-
 
 func (obj *_CustomizationFieldMgr) FetchByPrimaryKey(idCustomizationField uint32) (result CustomizationField, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id_customization_field = ?", idCustomizationField).Find(&result).Error

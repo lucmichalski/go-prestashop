@@ -35,7 +35,6 @@ func (obj *_PscheckoutFundingSourceMgr) Gets() (results []*PscheckoutFundingSour
 	return
 }
 
-
 func (obj *_PscheckoutFundingSourceMgr) WithName(name string) Option {
 	return optionFunc(func(o *options) { o.query["name"] = name })
 }
@@ -77,7 +76,6 @@ func (obj *_PscheckoutFundingSourceMgr) GetByOptions(opts ...Option) (results []
 
 	return
 }
-
 
 func (obj *_PscheckoutFundingSourceMgr) GetFromName(name string) (results []*PscheckoutFundingSource, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("name = ?", name).Find(&results).Error
@@ -126,7 +124,6 @@ func (obj *_PscheckoutFundingSourceMgr) GetBatchFromIDShop(idShops []uint32) (re
 
 	return
 }
-
 
 func (obj *_PscheckoutFundingSourceMgr) FetchByPrimaryKey(name string, idShop uint32) (result PscheckoutFundingSource, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("name = ? AND id_shop = ?", name, idShop).Find(&result).Error
