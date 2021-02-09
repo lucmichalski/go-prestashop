@@ -49,6 +49,5 @@ var Fixtures = []interface{}{
 	&OrderMessage{},
 	&Profile{},
 	&Manufacturer{},
-	&Product{},
 	&Carrier{},
 }

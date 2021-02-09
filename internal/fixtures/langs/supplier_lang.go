@@ -9,8 +9,8 @@ type SupplierLang struct {
 	XMLName  xml.Name `xml:"entity_supplier"`
 	Text     string   `xml:",chardata"`
 	Supplier []struct {
-		Text string `xml:",chardata" struct2map:"key:text"`
-		ID   string `xml:"id,attr" struct2map:"key:id"`
-		Name string `xml:"name,attr" struct2map:"key:name"`
+		IDLang string `xml:",chardata" struct2map:"key:id_lang"`
+		ID     string `xml:"id,attr" struct2map:"key:id_supplier"`
+		Name   string `xml:"name,attr" struct2map:"key:description"`
 	} `xml:"supplier"`
 }

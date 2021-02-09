@@ -10,7 +10,7 @@ type FeatureLang struct {
 	Text    string   `xml:",chardata"`
 	Feature []struct {
 		Text string `xml:",chardata" struct2map:"-"`
-		ID   string `xml:"id,attr" struct2map:"key:id"`
+		ID   string `xml:"id,attr" struct2map:"key:id_feature"`
 		Name string `xml:"name,attr" struct2map:"key:name"`
 	} `xml:"feature"`
 }

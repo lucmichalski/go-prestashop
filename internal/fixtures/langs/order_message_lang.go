@@ -9,8 +9,8 @@ type OrderMessageLang struct {
 	XMLName      xml.Name `xml:"entity_order_message"`
 	Text         string   `xml:",chardata"`
 	OrderMessage []struct {
-		Text    string `xml:",chardata" struct2map:"-"`
-		ID      string `xml:"id,attr" struct2map:"key:id"`
+		IDLang  string `xml:",chardata" struct2map:"key:id_lang"`
+		ID      string `xml:"id,attr" struct2map:"key:id_order_message"`
 		Name    string `xml:"name,attr" struct2map:"key:name"`
 		Message string `xml:"message,attr" struct2map:"key:message"`
 	} `xml:"order_message"`

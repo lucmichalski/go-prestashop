@@ -20,20 +20,20 @@ type Cart struct {
 	Entities struct {
 		Text string `xml:",chardata"`
 		Cart []struct {
-			Text                  string `xml:",chardata"`
-			IDCustomer            string `xml:"id_customer,attr"`
-			IDCarrier             string `xml:"id_carrier,attr"`
-			IDAddressDelivery     string `xml:"id_address_delivery,attr"`
-			IDGuest               string `xml:"id_guest,attr"`
-			ID                    string `xml:"id,attr"`
-			SecureKey             string `xml:"secure_key,attr"`
-			DeliveryOption        string `xml:"delivery_option,attr"`
-			IDCurrency            string `xml:"id_currency,attr"`
-			Recyclable            string `xml:"recyclable,attr"`
-			Gift                  string `xml:"gift,attr"`
-			AllowSeparatedPackage string `xml:"allow_separated_package,attr"`
-			IDShop                string `xml:"id_shop,attr"`
-			IDShopGroup           string `xml:"id_shop_group,attr"`
+			Text              string `xml:",chardata"`
+			IDCustomer        string `xml:"id_customer,attr"`
+			IDCarrier         string `xml:"id_carrier,attr"`
+			IDAddressDelivery string `xml:"id_address_delivery,attr"`
+			IDGuest           string `xml:"id_guest,attr"`
+			ID                string `xml:"id,attr"`
+			SecureKey         string `xml:"secure_key,attr"`
+			DeliveryOption    string `xml:"delivery_option,attr"`
+			IDCurrency        string `xml:"id_currency,attr"`
+			Recyclable        string `xml:"recyclable,attr"`
+			Gift              string `xml:"gift,attr"`
+			// AllowSeparatedPackage string `xml:"allow_seperated_package,attr"`
+			IDShop      string `xml:"id_shop,attr"`
+			IDShopGroup string `xml:"id_shop_group,attr"`
 		} `xml:"cart"`
 	} `xml:"entities"`
 }

@@ -3,9 +3,13 @@ module github.com/lucmichalski/go-prestashop
 go 1.13
 
 require (
+	github.com/bxcodec/faker/v3 v3.6.0
 	github.com/clbanning/mxj/v2 v2.5.2
+	github.com/emvi/iso-639-1 v1.0.1
 	github.com/fatih/structs v1.1.0
 	github.com/go-sql-driver/mysql v1.5.0
+	github.com/goombaio/namegenerator v0.0.0-20181006234301-989e774b106e
+	github.com/h2non/bimg v1.1.5
 	github.com/iancoleman/strcase v0.1.3
 	github.com/jinzhu/gorm v1.9.16
 	github.com/k0kubun/pp v3.0.1+incompatible

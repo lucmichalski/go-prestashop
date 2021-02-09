@@ -9,8 +9,8 @@ type ManufacturerLang struct {
 	XMLName      xml.Name `xml:"entity_manufacturer"`
 	Text         string   `xml:",chardata"`
 	Manufacturer []struct {
-		Text             string `xml:",chardata" struct2map:"-"`
-		ID               string `xml:"id,attr" struct2map:"key:id_shop"`
+		IDLang           string `xml:",chardata" struct2map:"key:id_lang"`
+		ID               string `xml:"id,attr" struct2map:"key:id_manufacturer"`
 		Description      string `xml:"description,attr" struct2map:"key:description"`
 		ShortDescription string `xml:"short_description,attr" struct2map:"key:short_description"`
 		MetaTitle        string `xml:"meta_title,attr" struct2map:"key:meta_title"`

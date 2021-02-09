@@ -16,8 +16,8 @@ services:
     - certs-data:/etc/letsencrypt
     - ./shared/config/nginx:/server-confs:ro         # custom confs at server context for prestashop
     environment:
-    - SERVER_NAME=localhost           # replace by your domain
-    - AUTO_LETS_ENCRYPT=no
+    - SERVER_NAME=go-prestashop.evolutive.group           # replace by your domain
+    - AUTO_LETS_ENCRYPT=yes
     - REDIRECT_HTTP_TO_HTTPS=no
     - DISABLE_DEFAULT_SERVER=yes
     - MAX_CLIENT_SIZE=50m

@@ -9,8 +9,8 @@ type ImageLang struct {
 	XMLName xml.Name `xml:"entity_image"`
 	Text    string   `xml:",chardata"`
 	Image   []struct {
-		Text   string `xml:",chardata" struct2map:"-"`
-		ID     string `xml:"id,attr" struct2map:"key:id"`
+		IDLang string `xml:",chardata" struct2map:"key:id_lang"`
+		ID     string `xml:"id,attr" struct2map:"key:id_image"`
 		Legend string `xml:"legend,attr" struct2map:"key:legend"`
 	} `xml:"image"`
 }

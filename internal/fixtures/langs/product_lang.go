@@ -9,9 +9,9 @@ type ProductLang struct {
 	XMLName xml.Name `xml:"entity_product"`
 	Text    string   `xml:",chardata"`
 	Product []struct {
-		Text             string `xml:",chardata" struct2map:"key:name"`
+		IDLang           string `xml:",chardata" struct2map:"key:id_lang"`
 		IDShop           string `xml:"id_shop,attr" struct2map:"key:id_shop"`
-		ID               string `xml:"id,attr" struct2map:"key:id"`
+		ID               string `xml:"id,attr" struct2map:"key:id_product"`
 		Name             string `xml:"name,attr" struct2map:"key:name"`
 		Description      string `xml:"description,attr" struct2map:"key:description"`
 		DescriptionShort string `xml:"description_short,attr" struct2map:"key:description_short"`

@@ -10,3 +10,6 @@
 [submodule ".docker/nginx"]
 	path = .docker/nginx
 	url = https://github.com/lucmichalski/bunkerized-nginx
+[submodule ".docker/presta-faker"]
+	path = .docker/presta-faker
+	url = https://github.com/lucmichalski/presta-faker
