@@ -59,12 +59,18 @@ var (
 	dbEnv         bool
 	languages     []string
 	languagesDef  = []string{"fr", "en"}
-	imgTypes      = []string{"p"} // []string{"c", "m", "p", "st", "su"} // other images have no id, need to find a way to insert them manually
-	imgQuality    int
-	imgExt        []string
-	imgDefExt     = []string{".png", ".jpg", ".jpeg", ".webp"} // jpeg,png, webp,tiff,gif,pdf,svg
-	seed          = time.Now().UTC().UnixNano()
-	noFixtures    bool
+	imgTypes      = map[string]string{
+		"p": "products",
+		//"c":  "categories",
+		//"m":  "manufacturers",
+		//"su": "suppliers",
+		//"st": "stores",
+	}
+	imgQuality int
+	imgExt     []string
+	imgDefExt  = []string{".png", ".jpg", ".jpeg", ".webp"} // jpeg,png, webp,tiff,gif,pdf,svg
+	seed       = time.Now().UTC().UnixNano()
+	noFixtures bool
 )
 
 var ImportCmd = &cobra.Command{
@@ -1063,9 +1069,13 @@ DELIMITER ;
 			Quality:  imgQuality,
 		}
 
-		for _, imgType := range imgTypes {
+		for imgType, imgTypeLabel := range imgTypes {
 
 			imgDir := filepath.Join(workDir, "img", imgType)
+
+			// load image types
+			var imageTypes []*models.ImageType
+			db.Where(imgTypeLabel + " = 1").Find(&imageTypes)
 
 			i := 1
 			err := godirwalk.Walk(imgDir, &godirwalk.Options{
@@ -1117,6 +1127,43 @@ DELIMITER ;
 								log.Println("destinationFilePath=", destinationFilePath)
 								err = bimg.Write(destinationFilePath, newBytes)
 								checkErr("bimg.Write, error", err)
+
+								for _, imageType := range imageTypes {
+
+									// Import image buffer
+									newImage := bimg.NewImage(buffer)
+
+									// Get the image dimension
+									// imgDim, err := newImage.Size()
+
+									// Get the image type
+									mediaType := newImage.Type()
+
+									switch mediaType {
+									case "unknown":
+										return nil // errors.New("Unsupported image format")
+									}
+
+									bimgOpts.Height = int(imageType.Height)
+									bimgOpts.Width = int(imageType.Width)
+
+									// Process image quality
+									newBytes, err := newImage.Process(bimgOpts)
+									checkErr("bimg.Process, error", err)
+
+									// Write final output
+									destinationPrepfixPath := filepath.Join(psDir, "img", imgType)
+									destinationFinalPath := buildFolderForImage(destinationPrepfixPath, i)
+									if err := os.MkdirAll(destinationFinalPath, 0755); err != nil {
+										log.Fatal(err)
+									}
+									destinationFilePath := filepath.Join(destinationFinalPath, fmt.Sprintf("%d-%s%s", i, imageType.Name, extension))
+									log.Println("destinationFilePath=", destinationFilePath)
+									err = bimg.Write(destinationFilePath, newBytes)
+									checkErr("bimg.Write, error", err)
+
+								}
+
 								i++
 							}
 						}
