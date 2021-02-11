@@ -15,7 +15,6 @@ import (
 	"strings"
 	"time"
 
-	// "github.com/johngb/langreg"
 	"github.com/bxcodec/faker/v3"
 	"github.com/emvi/iso-639-1"
 	"github.com/fatih/structs"
@@ -59,7 +58,7 @@ var (
 	dbEnv         bool
 	languages     []string
 	languagesDef  = []string{"fr", "en"}
-	imgTypes      = map[string]string{
+	imgTypes      = map[string]string{ // todo. how to deal with other types of images ?
 		"p": "products",
 		//"c":  "categories",
 		//"m":  "manufacturers",
@@ -541,6 +540,10 @@ var ImportCmd = &cobra.Command{
 				}
 			}
 
+			// todo. find faster alternative to rnad() function
+			// ref. - https://stackoverflow.com/questions/1823306/mysql-alternatives-to-order-by-rand
+			//      - https://stackoverflow.com/questions/4329396/mysql-select-10-random-rows-from-600k-rows-fast
+			// SELECT id_address FROM eg_address AS r1 JOIN (SELECT CEIL(RAND() * (SELECT MAX(id_address) FROM eg_address)) AS id) AS r2 WHERE r1.id_address >= r2.id ORDER BY r1.id_address ASC LIMIT 1
 			// fix missing relationships
 
 			// manufacturer
@@ -563,13 +566,40 @@ var ImportCmd = &cobra.Command{
 				log.Fatal(err)
 			}
 
-			// UPDATE eg_category SET id_parent=2 WHERE id_category>2
-			// UPDATE eg_category SET id_parent=(SELECT id_category FROM eg_category WHERE id_category>=2 AND id_category<=10 ORDER BY RAND() LIMIT 1) WHERE id_category>2;
+			// eg_orders
+			err = db.Debug().Exec("UPDATE " + dbTablePrefix + "orders SET id_lang=1, id_carrier=1, date_add=NOW(), valid=1;").Error
+			if err != nil {
+				log.Fatal(err)
+			}
 
-			// randomize parent category
-			// UPDATE eg_category SET id_parent=(RAND()*(25-10)+10) WHERE id_category>2;
-			// err = db.Debug().Exec("UPDATE " + dbTablePrefix + "category SET id_parent=(SELECT id_category FROM eg_category WHERE id_category>=2 AND id_category<=20 ORDER BY RAND() LIMIT 1) WHERE id_category>2;").Error
-			err = db.Debug().Exec("UPDATE " + dbTablePrefix + "category SET id_parent=2 WHERE id_category>2;").Error
+			// NOT WORKING as you need as much addresses as you have orders but keep it for later ^^
+			// UPDATE eg_orders o INNER JOIN eg_address b ON b.id_customer = o.id_customer SET o.id_address_delivery = b.id_address;
+			err = db.Debug().Exec("UPDATE " + dbTablePrefix + "orders o INNER JOIN eg_address b ON b.id_customer = o.id_customer SET o.id_address_delivery = b.id_address;").Error
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			err = db.Debug().Exec("UPDATE " + dbTablePrefix + "orders o INNER JOIN eg_address b ON b.id_customer = o.id_customer SET o.id_address_invoice = b.id_address;").Error
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			randomAdressSql := `SELECT id_address FROM eg_address AS r1 JOIN (SELECT CEIL(RAND() * (SELECT MAX(id_address) FROM eg_address)) AS id) AS r2 WHERE r1.id_address >= r2.id ORDER BY r1.id_address ASC LIMIT 1`
+
+			// UPDATE eg_orders o SET id_address_delivery=(SELECT id_address FROM eg_address a WHERE o.id_customer=a.id_customer ORDER BY RAND() LIMIT 1);
+			err = db.Debug().Exec("UPDATE " + dbTablePrefix + "orders o SET id_address_delivery=(" + randomAdressSql + ") WHERE id_address_delivery=0").Error
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			// UPDATE eg_orders o SET id_address_invoice=(SELECT id_address FROM eg_address a WHERE o.id_customer=a.id_customer ORDER BY RAND() LIMIT 1);
+			err = db.Debug().Exec("UPDATE " + dbTablePrefix + "orders o SET id_address_invoice=(" + randomAdressSql + ") WHERE id_address_invoice=0").Error
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			// for now, we deal with only one level as we have some troubles to rebuild the nested category tree
+			err = db.Debug().Exec("UPDATE " + dbTablePrefix + "category SET id_parent=2, level=1 WHERE id_category>2;").Error
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -581,8 +611,14 @@ var ImportCmd = &cobra.Command{
 			}
 
 			// images
-			// INSERT IGNORE INTO eg_image_shop ( id_image, id_product, id_shop, position) SELECT id_image, id_product, 1, 0 FROM eg_image;
-			err = db.Debug().Exec("INSERT IGNORE INTO " + dbTablePrefix + "image_shop ( id_image, id_product, id_shop, position) SELECT id_image, id_product, 1, 0 FROM " + dbTablePrefix + "image").Error
+			// INSERT IGNORE INTO eg_image_shop ( id_image, id_product, id_shop) SELECT id_image, id_product, 1, 0 FROM eg_image;
+			err = db.Debug().Exec("INSERT IGNORE INTO " + dbTablePrefix + "image_shop ( id_image, id_product, id_shop) SELECT id_image, id_product, 1 FROM " + dbTablePrefix + "image").Error
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			// customers
+			err = db.Debug().Exec("INSERT IGNORE INTO " + dbTablePrefix + "customer_group ( id_customer, id_group) SELECT id_customer, id_default_group FROM " + dbTablePrefix + "customer").Error
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -1128,6 +1164,9 @@ DELIMITER ;
 								err = bimg.Write(destinationFilePath, newBytes)
 								checkErr("bimg.Write, error", err)
 
+								// todo: product_mini_ ?!
+								// https://prestanish.evolutive.group/img/tmp/product_mini_21.jpg?time=1612942719
+
 								for _, imageType := range imageTypes {
 
 									// Import image buffer
@@ -1360,3 +1399,39 @@ func loadDataLang(db *gorm.DB, fp, table string, id_lang int, columns ...string)
 	}
 	return nil
 }
+
+/*
+
+SELECT SQL_CALC_FOUND_ROWS p.`id_product`  AS `id_product`,
+ p.`reference`  AS `reference`,
+ sa.`price`  AS `price`,
+ p.`id_shop_default`  AS `id_shop_default`,
+ p.`is_virtual`  AS `is_virtual`,
+ pl.`name`  AS `name`,
+ pl.`link_rewrite`  AS `link_rewrite`,
+ sa.`active`  AS `active`,
+ shop.`name`  AS `shopname`,
+ image_shop.`id_image`  AS `id_image`,
+ cl.`name`  AS `name_category`,
+ 0 AS `price_final`,
+ pd.`nb_downloadable`  AS `nb_downloadable`,
+ sav.`quantity`  AS `sav_quantity`,
+ IF(sav.`quantity`<=0, 1, 0) AS `badge_danger`
+FROM  `eg_product` p
+ LEFT JOIN `eg_product_lang` pl ON (pl.`id_product` = p.`id_product` AND pl.`id_lang` = 1 AND pl.`id_shop` = 1)
+ LEFT JOIN `eg_stock_available` sav ON (sav.`id_product` = p.`id_product` AND sav.`id_product_attribute` = 0 AND sav.id_shop = 1  AND sav.id_shop_group = 0 )
+ JOIN `eg_product_shop` sa ON (p.`id_product` = sa.`id_product` AND sa.id_shop = 1)
+ LEFT JOIN `eg_category_lang` cl ON (sa.`id_category_default` = cl.`id_category` AND cl.`id_lang` = 1 AND cl.id_shop = 1)
+ LEFT JOIN `eg_category` c ON (c.`id_category` = cl.`id_category`)
+ LEFT JOIN `eg_shop` shop ON (shop.id_shop = 1)
+ LEFT JOIN `eg_image_shop` image_shop ON (image_shop.`id_product` = p.`id_product` AND image_shop.`cover` = 1 AND image_shop.id_shop = 1)
+ LEFT JOIN `eg_image` i ON (i.`id_image` = image_shop.`id_image`)
+ LEFT JOIN `eg_product_download` pd ON (pd.`id_product` = p.`id_product`)
+WHERE (1 AND state = 1)
+
+ORDER BY  `id_product` asc
+
+LIMIT 0, 20
+;
+
+*/

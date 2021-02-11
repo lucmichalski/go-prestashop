@@ -1,40 +1,31 @@
 package cmd
 
 import (
-	"bufio"
-	"bytes"
 	"encoding/csv"
-	"encoding/xml"
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
+	"math"
 	"os"
-	"path/filepath"
-	"sort"
 	"strings"
 
-	"github.com/fatih/structs"
+	// "github.com/fatih/structs"
 	mysql_driver "github.com/go-sql-driver/mysql"
-	"github.com/iancoleman/strcase"
 	"github.com/k0kubun/pp"
 	"github.com/spf13/cobra"
-	"golang.org/x/net/html/charset"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
-
-	"github.com/lucmichalski/go-prestashop/internal/models"
+	// "github.com/lucmichalski/go-prestashop/internal/models"
 )
 
 /*
 	Refs:
-	go run main.go load --db-name go_prestashop --db-user root --db-pass "OvdZ5ZoXWgCWL4-hvZjg!" --db-table-prefix eg_
+	- https://github.com/lucmichalski/presta-faker/blob/master/src/PrestaFaker/Webservice/Sql/Category.php
 */
 
 var (
-	outputDir     string
-	workDir       string
-	dryRun        bool
 	db            *gorm.DB
 	dbName        string
 	dbUser        string
@@ -45,15 +36,17 @@ var (
 	dbMigrate     bool
 	dbDrop        bool
 	dbEnv         bool
-	languages     []string
-	languagesDef  = []string{"en", "fr"}
+	csvLoad       bool
+	csvFile       string
+	outputDir     string
+	dryRun        bool
 )
 
 var ImportCmd = &cobra.Command{
 	Use:     "import",
 	Aliases: []string{"i"},
-	Short:   "load prestashop-shop-creator xml to a mysql database.",
-	Long:    "load prestashop-shop-creator xml to a mysql database",
+	Short:   "import openfoodfcats dataset to prestashop database.",
+	Long:    "import openfoodfcats dataset to prestashop database.",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if !dryRun {
@@ -62,395 +55,225 @@ var ImportCmd = &cobra.Command{
 			dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=True&loc=Local", dbUser, dbPass, dbHost, dbPort, dbName)
 			db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 				NamingStrategy: schema.NamingStrategy{
-					SingularTable: true,
+					// TablePrefix:   dbTablePrefix,                   // table name prefix, table for `Lang` would be `eg_lang`
+					SingularTable: true,                            // use singular table name, table for `User` would be `user` with this option enabled
+					NameReplacer:  strings.NewReplacer("ID", "Id"), // use name replacer to change struct/field name before convert it to db name
+					// SkipDefaultTransaction: true,
 				},
 			})
 			if err != nil {
 				log.Fatal(err)
 			}
 
-			err = prepareTables(db, models.Tables...)
-			if err != nil {
-				log.Fatal(err)
-			}
-		}
-
-		// mapping for languages
-		// languagesMap := make(map[string]int, 0)
-
-		for _, fixture := range fixtures.Fixtures {
-
-			n := structs.Name(fixture)
-			osPathname := filepath.Join(workDir, "data", fmt.Sprintf("%s.xml", strings.ToLower(strcase.ToSnake(n))))
-			if options.debug {
-				pp.Println("osPathname:", osPathname)
-			}
-
-			file, err := os.Open(osPathname)
+			// create and/or truncate tables
+			err = prepareTables(db, Tables...)
 			if err != nil {
 				log.Fatal(err)
 			}
 
-			reader := bufio.NewReader(file)
-			dec := xml.NewDecoder(reader)
-			dec.CharsetReader = charset.NewReaderLabel
-			dec.Strict = false
-			if err := dec.Decode(&fixture); err != nil {
-				log.Fatal(err)
-			}
-
-			csvDirPath := filepath.Join(outputDir, "data")
-			csvBaseName := strings.ToLower(strcase.ToSnake(n))
-			csvFileName := fmt.Sprintf("%s.csv", csvBaseName)
-			csvFilePath := filepath.Join(csvDirPath, csvFileName)
-
-			csvFile, err := os.Create(csvFilePath)
-			if err != nil {
-				log.Fatal("Unable to open output")
-			}
-			defer csvFile.Close()
-
-			entities := make([]interface{}, 0)
-			switch t := fixture.(type) {
-			case *fixtures.Guest:
-				m := structs.Map(fixture.(*fixtures.Guest).Entities)
-				entities = append(entities, m["Guest"].([]interface{})...)
-			case *fixtures.OrderMessage:
-				m := structs.Map(fixture.(*fixtures.OrderMessage).Entities)
-				entities = append(entities, m["OrderMessage"].([]interface{})...)
-			case *fixtures.RangeWeight:
-				m := structs.Map(fixture.(*fixtures.RangeWeight).Entities)
-				entities = append(entities, m["RangeWeight"].([]interface{})...)
-			case *fixtures.Profile:
-				m := structs.Map(fixture.(*fixtures.Profile).Entities)
-				entities = append(entities, m["Profile"].([]interface{})...)
-			case *fixtures.Image:
-				m := structs.Map(fixture.(*fixtures.Image).Entities)
-				entities = append(entities, m["Image"].([]interface{})...)
-			case *fixtures.OrderHistory:
-				m := structs.Map(fixture.(*fixtures.OrderHistory).Entities)
-				entities = append(entities, m["OrderHistory"].([]interface{})...)
-			case *fixtures.ProductSupplier:
-				m := structs.Map(fixture.(*fixtures.ProductSupplier).Entities)
-				entities = append(entities, m["ProductSupplier"].([]interface{})...)
-			case *fixtures.CategoryGroup:
-				m := structs.Map(fixture.(*fixtures.CategoryGroup).Entities)
-				entities = append(entities, m["CategoryGroup"].([]interface{})...)
-			case *fixtures.Carrier:
-				m := structs.Map(fixture.(*fixtures.Carrier).Entities)
-				entities = append(entities, m["Carrier"].([]interface{})...)
-			case *fixtures.Product:
-				m := structs.Map(fixture.(*fixtures.Product).Entities)
-				entities = append(entities, m["Product"].([]interface{})...)
-			case *fixtures.Cart:
-				m := structs.Map(fixture.(*fixtures.Cart).Entities)
-				entities = append(entities, m["Cart"].([]interface{})...)
-			case *fixtures.CategoryProduct:
-				m := structs.Map(fixture.(*fixtures.CategoryProduct).Entities)
-				entities = append(entities, m["CategoryProduct"].([]interface{})...)
-			case *fixtures.CarrierGroup:
-				m := structs.Map(fixture.(*fixtures.CarrierGroup).Entities)
-				entities = append(entities, m["CarrierGroup"].([]interface{})...)
-			case *fixtures.Orders:
-				m := structs.Map(fixture.(*fixtures.Orders).Entities)
-				entities = append(entities, m["Orders"].([]interface{})...)
-			case *fixtures.RangePrice:
-				m := structs.Map(fixture.(*fixtures.RangePrice).Entities)
-				entities = append(entities, m["RangePrice"].([]interface{})...)
-			case *fixtures.Alias:
-				m := structs.Map(fixture.(*fixtures.Alias).Entities)
-				entities = append(entities, m["Alias"].([]interface{})...)
-			case *fixtures.StockAvailable:
-				m := structs.Map(fixture.(*fixtures.StockAvailable).Entities)
-				entities = append(entities, m["StockAvailable"].([]interface{})...)
-			case *fixtures.Manufacturer:
-				m := structs.Map(fixture.(*fixtures.Manufacturer).Entities)
-				entities = append(entities, m["Manufacturer"].([]interface{})...)
-			case *fixtures.FeatureValue:
-				m := structs.Map(fixture.(*fixtures.FeatureValue).Entities)
-				entities = append(entities, m["FeatureValue"].([]interface{})...)
-			case *fixtures.ProductAttribute:
-				m := structs.Map(fixture.(*fixtures.ProductAttribute).Entities)
-				entities = append(entities, m["ProductAttribute"].([]interface{})...)
-			case *fixtures.AttributeGroup:
-				m := structs.Map(fixture.(*fixtures.AttributeGroup).Entities)
-				entities = append(entities, m["AttributeGroup"].([]interface{})...)
-			case *fixtures.Store:
-				m := structs.Map(fixture.(*fixtures.Store).Entities)
-				entities = append(entities, m["Store"].([]interface{})...)
-			case *fixtures.ProductAttributeImage:
-				m := structs.Map(fixture.(*fixtures.ProductAttributeImage).Entities)
-				entities = append(entities, m["ProductAttributeImage"].([]interface{})...)
-			case *fixtures.Category:
-				m := structs.Map(fixture.(*fixtures.Category).Entities)
-				entities = append(entities, m["Category"].([]interface{})...)
-			case *fixtures.Connections:
-				m := structs.Map(fixture.(*fixtures.Connections).Entities)
-				entities = append(entities, m["Connections"].([]interface{})...)
-			case *fixtures.Delivery:
-				m := structs.Map(fixture.(*fixtures.Delivery).Entities)
-				entities = append(entities, m["Delivery"].([]interface{})...)
-			case *fixtures.Feature:
-				m := structs.Map(fixture.(*fixtures.Feature).Entities)
-				entities = append(entities, m["Feature"].([]interface{})...)
-			case *fixtures.ProductAttributeCombination:
-				m := structs.Map(fixture.(*fixtures.ProductAttributeCombination).Entities)
-				entities = append(entities, m["ProductAttributeCombination"].([]interface{})...)
-			case *fixtures.Attribute:
-				m := structs.Map(fixture.(*fixtures.Attribute).Entities)
-				entities = append(entities, m["Attribute"].([]interface{})...)
-			case *fixtures.FeatureProduct:
-				m := structs.Map(fixture.(*fixtures.FeatureProduct).Entities)
-				entities = append(entities, m["FeatureProduct"].([]interface{})...)
-			case *fixtures.OrderCarrier:
-				m := structs.Map(fixture.(*fixtures.OrderCarrier).Entities)
-				entities = append(entities, m["OrderCarrier"].([]interface{})...)
-			case *fixtures.Customer:
-				m := structs.Map(fixture.(*fixtures.Customer).Entities)
-				entities = append(entities, m["Customer"].([]interface{})...)
-			case *fixtures.OrderDetail:
-				m := structs.Map(fixture.(*fixtures.OrderDetail).Entities)
-				entities = append(entities, m["OrderDetail"].([]interface{})...)
-			case *fixtures.Supplier:
-				m := structs.Map(fixture.(*fixtures.Supplier).Entities)
-				entities = append(entities, m["Supplier"].([]interface{})...)
-			case *fixtures.Address:
-				m := structs.Map(fixture.(*fixtures.Address).Entities)
-				entities = append(entities, m["Address"].([]interface{})...)
-			case *fixtures.SpecificPrice:
-				m := structs.Map(fixture.(*fixtures.SpecificPrice).Entities)
-				entities = append(entities, m["SpecificPrice"].([]interface{})...)
-			case *fixtures.CarrierZone:
-				m := structs.Map(fixture.(*fixtures.CarrierZone).Entities)
-				entities = append(entities, m["CarrierZone"].([]interface{})...)
-			default:
-				fmt.Printf("case %T:\n", t) // %T prints whatever type t has
-			}
-
-			columnsMap := make(map[string]bool, 0)
-			rows := make([][]string, 0)
-			for _, entity := range entities {
-				var row []string
-				switch t := entity.(type) {
-				case map[string]interface{}:
-					keys := make([]string, 0, len(entity.(map[string]interface{})))
-					for k := range entity.(map[string]interface{}) {
-						if strings.ToLower(k) != "text" && strings.ToLower(k) != "id" {
-							keys = append(keys, k)
-						}
-					}
-					sort.Strings(keys)
-					for _, k := range keys {
-						if strings.ToLower(k) != "text" && strings.ToLower(k) != "id" {
-							row = append(row, fmt.Sprintf("%v", entity.(map[string]interface{})[k]))
-							columnsMap[k] = true
-						}
-					}
-				default:
-					fmt.Printf("case %T:\n", t) // %T prints whatever type t has
-				}
-				rows = append(rows, row)
-			}
-
-			var columns []string
-			for column := range columnsMap {
-				column = strings.Replace(column, "ID", "Id", 1)
-				column = strcase.ToSnake(column)
-				column = strings.Replace(column, "_1", "1", 1)
-				column = strings.Replace(column, "_2", "2", 1)
-				columns = append(columns, column)
-			}
-
-			buf, err := encodeToCsv(columns, rows)
-			csvFile.Write(buf)
-
-			if !dryRun {
-				// load data into file
-				err := loadData(db, csvFilePath, csvBaseName, columns...)
+			// load dataset into a temporary table
+			// todo: split file
+			// refs: https://github.com/uk0/go-split-file/blob/master/command.go
+			if csvLoad {
+				err := loadData(db, csvFile, "openfoodfact_tmp")
 				if err != nil {
 					log.Fatal(err)
 				}
 			}
-		}
 
-		for _, language := range languages {
+			// extract products
+			var productCnt int64
+			db.Model(&OpenFoodFact{}).Count(&productCnt)
+			offset := 0
+			limit := 10000
+			maxIter := math.Round(float64(int(productCnt) / limit))
+			for i := 0; i < int(maxIter); i++ {
+				var products []*OpenFoodFact
+				offset := offset + limit
+				db.Debug().Model(&OpenFoodFact{}).Limit(limit).Offset(offset).Find(&products)
+				for _, product := range products {
 
-			for _, model := range langs.Fixtures {
+					/*
+									   return [
+									        // Product
+									        'id_supplier' => 0,
+									        'id_manufacturer' => 0,
+									        'id_category_default' => 0, // required
+									        'id_shop_default' => 1,
+									        'id_tax_rules_group' => 0,
+									        'on_sale' => 0,
+									        'online_only' => 0,
+									        'ean13' => '',
+									        'upc' => '',
+									        'ecotax' => 0,
+									        'quantity' => 0,
+									        'minimal_quantity' => 0,
+									        'price' => 0, // required
+									        'wholesale_price' => 0,
+									        'unity' => '',
+									        'unit_price_ratio' => 0,
+									        'additional_shipping_cost' => 0,
+									        'reference' => '0',
+									        'supplier_reference' => '',
+									        'location' => '',
+									        'width' => 0,
+									        'height' => 0,
+									        'depth' => 0,
+									        'weight' => 0,
+									        'out_of_stock' => 2,
+									        'quantity_discount' => 0,
+									        'customizable' => 0,
+									        'uploadable_files' => 0,
+									        'text_fields' => 0,
+									        'active' => 1,
+									        'redirect_type' => '',
+									        'id_product_redirected' => 0,
+									        'available_for_order' => 1,
+									        'available_date' => '0000-00-00',
+									        'condition' => 'new',
+									        'show_price' => 1,
+									        'indexed' => 1,
+									        'visibility' => 'both',
+									        'cache_is_pack' => 0,
+									        'cache_has_attachments' => 0,
+									        'is_virtual' => 0,
+									        'cache_default_attribute' => 0,
+									        'advanced_stock_management' => 0,
 
-				n := structs.Name(model)
-				osPathname := filepath.Join(workDir, "langs", language, "data", fmt.Sprintf("%s.xml", strings.Replace(strings.ToLower(strcase.ToSnake(n)), "_lang", "", 1)))
-				if options.debug {
-					pp.Println("osPathname:", osPathname)
+									        // Lang
+									        'id_shop' => 1,
+									        'id_lang' => 1,
+									        'description' => '',
+									        'description_short' => '',
+									        'link_rewrite' => '', // required
+									        'meta_description' => '',
+									        'meta_keywords' => '',
+									        'meta_title' => '',
+									        'name' => '', // required
+									        'available_now' => '',
+									        'available_later' => '',
+
+
+						INSERT INTO :prefix:product (`id_product`, `id_supplier`, `id_manufacturer`, `id_category_default`, `id_shop_default`, `id_tax_rules_group`, `on_sale`, `online_only`, `ean13`, `upc`, `ecotax`, `quantity`, `minimal_quantity`, `price`, `wholesale_price`, `unity`, `unit_price_ratio`, `additional_shipping_cost`, `reference`, `supplier_reference`, `location`, `width`, `height`, `depth`, `weight`, `out_of_stock`, `quantity_discount`, `customizable`, `uploadable_files`, `text_fields`, `active`, `redirect_type`, `id_product_redirected`, `available_for_order`, `available_date`, `condition`, `show_price`, `indexed`, `visibility`, `cache_is_pack`, `cache_has_attachments`, `is_virtual`, `cache_default_attribute`, `date_add`, `date_upd`, `advanced_stock_management`)
+						VALUES (:id:, :id_supplier:, :id_manufacturer:, :id_category_default:, :id_shop_default:, :id_tax_rules_group:, :on_sale:, :online_only:, :ean13:, :upc:, :ecotax:, :quantity:, :minimal_quantity:, :price:, :wholesale_price:, :unity:, :unit_price_ratio:, :additional_shipping_cost:, :reference:, :supplier_reference:, :location:, :width:, :height:, :depth:, :weight:, :out_of_stock:, :quantity_discount:, :customizable:, :uploadable_files:, :text_fields:, :active:, :redirect_type:, :id_product_redirected:, :available_for_order:, :available_date:, :condition:, :show_price:, :indexed:, :visibility:, :cache_is_pack:, :cache_has_attachments:, :is_virtual:, :cache_default_attribute:, NOW(), NOW(), :advanced_stock_management:);
+						INSERT INTO :prefix:product_lang (`id_product`, `id_shop`, `id_lang`, `description`, `description_short`, `link_rewrite`, `meta_description`, `meta_keywords`, `meta_title`, `name`, `available_now`, `available_later`)
+						VALUES (:id:, :id_shop:, :id_lang:, :description:, :description_short:, :link_rewrite:, :meta_description:, :meta_keywords:, :meta_title:, :name:, :available_now:, :available_later:);
+						INSERT INTO :prefix:product_shop (`id_product`, `id_shop`, `id_category_default`, `id_tax_rules_group`, `on_sale`, `online_only`, `ecotax`, `minimal_quantity`, `price`, `wholesale_price`, `unity`, `unit_price_ratio`, `additional_shipping_cost`, `customizable`, `uploadable_files`, `text_fields`, `active`, `redirect_type`, `id_product_redirected`, `available_for_order`, `available_date`, `condition`, `show_price`, `indexed`, `visibility`, `cache_default_attribute`, `advanced_stock_management`, `date_add`, `date_upd`)
+						VALUES (:id:, :id_shop:, :id_category_default:, :id_tax_rules_group:, :on_sale:, :online_only:, :ecotax:, :minimal_quantity:, :price:, :wholesale_price:, :unity:, :unit_price_ratio:, :additional_shipping_cost:, :customizable:, :uploadable_files:, :text_fields:, :active:, :redirect_type:, :id_product_redirected:, :available_for_order:, :available_date:, :condition:, :show_price:, :indexed:, :visibility:, :cache_default_attribute:, :advanced_stock_management:, NOW(), NOW());
+						INSERT INTO :prefix:category_product (`id_product`, `id_category`, `position`)
+						VALUES (:id:, :id_category_default:, 0);
+						EOF;
+						    const PRODUCT_FEATURE_SQL = <<<EOF
+						INSERT INTO :prefix:feature_product (`id_product`, `id_feature`, `id_feature_value`)
+						VALUES (:id:, :id_feature:, :id_feature_value:);
+						EOF;
+
+					*/
+
+					// extract product category
+					/*
+									   return [
+									        // Category
+									        'id_parent' => 0,
+									        'id_shop_default' => 1,
+									        'level_depth' => 0,
+									        'nleft' => 0,
+									        'nright' => 0,
+									        'active' => 1,
+
+									        // Lang
+									        'id_shop' => 1,
+									        'id_lang' => 1,
+									        'description' => '',
+									        'link_rewrite' => '', // required
+									        'meta_description' => '',
+									        'meta_keywords' => '',
+									        'meta_title' => '',
+									        'name' => '', // required
+
+									        // Shop
+									        'position' => 0,
+									    ];
+
+						INSERT INTO :prefix:category (`id_category`, `id_parent`, `id_shop_default`, `level_depth`, `nleft`, `nright`, `active`, `date_add`, `date_upd`, `is_root_category`)
+						VALUES (:id:, :id_parent:, :id_shop_default:, :level_depth:, :nleft:, :nright:, :active:, NOW(), NOW(), :is_root_category:);
+						INSERT INTO :prefix:category_lang (`id_category`, `id_shop`, `id_lang`, `name`, `description`, `link_rewrite`, `meta_description`, `meta_keywords`, `meta_title`)
+						VALUES (:id:, :id_shop:, :id_lang:, :name:, :description:, :link_rewrite:, :meta_description:, :meta_keywords:, :meta_title:);
+						INSERT INTO :prefix:category_shop (`id_category`, `id_shop`, `position`)
+						VALUES (:id:, :id_shop:, :position:);
+						INSERT INTO :prefix:category_group (`id_category`, `id_group`)
+						VALUES (:id:, 1), (:id:, 2), (:id:, 3);
+
+					*/
+
+					// extract products image/cover
+					/*
+
+						        return [
+						            // Image
+						            'id_product' => 0, // required
+						            'position' => 0,
+						            'cover' => 0,
+
+						            // Lang
+						            'id_lang' => 1,
+						            'legend' => '',
+
+						            // Shop
+						            'id_shop' => 1,
+						        ];
+
+								    const IMAGE_SQL = <<<EOF
+								INSERT INTO :prefix:image (`id_image`, `id_product`, `position`, `cover`)
+								VALUES (:id:, :id_product:, :position:, :cover:);
+								INSERT INTO :prefix:image_lang (`id_image`, `id_lang`, `legend`)
+								VALUES (:id:, :id_lang:, :legend:);
+								INSERT INTO :prefix:image_shop (`id_image`, `id_shop`, `cover`)
+								VALUES (:id:, :id_shop:, :cover:);
+
+					*/
+
+					// extract features
+					/*
+								return [
+						            // Feature
+						            'position' => 0,
+
+						            // Lang
+						            'id_lang' => 1,
+						            'name' => '', // required
+
+						            // Shop
+						            'id_shop' => 1,
+						        ];
+								INSERT INTO :prefix:feature (`id_feature`, `position`)
+								VALUES (:id:, :position:);
+								INSERT INTO :prefix:feature_lang (`id_feature`, `id_lang`, `name`)
+								VALUES (:id:, :id_lang:, :name:);
+								INSERT INTO :prefix:feature_shop (`id_feature`, `id_shop`)
+								VALUES (:id:, :id_shop:);
+					*/
+
+					/*
+						        return [
+						            // Feature
+						            'id_feature' => 0, // required
+
+						            // Lang
+						            'id_lang' => 1,
+						            'value' => '', // required
+						        ];
+
+								INSERT INTO :prefix:feature_value (`id_feature_value`, `id_feature`, `custom`)
+								VALUES (:id:, :id_feature:, :custom:);
+								INSERT INTO :prefix:feature_value_lang (`id_feature_value`, `id_lang`, `value`)
+								VALUES (:id:, :id_lang:, :value:);
+
+					*/
+
 				}
-
-				file, err := os.Open(osPathname)
-				if err != nil {
-					log.Fatal(err)
-				}
-
-				reader := bufio.NewReader(file)
-				dec := xml.NewDecoder(reader)
-				dec.CharsetReader = charset.NewReaderLabel
-				dec.Strict = false
-				if err := dec.Decode(&model); err != nil {
-					log.Fatal(err)
-				}
-
-				// todo. create base dir
-				csvFile, err := os.Create(filepath.Join(outputDir, "langs", language, "data", fmt.Sprintf("%s.csv", strings.ToLower(strcase.ToSnake(n)))))
-				if err != nil {
-					log.Fatal("Unable to open output")
-				}
-				defer csvFile.Close()
-
-				entities := make([]interface{}, 0)
-				switch t := model.(type) {
-				case *langs.FeatureLang:
-					for _, entity := range model.(*langs.FeatureLang).Feature {
-						m, err := struct2map.Decode(&entity)
-						if err != nil {
-							log.Fatal(err)
-						}
-						entities = append(entities, m)
-					}
-				case *langs.SupplierLang:
-					for _, entity := range model.(*langs.SupplierLang).Supplier {
-						m, err := struct2map.Decode(&entity)
-						if err != nil {
-							log.Fatal(err)
-						}
-						entities = append(entities, m)
-					}
-				case *langs.StoreLang:
-					for _, entity := range model.(*langs.StoreLang).Store {
-						m, err := struct2map.Decode(&entity)
-						if err != nil {
-							log.Fatal(err)
-						}
-						entities = append(entities, m)
-					}
-				case *langs.AttributeLang:
-					for _, entity := range model.(*langs.AttributeLang).Attribute {
-						m, err := struct2map.Decode(&entity)
-						if err != nil {
-							log.Fatal(err)
-						}
-						entities = append(entities, m)
-					}
-				case *langs.FeatureValueLang:
-					for _, entity := range model.(*langs.FeatureValueLang).FeatureValue {
-						m, err := struct2map.Decode(&entity)
-						if err != nil {
-							log.Fatal(err)
-						}
-						entities = append(entities, m)
-					}
-				case *langs.AttributeGroupLang:
-					for _, entity := range model.(*langs.AttributeGroupLang).AttributeGroup {
-						m, err := struct2map.Decode(&entity)
-						if err != nil {
-							log.Fatal(err)
-						}
-						entities = append(entities, m)
-					}
-				case *langs.OrderMessageLang:
-					for _, entity := range model.(*langs.OrderMessageLang).OrderMessage {
-						m, err := struct2map.Decode(&entity)
-						if err != nil {
-							log.Fatal(err)
-						}
-						entities = append(entities, m)
-					}
-				case *langs.CategoryLang:
-					for _, entity := range model.(*langs.CategoryLang).Category {
-						m, err := struct2map.Decode(&entity)
-						if err != nil {
-							log.Fatal(err)
-						}
-						entities = append(entities, m)
-					}
-				case *langs.ProfileLang:
-					for _, entity := range model.(*langs.ProfileLang).Profile {
-						m, err := struct2map.Decode(&entity)
-						if err != nil {
-							log.Fatal(err)
-						}
-						entities = append(entities, m)
-					}
-				case *langs.ProductLang:
-					for _, entity := range model.(*langs.ProductLang).Product {
-						m, err := struct2map.Decode(&entity)
-						if err != nil {
-							log.Fatal(err)
-						}
-						entities = append(entities, m)
-					}
-				case *langs.ManufacturerLang:
-					for _, entity := range model.(*langs.ManufacturerLang).Manufacturer {
-						m, err := struct2map.Decode(&entity)
-						if err != nil {
-							log.Fatal(err)
-						}
-						entities = append(entities, m)
-					}
-				case *langs.CarrierLang:
-					for _, entity := range model.(*langs.CarrierLang).Carrier {
-						m, err := struct2map.Decode(&entity)
-						if err != nil {
-							log.Fatal(err)
-						}
-						entities = append(entities, m)
-					}
-				case *langs.ImageLang:
-					for _, entity := range model.(*langs.ImageLang).Image {
-						m, err := struct2map.Decode(&entity)
-						if err != nil {
-							log.Fatal(err)
-						}
-						entities = append(entities, m)
-					}
-				default:
-					fmt.Printf("case %T:\n", t) // %T prints whatever type t has
-				}
-
-				columnsMap := make(map[string]bool, 0)
-				rows := make([][]string, 0)
-				for _, entity := range entities {
-					var row []string
-					switch t := entity.(type) {
-					case map[string]interface{}:
-						keys := make([]string, 0, len(entity.(map[string]interface{})))
-						for k := range entity.(map[string]interface{}) {
-							keys = append(keys, k)
-						}
-						sort.Strings(keys)
-						for _, k := range keys {
-							row = append(row, fmt.Sprintf("%v", entity.(map[string]interface{})[k]))
-							columnsMap[k] = true
-						}
-					default:
-						fmt.Printf("case %T:\n", t) // %T prints whatever type t has
-					}
-					rows = append(rows, row)
-				}
-
-				var columns []string
-				for column := range columnsMap {
-					column = strings.Replace(column, "ID", "Id", 1)
-					column = strcase.ToSnake(column)
-					column = strings.Replace(column, "_1", "1", 1)
-					column = strings.Replace(column, "_2", "2", 1)
-					columns = append(columns, column)
-				}
-				sort.Strings(columns)
-
-				buf, err := encodeToCsv(columns, rows)
-				csvFile.Write(buf)
-
-				// load data into file
-				// err := loadData(fp string, DB *gorm.DB)
-
 			}
+
 		}
 
 	},
@@ -458,8 +281,8 @@ var ImportCmd = &cobra.Command{
 
 func init() {
 	// todo. manage ssl connections for db
-	ImportCmd.Flags().StringVarP(&dbTablePrefix, "db-table-prefix", "", "ps_", "database table prefix")
-	ImportCmd.Flags().StringVarP(&dbName, "db-name", "", "prestashop", "database name")
+	ImportCmd.Flags().StringVarP(&dbTablePrefix, "db-table-prefix", "", "", "database table prefix")
+	ImportCmd.Flags().StringVarP(&dbName, "db-name", "", "openfoodfacts", "database name")
 	ImportCmd.Flags().StringVarP(&dbUser, "db-user", "", "root", "database username")
 	ImportCmd.Flags().StringVarP(&dbPass, "db-pass", "", "", "database password")
 	ImportCmd.Flags().StringVarP(&dbHost, "db-host", "", "127.0.0.1", "database host")
@@ -467,35 +290,11 @@ func init() {
 	ImportCmd.Flags().BoolVarP(&dbEnv, "db-env", "", false, "use env variables to connect to the database.")
 	ImportCmd.Flags().BoolVarP(&dbDrop, "db-drop", "", false, "drop/truncate database tables")
 	ImportCmd.Flags().BoolVarP(&dbMigrate, "db-migrate", "", false, "create/update database tables")
-	ImportCmd.Flags().StringVarP(&outputDir, "output-dir", "o", "../../shared/csv", "output directory")
-	ImportCmd.Flags().StringVarP(&workDir, "workdir", "w", "../../shared/fixtures", "working directory")
-	ImportCmd.Flags().StringSliceVarP(&languages, "language", "l", languagesDef, "languages to import")
+	ImportCmd.Flags().StringVarP(&outputDir, "output-dir", "o", "../../shared/datasets/openfoodfacts.org/prestashop", "csv dataset input file")
+	ImportCmd.Flags().StringVarP(&csvFile, "csv-file", "f", "../../shared/datasets/en.openfoodfacts.org.products.csv", "csv dataset input file")
+	ImportCmd.Flags().BoolVarP(&csvLoad, "csv-load", "", false, "load csv file into db")
 	ImportCmd.Flags().BoolVarP(&dryRun, "dry-run", "", false, "dry run")
 	RootCmd.AddCommand(ImportCmd)
-}
-
-func insert(ss []string, s string) []string {
-	i := sort.SearchStrings(ss, s)
-	ss = append(ss, "")
-	copy(ss[i+1:], ss[i:])
-	ss[i] = s
-	return ss
-}
-
-func encodeToCsv(columns []string, rows [][]string) ([]byte, error) {
-	var buf bytes.Buffer
-	w := csv.NewWriter(&buf)
-	sort.Strings(columns)
-	if err := w.Write(columns); err != nil {
-		return nil, err
-	}
-	for _, row := range rows {
-		if err := w.Write(row); err != nil {
-			return nil, err
-		}
-		w.Flush()
-	}
-	return buf.Bytes(), nil
 }
 
 func prepareTables(db *gorm.DB, tables ...interface{}) error {
@@ -512,6 +311,20 @@ func prepareTables(db *gorm.DB, tables ...interface{}) error {
 	return nil
 }
 
+func countFileLine(name string) (count int64, err error) {
+	data, err := ioutil.ReadFile(name)
+	if err != nil {
+		return
+	}
+	count = 0
+	for i := 0; i < len(data); i++ {
+		if data[i] == '\n' {
+			count++
+		}
+	}
+	return
+}
+
 func getHeaders(fp string) ([]string, error) {
 	var headers []string
 	// read
@@ -521,7 +334,7 @@ func getHeaders(fp string) ([]string, error) {
 	}
 	defer file.Close()
 	r := csv.NewReader(file)
-	r.Comma = ';'
+	r.Comma = '\t'
 	r.LazyQuotes = true
 
 	i := 0
@@ -545,12 +358,9 @@ func getHeaders(fp string) ([]string, error) {
 	return headers, nil
 }
 
-func loadData(db *gorm.DB, fp, table string, columns ...string) error {
+func loadData(db *gorm.DB, fp, table string) error {
 	if db == nil {
 		return errors.New("Database not connected")
-	}
-	if len(columns) == 0 {
-		return nil // errors.New("No columns are defined")
 	}
 
 	// get the first line
@@ -559,9 +369,18 @@ func loadData(db *gorm.DB, fp, table string, columns ...string) error {
 		return err
 	}
 
-	fmt.Printf("loading data from file %s with colums [%s]\n", fp, strings.Join(headers, ","))
+	var cleanHdrs []string
+	for _, hdr := range headers {
+		if strings.HasPrefix(hdr, "-") {
+			cleanHdrs = append(cleanHdrs, string(hdr[1:]))
+		} else {
+			cleanHdrs = append(cleanHdrs, hdr)
+		}
+	}
+
+	fmt.Printf("loading data from file %s with colums [%s]\n", fp, strings.Join(cleanHdrs, ","))
 	mysql_driver.RegisterLocalFile(fp)
-	query := "LOAD DATA LOCAL INFILE '" + fp + "' INTO TABLE " + dbTablePrefix + table + " CHARACTER SET 'utf8mb4' FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES (`" + strings.Replace(strings.Join(headers, "`,`"), ",", "`,`", -1) + "`);" // SET created_at = NOW(), updated_at = NOW();`
+	query := "LOAD DATA LOCAL INFILE '" + fp + "' INTO TABLE " + dbTablePrefix + table + " CHARACTER SET 'utf8mb4' FIELDS TERMINATED BY '\t' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES (`" + strings.Join(cleanHdrs, "`,`") + "`) SET created_at = NOW(), updated_at = NOW();"
 	if options.debug {
 		fmt.Println(query)
 	}
