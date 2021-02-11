@@ -116,7 +116,8 @@ var ImportCmd = &cobra.Command{
 
 				file, err := os.Open(osPathname)
 				if err != nil {
-					log.Fatal(err)
+					log.Warn(err)
+					continue
 				}
 
 				reader := bufio.NewReader(file)
@@ -323,7 +324,8 @@ var ImportCmd = &cobra.Command{
 
 					file, err := os.Open(osPathname)
 					if err != nil {
-						log.Fatal(err)
+						log.Warn(err)
+						continue
 					}
 
 					reader := bufio.NewReader(file)
@@ -625,15 +627,17 @@ var ImportCmd = &cobra.Command{
 
 			// *** eg_product ***
 			// set default category
-			err = db.Debug().Exec("UPDATE " + dbTablePrefix + "product SET id_category_default=(SELECT id_category FROM eg_category ORDER BY RAND() LIMIT 1)").Error
-			if err != nil {
-				log.Fatal(err)
-			}
+			/*
+				err = db.Debug().Exec("UPDATE " + dbTablePrefix + "product SET id_category_default=(SELECT id_category FROM eg_category ORDER BY RAND() LIMIT 1)").Error
+				if err != nil {
+					log.Fatal(err)
+				}
 
-			err = db.Debug().Exec("UPDATE " + dbTablePrefix + "category_product cp SET id_category=(SELECT id_category_default FROM eg_product p WHERE cp.id_product=p.id_product)").Error
-			if err != nil {
-				log.Fatal(err)
-			}
+				err = db.Debug().Exec("UPDATE " + dbTablePrefix + "category_product cp SET id_category=(SELECT id_category_default FROM eg_product p WHERE cp.id_product=p.id_product)").Error
+				if err != nil {
+					log.Fatal(err)
+				}
+			*/
 
 			// UPDATE eg_product SET id_category_default=(SELECT id_category FROM eg_category ORDER BY RAND() LIMIT 1);
 			// UPDATE eg_category_product ecp SET id_category=(SELECT id_category_default FROM eg_product ep WHERE ecp.id_product=ep.id_product);

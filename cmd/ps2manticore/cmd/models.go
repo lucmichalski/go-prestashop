@@ -5,23 +5,30 @@ import (
 )
 
 type Product struct {
-    DateAdd           time.Time
-    DateUpd           time.Time
-    ShopId            string
-    LangId            string
-    CategoryId        uint
-    CategoryLink      string
-    ManufacturerId    uint
-    Afo               string
-    AvailableForOrder string
-    Price             int
-    Product           string
-    Category          string
-    Manufacturer      string
-    IdProduct         uint
-    LinkRewrite       string
-    Name              string
-    Description       string
+    DateAdd          time.Time
+    DateUpd          time.Time
+    IdProduct        uint
+    Reference        string
+    Price            float64
+    IdShopDefault    uint
+    IsVirtual        bool
+    Name             string
+    Description      string
+    DescriptionShort string
+    Active           bool
+    ManufacturerId   uint
+    ManufacturerName string
+    ShopId           uint
+    ShopName         string
+    LinkRewrite      string
+    IdImage          uint
+    NameCategory     string
+    PriceFinal       float64
+    NbDownloadable   uint
+    SavQuantity      uint
+    BadgeDanger      bool
+    Features         string
+    FeatureValues    string
 }
 
 type Category struct {

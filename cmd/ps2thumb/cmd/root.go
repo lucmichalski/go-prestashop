@@ -24,9 +24,9 @@ var (
 
 // RootCmd is the root command for ovh-qa
 var RootCmd = &cobra.Command{
-	Use:   "fixture2db",
-	Short: "fixture2db is an helper to load prestashop-shop-creator xml files into a prestashop database.",
-	Long:  `fixture2db is an helper to load prestashop-shop-creator xml files into a prestashop database.`,
+	Use:   "ps2thumb",
+	Short: "ps2thumb is an helper to generate thumbnails for a prestashop deploy.",
+	Long:  `ps2thumb is an helper to generate thumbnails for a prestashop deploy.`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

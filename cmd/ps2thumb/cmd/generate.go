@@ -1,21 +1,13 @@
 package cmd
 
 import (
-	"bufio"
-	"bytes"
-	"errors"
 	"fmt"
-	"io"
-	"os"
-	"path"
 	"path/filepath"
-	"sort"
 	"strings"
-	"time"
 
 	"github.com/h2non/bimg"
 	"github.com/k0kubun/pp"
-	"github.com/karrick/godirwalk"
+	"github.com/nozzle/throttler"
 	"github.com/spf13/cobra"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -36,11 +28,11 @@ var (
 	dbPort        string
 	dbTablePrefix string
 	imgTypes      = map[string]string{ // todo. how to deal with other types of images ?
-		"p":  "products",
-		"c":  "categories",
-		"m":  "manufacturers",
-		"su": "suppliers",
-		"st": "stores",
+		"p": "products",
+		//"c":  "categories",
+		//"m":  "manufacturers",
+		//"su": "suppliers",
+		//"st": "stores",
 	}
 	imgQuality int
 	imgExt     []string
@@ -48,10 +40,10 @@ var (
 )
 
 var ImportCmd = &cobra.Command{
-	Use:     "load",
-	Aliases: []string{"l"},
-	Short:   "load prestashop-shop-creator xml to a mysql database.",
-	Long:    "load prestashop-shop-creator xml to a mysql database",
+	Use:     "generate",
+	Aliases: []string{"g"},
+	Short:   "generate thumbails for prestashop images.",
+	Long:    "generate thumbails for prestashop images",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if !dryRun {
@@ -72,9 +64,9 @@ var ImportCmd = &cobra.Command{
 
 		}
 
-		// todo. load image list or parse them by name ?
-		// var images []*models.Image
-		// db.Find(&images)
+		type Result struct {
+			IdImage uint
+		}
 
 		bimgOpts := bimg.Options{
 			Lossless: true,
@@ -83,109 +75,96 @@ var ImportCmd = &cobra.Command{
 
 		for imgType, imgTypeLabel := range imgTypes {
 
-			imgDir := filepath.Join(workDir, "img", imgType)
+			imgDir := filepath.Join(psDir, "img", imgType)
 
 			// load image types
 			var imageTypes []*models.ImageType
 			db.Where(imgTypeLabel + " = 1").Find(&imageTypes)
 
-			i := 1
-			err := godirwalk.Walk(imgDir, &godirwalk.Options{
-				Callback: func(osPathname string, de *godirwalk.Dirent) error {
-					if !de.IsDir() {
-						// get the extension from the file path
+			var query string
+			switch imgType {
+			case "products", "p":
+				query = `SELECT image_shop.id_image  AS id_image
+			FROM  eg_product p
+			 LEFT JOIN eg_shop shop ON (shop.id_shop = 1)
+			 LEFT JOIN eg_image_shop image_shop ON (image_shop.id_product = p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1)
+			 LEFT JOIN eg_image i ON (i.id_image = image_shop.id_image)
+			WHERE (1 AND state = 1)
+			GROUP BY p.id_product
+			ORDER BY  p.id_product desc`
+			}
 
-						extension := filepath.Ext(osPathname)
-						filename := path.Base(osPathname)
-						basename := strings.Replace(filename, extension, "", -1)
-						if inSlice(extension, imgExt, false) {
-							if options.verbose {
-								log.Println("found=", osPathname, "filename=", filename, "extension=", extension, "basename=", basename)
-							}
+			// todo. load image list or parse them by name ?
+			var results []*Result
+			db.Debug().Raw(query).Scan(&results)
 
-							// Read original image
-							buffer, err := bimg.Read(osPathname)
-							checkErr("bimg.Read, error", err)
+			pp.Println("imageTypes", imageTypes)
 
-							// Import image buffer
-							newImage := bimg.NewImage(buffer)
+			t := throttler.New(12, len(results))
 
-							// Get the image dimension
-							imgDim, err := newImage.Size()
+			for _, result := range results {
 
-							// Get the image type
-							mediaType := newImage.Type()
+				go func(r *Result) error {
+					// Let Throttler know when the goroutine completes
+					// so it can dispatch another worker
+					defer t.Done(nil)
 
-							switch mediaType {
-							case "unknown":
-								return nil // errors.New("Unsupported image format")
-							}
+					subDirectories := []rune(fmt.Sprintf("%d", r.IdImage))
+					var prefixPath string
+					for _, subDirectory := range subDirectories {
+						prefixPath = filepath.Join(prefixPath, fmt.Sprintf("%c", subDirectory))
+					}
+					imagePrefixPath := filepath.Join(imgDir, prefixPath)
+					imagePath := filepath.Join(imagePrefixPath, fmt.Sprintf("%d.jpg", r.IdImage))
+					extension := filepath.Ext(imagePath)
 
-							bimgOpts.Height = imgDim.Height
-							bimgOpts.Width = imgDim.Width
+					log.Println("imagePath=", imagePath)
 
-							// Process image quality
-							newBytes, err := newImage.Process(bimgOpts)
-							checkErr("bimg.Process, error", err)
+					// Read original image
+					buffer, err := bimg.Read(imagePath)
+					if err != nil {
+						return err
+					}
 
-							// Write final output
-							if !dryRun {
-								destinationPrepfixPath := filepath.Join(psDir, "img", imgType)
-								destinationFinalPath := buildFolderForImage(destinationPrepfixPath, i)
-								if err := os.MkdirAll(destinationFinalPath, 0755); err != nil {
-									log.Fatal(err)
-								}
-								destinationFilePath := filepath.Join(destinationFinalPath, fmt.Sprintf("%d%s", i, extension))
-								log.Println("destinationFilePath=", destinationFilePath)
-								err = bimg.Write(destinationFilePath, newBytes)
-								checkErr("bimg.Write, error", err)
+					// Write final output
+					for _, imageType := range imageTypes {
 
-								for _, imageType := range imageTypes {
+						destinationFilePath := filepath.Join(imagePrefixPath, fmt.Sprintf("%d-%s%s", r.IdImage, imageType.Name, extension))
+						log.Println("destinationFilePath=", destinationFilePath)
 
-									// Import image buffer
-									newImage := bimg.NewImage(buffer)
+						// Import image buffer
+						newImage := bimg.NewImage(buffer)
 
-									// Get the image dimension
-									// imgDim, err := newImage.Size()
+						// Get the image type
+						mediaType := newImage.Type()
 
-									// Get the image type
-									mediaType := newImage.Type()
+						switch mediaType {
+						case "unknown":
+							log.Println("mediaType=", mediaType)
+							return nil // errors.New("Unsupported image format")
+						}
 
-									switch mediaType {
-									case "unknown":
-										return nil // errors.New("Unsupported image format")
-									}
+						bimgOpts.Height = int(imageType.Height)
+						bimgOpts.Width = int(imageType.Width)
 
-									bimgOpts.Height = int(imageType.Height)
-									bimgOpts.Width = int(imageType.Width)
+						// Process image quality
+						newBytes, err := newImage.Process(bimgOpts)
+						if err != nil {
+							log.Warnln("newBytes.err=", err)
+							return err
+						}
 
-									// Process image quality
-									newBytes, err := newImage.Process(bimgOpts)
-									checkErr("bimg.Process, error", err)
-
-									// Write final output
-									destinationPrepfixPath := filepath.Join(psDir, "img", imgType)
-									destinationFinalPath := buildFolderForImage(destinationPrepfixPath, i)
-									if err := os.MkdirAll(destinationFinalPath, 0755); err != nil {
-										log.Fatal(err)
-									}
-									destinationFilePath := filepath.Join(destinationFinalPath, fmt.Sprintf("%d-%s%s", i, imageType.Name, extension))
-									log.Println("destinationFilePath=", destinationFilePath)
-									err = bimg.Write(destinationFilePath, newBytes)
-									checkErr("bimg.Write, error", err)
-
-								}
-
-								i++
-							}
+						err = bimg.Write(destinationFilePath, newBytes)
+						if err != nil {
+							log.Warnln("Write.err=", err)
+							return err
 						}
 					}
-					return nil
-				},
-				Unsorted: true,
-			})
-			checkErr("Dir walk, error", err)
 
+					return nil
+				}(result)
+				t.Throttle()
+			}
 		}
 	},
 }
@@ -198,7 +177,7 @@ func init() {
 	ImportCmd.Flags().StringVarP(&dbPass, "db-pass", "", "", "database password")
 	ImportCmd.Flags().StringVarP(&dbHost, "db-host", "", "127.0.0.1", "database host")
 	ImportCmd.Flags().StringVarP(&dbPort, "db-port", "", "3306", "datbase port")
-	ImportCmd.Flags().StringVarP(&psDir, "ps-dir", "p", "../../shared/www", "prestashop directory")
+	ImportCmd.Flags().StringVarP(&psDir, "ps-dir", "p", "../../../evolutive-prestashop/shared/www", "prestashop directory")
 	ImportCmd.Flags().IntVarP(&imgQuality, "img-quality", "q", 90, "Image format quality. (works only for JPEG format)")
 	ImportCmd.Flags().StringSliceVarP(&imgExt, "img-extension", "e", imgDefExt, "Process only image extensions")
 	ImportCmd.Flags().BoolVarP(&dryRun, "dry-run", "", false, "dry run")

@@ -60,7 +60,7 @@ var ImportCmd = &cobra.Command{
 		}
 
 		var products []*Product
-		err = db.Raw(sqlProduct).Scan(&products).Error
+		err = db.Raw(sqlAdminCatalogProducts).Scan(&products).Error
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -80,38 +80,50 @@ var ImportCmd = &cobra.Command{
 					id,
 					date_add,
 					date_upd,
-					shop_id,
-					lang_id,
-					category_id,
-					category_link,
-					manufacturer_id,
-					afo,
-					available_for_order,
-					price,
-					product,
-					category,
-					manufacturer,
 					id_product,
+					price,
+					id_shop_default,
+					is_virtual,
 					link_rewrite,
-					description
-					) VALUES ('%s','%d','%d','%s','%s','%d','%s','%d','%s','%s','%d','%s','%s','%s','%d','%s','%s')`,
-					fmt.Sprintf("%d-%s-%s", p.IdProduct, p.ShopId, p.LangId),
+					active,
+					shop_name,
+					shop_id,
+					id_image,
+					price_final,
+					nb_downloadable,
+					sav_quantity,
+					badge_danger,
+					features,
+					feature_values,
+					name,
+					reference,
+					description,
+					description_short,
+					name_category
+					) VALUES ('%s','%d','%d','%d','%.2f','%d','%t','%s','%t','%s','%d','%d','%.2f','%d','%d','%t',(%s),(%s),'%s','%s','%s','%s','%s')`,
+					fmt.Sprintf("%d-%d", p.IdProduct, p.ShopId),
 					p.DateAdd.Unix(),
 					p.DateUpd.Unix(),
-					p.ShopId,
-					p.LangId, //
-					p.CategoryId,
-					escape(p.CategoryLink),
-					p.ManufacturerId,
-					p.Afo,
-					p.AvailableForOrder,
-					p.Price,
-					escape(p.Product),
-					escape(p.Category),
-					escape(p.Manufacturer),
 					p.IdProduct,
-					escape(p.LinkRewrite),
+					p.Price, //
+					p.IdShopDefault,
+					p.IsVirtual,
+					p.LinkRewrite,
+					p.Active,
+					escape(p.ShopName),
+					p.ShopId,
+					p.IdImage,
+					p.PriceFinal,
+					p.NbDownloadable,
+					p.SavQuantity,
+					p.BadgeDanger,
+					p.Features,
+					p.FeatureValues,
+					escape(p.Name),
+					escape(p.Reference),
 					escape(p.Description),
+					escape(p.DescriptionShort),
+					escape(p.NameCategory),
 				)
 				// pp.Println("query:", query)
 				_, err = cl.Exec(query)
@@ -120,7 +132,7 @@ var ImportCmd = &cobra.Command{
 					log.Fatal(err)
 					return err
 				}
-				log.Infoln("Index product >> ", p.Product)
+				log.Infoln("Index product >> ", p.IdProduct, "==", p.Name)
 				return nil
 			}(product)
 
