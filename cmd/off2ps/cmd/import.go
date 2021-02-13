@@ -55,7 +55,7 @@ var ImportCmd = &cobra.Command{
 			dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=True&loc=Local", dbUser, dbPass, dbHost, dbPort, dbName)
 			db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 				NamingStrategy: schema.NamingStrategy{
-					// TablePrefix:   dbTablePrefix,                   // table name prefix, table for `Lang` would be `eg_lang`
+					TablePrefix:   dbTablePrefix,                   // table name prefix, table for `Lang` would be `eg_lang`
 					SingularTable: true,                            // use singular table name, table for `User` would be `user` with this option enabled
 					NameReplacer:  strings.NewReplacer("ID", "Id"), // use name replacer to change struct/field name before convert it to db name
 					// SkipDefaultTransaction: true,
