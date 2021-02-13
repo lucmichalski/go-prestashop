@@ -77,7 +77,7 @@ var IndexCmd = &cobra.Command{
 		var images []*Image
 		db.Raw(query).Scan(&images)
 
-		t := throttler.New(1, len(images))
+		t := throttler.New(2, len(images))
 
 		for _, image := range images {
 
@@ -94,14 +94,16 @@ var IndexCmd = &cobra.Command{
 				}
 
 				imgPrefixPath := buildFolderForImage(filepath.Join("img", "p"), i.IdImage)
-				mediaUrl := filepath.Join(imgPrefixPath, fmt.Sprintf("%s.jpeg", i.IdImage))
+				mediaUrl := filepath.Join(imgPrefixPath, fmt.Sprintf("%d.jpg", i.IdImage))
 
 				// BodyForm parameters
-				params := &Params{
-					Url:      filepath.Join(psDomain, mediaUrl),
-					Filepath: filepath.Join(psDir, mediaUrl),
+				params := &Add{
+					Url:      psDomain + "/" + mediaUrl,
+					Filepath: mediaUrl,
 					Metadata: string(imageJson),
 				}
+
+				pp.Println("params", params)
 
 				var existsImage Match
 				err = db.Debug().Where("id_image = ? ", i.IdImage, true).First(&existsImage).Error
@@ -151,7 +153,7 @@ var IndexCmd = &cobra.Command{
 					img := &Match{
 						IdProduct: i.IdProduct,
 						IdImage:   i.IdImage,
-						ShopId:    i.ShopId,
+						IdShop:    i.IdShop,
 						Filepath:  params.Filepath,
 						// Fingerprint: fingerprint,
 						// Mimetype:    mimeType,
