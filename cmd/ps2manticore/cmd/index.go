@@ -1,9 +1,11 @@
 package cmd
 
 import (
+	"bytes"
 	"database/sql"
 	"fmt"
 	"strings"
+	"text/template"
 
 	"github.com/nozzle/throttler"
 	"github.com/spf13/cobra"
@@ -12,8 +14,13 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-// go run main.go index --db-name eg_prestanish --db-user root --db-pass "OvdZ5ZoXWgCWL4-hvZjg!" --db-table-prefix eg_
+/*
+	Todo. select data with ranges (offset,limit...)
+*/
+
+// go run main.go index --db-name eg_prestanish --db-user root --db-pass "OvdZ5ZoXWgCWL4-hvZjg!" --db-table-prefix eg_ --index-name orders
 var (
+	indexName       string
 	psDir           string
 	workDir         string
 	dryRun          bool
@@ -51,7 +58,6 @@ var ImportCmd = &cobra.Command{
 			if err != nil {
 				log.Fatal(err)
 			}
-
 		}
 
 		cl, err := sql.Open("mysql", "@tcp(127.0.0.1:9306)/")
@@ -59,24 +65,51 @@ var ImportCmd = &cobra.Command{
 			panic(err)
 		}
 
-		var products []*Product
-		err = db.Raw(sqlAdminCatalogProducts).Scan(&products).Error
-		if err != nil {
-			log.Fatal(err)
-		}
+		switch indexName {
+		case "products", "product":
 
-		t := throttler.New(6, len(products))
+			var products []*Product
+			err = db.Raw(sqlAdminCatalogProducts).Scan(&products).Error
+			if err != nil {
+				log.Fatal(err)
+			}
 
-		for _, product := range products {
+			t := throttler.New(6, len(products))
 
-			go func(p *Product) error {
-				// Let Throttler know when the goroutine completes
-				// so it can dispatch another worker
-				defer t.Done(nil)
+			for _, product := range products {
 
-				// create sub query for features
+				go func(p *Product) error {
+					// Let Throttler know when the goroutine completes
+					// so it can dispatch another worker
+					defer t.Done(nil)
 
-				query := fmt.Sprintf(`REPLACE into rt_products (
+					query := `SELECT eg_feature_product.id_product, eg_feature_value_lang.value, eg_feature_lang.name
+						FROM eg_feature_product
+						INNER JOIN eg_feature_value ON eg_feature_product.id_feature_value = eg_feature_value.id_feature_value
+						INNER JOIN eg_feature_value_lang ON eg_feature_value_lang.id_feature_value = eg_feature_value.id_feature_value
+						INNER JOIN eg_feature ON eg_feature_value.id_feature = eg_feature.id_feature
+						INNER JOIN eg_feature_lang ON eg_feature.id_feature = eg_feature_lang.id_feature
+						WHERE eg_feature_lang.id_lang = 1 
+						AND eg_feature_value_lang.id_lang = 1 
+						AND eg_feature_product.id_product = ` + fmt.Sprintf("%d", p.IdProduct)
+
+					// create sub query for features
+					var features []*Feature
+					db.Raw(query).Scan(&features)
+
+					var engine, make, model string
+					for _, feat := range features {
+						switch feat.Name {
+						case "Marque":
+							make = feat.Value
+						case "Modèle":
+							model = feat.Value
+						case "Motorisation":
+							engine = feat.Value
+						}
+					}
+
+					query = fmt.Sprintf(`REPLACE into rt_products (
 					id,
 					date_add,
 					date_upd,
@@ -99,53 +132,333 @@ var ImportCmd = &cobra.Command{
 					reference,
 					description,
 					description_short,
-					name_category
-					) VALUES ('%s','%d','%d','%d','%.2f','%d','%t','%s','%t','%s','%d','%d','%.2f','%d','%d','%t',(%s),(%s),'%s','%s','%s','%s','%s')`,
-					fmt.Sprintf("%d-%d", p.IdProduct, p.ShopId),
-					p.DateAdd.Unix(),
-					p.DateUpd.Unix(),
-					p.IdProduct,
-					p.Price, //
-					p.IdShopDefault,
-					p.IsVirtual,
-					p.LinkRewrite,
-					p.Active,
-					escape(p.ShopName),
-					p.ShopId,
-					p.IdImage,
-					p.PriceFinal,
-					p.NbDownloadable,
-					p.SavQuantity,
-					p.BadgeDanger,
-					p.Features,
-					p.FeatureValues,
-					escape(p.Name),
-					escape(p.Reference),
-					escape(p.Description),
-					escape(p.DescriptionShort),
-					escape(p.NameCategory),
-				)
-				// pp.Println("query:", query)
-				_, err = cl.Exec(query)
-				if err != nil {
-					log.Infoln(query)
-					log.Fatal(err)
-					return err
-				}
-				log.Infoln("Index product >> ", p.IdProduct, "==", p.Name)
-				return nil
-			}(product)
+					name_category,
+					engine,
+					model,
+					make,
+					ft_engine,
+					ft_model,
+					ft_make,
+					id_category
+					) VALUES ('%s','%d','%d','%d','%.2f','%d','%t','%s','%t','%s','%d','%d','%.2f','%d','%d','%t',(%s),(%s),'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%d')`,
+						fmt.Sprintf("%d-%d", p.IdProduct, p.ShopId),
+						p.DateAdd.Unix(),
+						p.DateUpd.Unix(),
+						p.IdProduct,
+						p.Price, //
+						p.IdShopDefault,
+						p.IsVirtual,
+						p.LinkRewrite,
+						p.Active,
+						escape(p.ShopName),
+						p.ShopId,
+						p.IdImage,
+						p.PriceFinal,
+						p.NbDownloadable,
+						p.SavQuantity,
+						p.BadgeDanger,
+						p.Features,
+						p.FeatureValues,
+						escape(p.Name),
+						escape(p.Reference),
+						escape(p.Description),
+						escape(p.DescriptionShort),
+						escape(p.NameCategory),
+						escape(engine),
+						escape(model),
+						escape(make),
+						escape(engine),
+						escape(model),
+						escape(make),
+						p.IdCategory,
+					)
 
-			t.Throttle()
+					_, err = cl.Exec(query)
+					if err != nil {
+						log.Infoln(query)
+						log.Fatal(err)
+						return err
+					}
+					log.Infoln("Index product >> ", p.IdProduct, "==", p.Name)
+					return nil
+				}(product)
 
-		}
+				t.Throttle()
 
-		if t.Err() != nil {
-			// Loop through the errors to see the details
-			for i, err := range t.Errs() {
-				log.Printf("error #%d: %s", i, err)
 			}
-			log.Fatal(t.Err())
+
+			if t.Err() != nil {
+				// Loop through the errors to see the details
+				for i, err := range t.Errs() {
+					log.Printf("error #%d: %s", i, err)
+				}
+				log.Fatal(t.Err())
+			}
+
+		case "orders", "order":
+
+			// todo. create cli argument for limit
+			limit := 10000
+			offset := 0
+
+			for {
+
+				sqlResult := bytes.NewBufferString("")
+				sqlTemplate, _ := template.New("").Parse(sqlOrdersExtended)
+				sqlTemplate.Execute(sqlResult, map[string]string{"offset": fmt.Sprintf("%d", offset), "limit": fmt.Sprintf("%d", limit)})
+
+				var orders []*Order
+				err = db.Raw(sqlResult.String()).Scan(&orders).Error
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				offset = offset + limit
+
+				if len(orders) == 0 {
+					break
+				}
+
+				t := throttler.New(1, len(orders))
+
+				for _, order := range orders {
+
+					go func(o *Order) error {
+						// Let Throttler know when the goroutine completes
+						// so it can dispatch another worker
+						defer t.Done(nil)
+
+						query := fmt.Sprintf(`REPLACE into rt_orders (
+											id,
+											id_order,
+											id_currency,
+											id_pdf,
+											id_shop,
+											id_lang,
+											order_payment,
+											module_payment,
+											total_paid,
+											total_discounts,
+											total_discounts_tax_incl,
+											total_discounts_tax_excl,
+											total_paid_tax_incl,
+											total_paid_tax_excl,
+											total_paid_real,
+											total_products,
+											total_products_wt,
+											total_shipping,
+											total_shipping_tax_incl,
+											total_shipping_tax_excl,
+											carrier_tax_rate,
+											total_wrapping,
+											total_wrapping_tax_incl,
+											total_wrapping_tax_excl,
+											round_mode,
+											round_type,
+											invoice_number,
+											delivery_number,
+											invoice_date,
+											delivery_date,
+											valid,
+											date_add,
+											date_upd,
+											id_address_delivery,
+											customer_name,
+											order_status_name,
+											order_status_color,
+											order_new,
+											id_country,
+											country_name,
+											company,
+											vat_number,
+											phone_mobile,
+											phone,
+											delivery_lastname,
+											delivery_firstname,
+											address_1,
+											address_2,
+											postcode,
+											city,
+											badge_success				
+							) VALUES ('%d','%d','%d','%d','%d','%d','%s','%s','%.2f','%.2f','%.2f','%.2f','%.2f','%.2f','%.2f','%s','%s','%.2f','%.2f','%.2f','%.2f','%.2f','%.2f','%d','%d','%d','%s','%d','%d','%d','%d','%d','%.2f','%d','%s','%s','%s','%d','%d','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%d')`,
+							o.IdOrder,                              // uint
+							o.IdOrder,                              // uint
+							o.IdCurrency,                           // uint
+							o.IdPdf,                                // uint
+							o.IdShop,                               // uint
+							o.IdLang,                               // uint
+							escape(o.OrderPayment),                 // string
+							escape(o.ModulePayment),                // string
+							o.TotalPaid,                            // float64
+							o.TotalDiscounts,                       // float64
+							o.TotalDiscountsTaxIncl,                // float64
+							o.TotalDiscountsTaxExcl,                // float64
+							o.TotalPaidTaxIncl,                     // float64
+							o.TotalPaidTaxExcl,                     // float64
+							o.TotalPaidReal,                        // float64
+							fmt.Sprintf(string(o.TotalProducts)),   // uint
+							fmt.Sprintf(string(o.TotalProductsWt)), // uint
+							o.TotalShipping,                        // float64
+							o.TotalShippingTaxIncl,                 // float64
+							o.TotalShippingTaxExcl,                 // float64
+							o.TotalWrapping,                        // float64
+							o.TotalWrappingTaxIncl,                 // float64
+							o.TotalWrappingTaxExcl,                 // float64
+							o.RoundMode,                            // uint
+							o.RoundType,                            // uint
+							o.InvoiceNumber,                        // uint
+							escape(o.DeliveryNumber),               // string
+							o.InvoiceDate.Unix(),                   // time.Time
+							o.DeliveryDate.Unix(),                  // time.Time
+							o.Valid,                                // uint
+							o.DateAdd.Unix(),                       // time.Time
+							o.DateUpd.Unix(),                       // time.Time
+							o.CarrierTaxRate,                       // float64
+							o.IdAddressDelivery,                    // uint
+							escape(o.CustomerName),                 // string
+							escape(o.OrderStatusName),              // string
+							escape(o.OrderStatusColor),             // string
+							o.OrderNew,                             // uint
+							o.IdCountry,                            // uint
+							escape(o.CountryName),                  // string
+							escape(o.Company),                      // string
+							escape(o.VatNumber),                    // string
+							escape(o.PhoneMobile),                  // string
+							escape(o.Phone),                        // string
+							escape(o.DeliveryLastname),             // string
+							escape(o.DeliveryFirstname),            // string
+							escape(o.Address1),                     // string
+							escape(o.Address2),                     // string
+							escape(o.Postcode),                     // string
+							escape(o.City),                         // string
+							o.BadgeSuccess,                         // uint
+						)
+
+						_, err = cl.Exec(query)
+						if err != nil {
+							log.Infoln(query)
+							log.Fatal(err)
+							return err
+						}
+						log.Infoln("Index order >> ", o.IdOrder, "==", o.CustomerName)
+						return nil
+					}(order)
+
+					t.Throttle()
+
+				}
+
+				if t.Err() != nil {
+					// Loop through the errors to see the details
+					for i, err := range t.Errs() {
+						log.Printf("error #%d: %s", i, err)
+					}
+					log.Fatal(t.Err())
+				}
+
+			}
+		case "customers", "customer":
+
+			// todo. create cli argument for limit
+			limit := 10000
+			offset := 0
+
+			for {
+
+				sqlResult := bytes.NewBufferString("")
+				sqlTemplate, _ := template.New("").Parse(sqlCustomerExtended)
+				sqlTemplate.Execute(sqlResult, map[string]string{"offset": fmt.Sprintf("%d", offset), "limit": fmt.Sprintf("%d", limit)})
+
+				var customers []*Customer
+				err = db.Raw(sqlResult.String()).Scan(&customers).Error
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				offset = offset + limit
+
+				if len(customers) == 0 {
+					break
+				}
+
+				t := throttler.New(1, len(customers))
+
+				for _, customer := range customers {
+
+					go func(c *Customer) error {
+						// Let Throttler know when the goroutine completes
+						// so it can dispatch another worker
+						defer t.Done(nil)
+
+						query := fmt.Sprintf(`REPLACE into rt_customers (
+							id,
+							id_customer, 
+							firstname, 
+							lastname, 
+							fullname,
+							note,				
+							email, 
+							active, 
+							deleted,
+							newsletter, 
+							optin, 
+							ip_registration_newsletter,
+							birthday, 
+							date_add, 
+							social_title,
+							id_group,
+							group_name,
+							shop_name, 
+							company, 
+							total_spent, 
+							connect				
+							) VALUES ('%d','%d','%s','%s','%s','%s','%s','%d','%d','%d','%d','%s','%d','%d','%s','%d','%s','%s','%s','%.2f','%d')`,
+							c.IdCustomer,                       //  uint
+							c.IdCustomer,                       //  uint
+							escape(c.Firstname),                //  string
+							escape(c.Lastname),                 //   string
+							escape(c.Fullname),                 //   string
+							escape(c.Note),                     //   string
+							escape(c.Email),                    //   string
+							c.Active,                           //    uint
+							c.Deleted,                          //   uint
+							c.Newsletter,                       //   uint
+							c.Optin,                            // uint
+							escape(c.IpRegistrationNewsletter), // string
+							c.Birthday.Unix(),                  // string
+							c.DateAdd.Unix(),                   //  time.Time
+							escape(c.SocialTitle),              //  string
+							c.IdGroup,                          //  uint
+							escape(c.GroupName),                //   string
+							escape(c.ShopeName),                //    string
+							escape(c.Company),                  //    string
+							c.TotalSpent,                       //    float64
+							c.Connect.Unix(),                   //    time.Time
+						)
+
+						_, err = cl.Exec(query)
+						if err != nil {
+							log.Infoln(query)
+							log.Fatal(err)
+							return err
+						}
+						log.Infoln("Index customer >> ", c.IdCustomer, "==", c.Fullname)
+						return nil
+					}(customer)
+
+					t.Throttle()
+
+				}
+
+				if t.Err() != nil {
+					// Loop through the errors to see the details
+					for i, err := range t.Errs() {
+						log.Printf("error #%d: %s", i, err)
+					}
+					log.Fatal(t.Err())
+				}
+			}
+
 		}
 
 	},
@@ -153,6 +466,7 @@ var ImportCmd = &cobra.Command{
 
 func init() {
 	// todo. manage ssl connections for db
+	ImportCmd.Flags().StringVarP(&indexName, "index-name", "", "products", "realt-time index name to index")
 	ImportCmd.Flags().StringVarP(&dbTablePrefix, "db-table-prefix", "", "ps_", "database table prefix")
 	ImportCmd.Flags().StringVarP(&dbName, "db-name", "", "prestashop", "database name")
 	ImportCmd.Flags().StringVarP(&dbUser, "db-user", "", "root", "database username")
@@ -192,46 +506,6 @@ func escape(sql string) string {
 		case '\r':
 			escape = 'r'
 			break
-		//'-', '!','=']
-		//case '[':
-		//	escape = '['
-		//	break
-		//case ']':
-		//	escape = ']'
-		//	break
-		//case '^':
-		//	escape = '^'
-		//	break
-		//case '~':
-		//	escape = '~'
-		//	break
-		//case '%':
-		//	escape = '%'
-		//	break
-		//case '@':
-		//	escape = '@'
-		//	break
-		//case '|':
-		//	escape = '|'
-		//	break
-		//case '&':
-		//	escape = '&'
-		//	break
-		//case '/':
-		//	escape = '/'
-		//	break
-		//case '$':
-		//	escape = '$'
-		//	break
-		//case ')':
-		//	escape = ')'
-		//	break
-		//case '(':
-		//	escape = '('
-		//	break
-		//case '”':
-		//	escape = '”'
-		//	break
 		case '\\':
 			escape = '\\'
 			break

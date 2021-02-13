@@ -6,6 +6,7 @@ require (
 	github.com/bxcodec/faker/v3 v3.6.0
 	github.com/cenkalti/backoff/v4 v4.1.0
 	github.com/clbanning/mxj/v2 v2.5.2
+	github.com/dghubble/sling v1.3.0
 	github.com/emvi/iso-639-1 v1.0.1
 	github.com/fatih/structs v1.1.0
 	github.com/go-sql-driver/mysql v1.5.0
