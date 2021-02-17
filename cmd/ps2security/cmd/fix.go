@@ -83,15 +83,25 @@ var FixCmd = &cobra.Command{
 		godirwalk.Walk(workDir, &godirwalk.Options{
 			Callback: func(osPathname string, de *godirwalk.Dirent) error {
 				if !de.IsDir() {
-					// check file/directory permission
-					// pp.Println("osPathname:", osPathname)
-				} else {
 
-					if inSliceContains(osPathname, skipDirectories, false) {
-						// log.Warnf("Skipping directory '%s'\n", osPathname)
-						return nil
+					err := os.Chmod(osPathname, 0644)
+					if err != nil {
+						return err
+					} else {
+						log.Infof("Changed file '%s' permissions to 0644\n", osPathname)
 					}
 
+				} else {
+					err := os.Chmod(osPathname, 0755)
+					if err != nil {
+						return err
+					} else {
+						log.Infof("Changed directory '%s' permissions to 0755\n", osPathname)
+					}
+
+					if inSliceContains(osPathname, skipDirectories, false) {
+						return nil
+					}
 					indexFile := filepath.Join(osPathname, "index.php")
 					if _, err := os.Stat(indexFile); os.IsNotExist(err) {
 						log.Warnf("Missing index.php at '%s'\n", osPathname)

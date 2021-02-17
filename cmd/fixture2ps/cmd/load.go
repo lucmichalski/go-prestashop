@@ -36,11 +36,6 @@ import (
 	"github.com/lucmichalski/go-prestashop/internal/struct2map"
 )
 
-/*
-	Refs:
-	go run main.go load --db-name go_prestashop --db-user root --db-pass "OvdZ5ZoXWgCWL4-hvZjg!" --db-table-prefix eg_
-*/
-
 var (
 	psDir         string
 	outputDir     string
@@ -601,7 +596,7 @@ var ImportCmd = &cobra.Command{
 			}
 
 			// for now, we deal with only one level as we have some troubles to rebuild the nested category tree
-			err = db.Debug().Exec("UPDATE " + dbTablePrefix + "category SET id_parent=2, level=1 WHERE id_category>2;").Error
+			err = db.Debug().Exec("UPDATE " + dbTablePrefix + "category SET id_parent=2, level_depth=1 WHERE id_category>2;").Error
 			if err != nil {
 				log.Fatal(err)
 			}

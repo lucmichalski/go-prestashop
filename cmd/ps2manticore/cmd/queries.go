@@ -25,18 +25,18 @@ const (
 			 GROUP_CONCAT(DISTINCT(fp.id_feature) SEPARATOR ",") as features,
 			 GROUP_CONCAT(DISTINCT(fp.id_feature_value) SEPARATOR ",") as feature_values
 
-			FROM  eg_product p
-			 LEFT JOIN eg_product_lang pl ON (pl.id_product = p.id_product AND pl.id_lang = 1 AND pl.id_shop = 1)
-			 LEFT JOIN eg_stock_available sav ON (sav.id_product = p.id_product AND sav.id_product_attribute = 0 AND sav.id_shop = 1  AND sav.id_shop_group = 0 )
-			 JOIN eg_product_shop sa ON (p.id_product = sa.id_product AND sa.id_shop = 1)
-			 LEFT JOIN eg_category_lang cl ON (sa.id_category_default = cl.id_category AND cl.id_lang = 1 AND cl.id_shop = 1)
-			 LEFT JOIN eg_category c ON (c.id_category = cl.id_category)
-			 LEFT JOIN eg_shop shop ON (shop.id_shop = 1)
-			 LEFT JOIN eg_image_shop image_shop ON (image_shop.id_product = p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1)
-			 LEFT JOIN eg_image i ON (i.id_image = image_shop.id_image)
-			 LEFT JOIN eg_product_download pd ON (pd.id_product = p.id_product)
-             LEFT JOIN eg_feature_product fp ON p.id_product = fp.id_product
-	         LEFT JOIN eg_manufacturer AS m ON p.id_manufacturer=m.id_manufacturer 
+			FROM  {{ .prefix }}product p
+			 LEFT JOIN {{ .prefix }}product_lang pl ON (pl.id_product = p.id_product AND pl.id_lang = 1 AND pl.id_shop = 1)
+			 LEFT JOIN {{ .prefix }}stock_available sav ON (sav.id_product = p.id_product AND sav.id_product_attribute = 0 AND sav.id_shop = 1  AND sav.id_shop_group = 0 )
+			 JOIN {{ .prefix }}product_shop sa ON (p.id_product = sa.id_product AND sa.id_shop = 1)
+			 LEFT JOIN {{ .prefix }}category_lang cl ON (sa.id_category_default = cl.id_category AND cl.id_lang = 1 AND cl.id_shop = 1)
+			 LEFT JOIN {{ .prefix }}category c ON (c.id_category = cl.id_category)
+			 LEFT JOIN {{ .prefix }}shop shop ON (shop.id_shop = 1)
+			 LEFT JOIN {{ .prefix }}image_shop image_shop ON (image_shop.id_product = p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1)
+			 LEFT JOIN {{ .prefix }}image i ON (i.id_image = image_shop.id_image)
+			 LEFT JOIN {{ .prefix }}product_download pd ON (pd.id_product = p.id_product)
+             LEFT JOIN {{ .prefix }}feature_product fp ON p.id_product = fp.id_product
+	         LEFT JOIN {{ .prefix }}manufacturer AS m ON p.id_manufacturer=m.id_manufacturer 
 			WHERE (1 AND state = 1)
 			GROUP BY p.id_product
 			ORDER BY  id_product desc`
@@ -57,25 +57,124 @@ const (
         GROUP_CONCAT(DISTINCT pl.id_shop) AS shopId_attr,
         p.date_add,
         p.date_upd
-    FROM eg_product_lang AS pl 
-        INNER JOIN eg_product_shop AS eg ON pl.id_product=eg.id_product AND pl.id_shop=eg.id_shop AND eg.active=1
-        INNER JOIN eg_category c ON eg.id_category_default=c.id_category AND c.active=1 
-        LEFT JOIN eg_category_lang AS cl ON eg.id_category_default=cl.id_category AND pl.id_shop=cl.id_shop AND pl.id_lang=cl.id_lang 
-        LEFT JOIN eg_product AS p ON pl.id_product=p.id_product 
-        LEFT JOIN eg_manufacturer AS m ON p.id_manufacturer=m.id_manufacturer 
+    FROM {{ .prefix }}product_lang AS pl 
+        INNER JOIN {{ .prefix }}product_shop AS eg ON pl.id_product=eg.id_product AND pl.id_shop=eg.id_shop AND eg.active=1
+        INNER JOIN {{ .prefix }}category c ON eg.id_category_default=c.id_category AND c.active=1 
+        LEFT JOIN {{ .prefix }}category_lang AS cl ON eg.id_category_default=cl.id_category AND pl.id_shop=cl.id_shop AND pl.id_lang=cl.id_lang 
+        LEFT JOIN {{ .prefix }}product AS p ON pl.id_product=p.id_product 
+        LEFT JOIN {{ .prefix }}manufacturer AS m ON p.id_manufacturer=m.id_manufacturer 
     WHERE pl.id_lang=1 AND eg.indexed=1 AND eg.visibility IN ('both','search') 
     GROUP BY pl.id_product, pl.name`
 ) // LIMIT {{ .offset }},{{ .limit }}
 
+/*
+id_supplier
+id_manufacturer
+id_shop_default
+ean13
+isbn
+upc
+mpn
+reference
+supplier_reference
+location
+width
+height
+depth
+weight
+additional_delivery_times
+quantity_discount
+cache_is_pack
+cache_has_attachments
+is_virtual
+state
+id_product
+id_shop
+id_category_default
+id_tax_rules_group
+on_sale
+online_only
+ecotax
+minimal_quantity
+low_stock_threshold
+low_stock_alert
+price
+wholesale_price
+unity
+unit_price_ratio
+additional_shipping_cost
+customizable
+uploadable_files
+text_fields
+active
+redirect_type
+id_type_redirected
+available_for_order
+available_date
+show_condition
+condition
+show_price
+indexed
+visibility
+cache_default_attribute
+advanced_stock_management
+date_add
+date_upd
+pack_stock_type
+out_of_stock
+quantity
+description
+description_short
+link_rewrite
+meta_description
+meta_keywords
+meta_title
+name
+available_now
+available_later
+id_image
+legend
+manufacturer_name
+new
+product_attribute_minimal_quantity
+id_product_attribute
+*/
+const (
+	sqlProductAttribute = `SELECT p.*, product_shop.*, stock.out_of_stock, IFNULL(stock.quantity, 0) as quantity, pl.description, pl.description_short, pl.link_rewrite, pl.meta_description,
+            pl.meta_keywords, pl.meta_title, pl.name, pl.available_now, pl.available_later, image_shop.id_image id_image, il.legend, m.name AS manufacturer_name,
+            (DATEDIFF(product_shop.date_add,
+                DATE_SUB(
+                    "{{ .date }} 00:00:00",
+                    INTERVAL {{ .interval }} DAY
+                )
+            ) > 0) as new,
+product_attribute_shop.minimal_quantity AS product_attribute_minimal_quantity, IFNULL(product_attribute_shop.id_product_attribute,0) id_product_attribute
+FROM {{ .prefix }}product p
+ INNER JOIN {{ .prefix }}product_shop product_shop
+        ON (product_shop.id_product = p.id_product AND product_shop.id_shop = 1)
+LEFT JOIN {{ .prefix }}product_lang pl ON 
+            p.id_product = pl.id_product
+            AND pl.id_lang = 1 AND pl.id_shop = 1 
+LEFT JOIN {{ .prefix }}image_shop image_shop ON image_shop.id_product = p.id_product AND image_shop.cover=1 AND image_shop.id_shop=1
+LEFT JOIN {{ .prefix }}image_lang il ON image_shop.id_image = il.id_image AND il.id_lang = 1
+LEFT JOIN {{ .prefix }}manufacturer m ON m.id_manufacturer = p.id_manufacturer
+LEFT JOIN {{ .prefix }}product_attribute_shop product_attribute_shop ON p.id_product = product_attribute_shop.id_product AND product_attribute_shop.default_on = 1 AND product_attribute_shop.id_shop=1
+ LEFT JOIN {{ .prefix }}stock_available stock
+            ON (stock.id_product = p.id_product AND stock.id_product_attribute = 0 AND stock.id_shop = 1  AND stock.id_shop_group = 0  )
+WHERE (product_shop.active = 1) AND (product_shop.visibility IN ("both", "catalog")) AND (product_shop.date_add > "2021-01-26") AND (EXISTS(SELECT 1 FROM {{ .prefix }}category_product cp
+            JOIN {{ .prefix }}category_group cg ON (cp.id_category = cg.id_category AND cg.id_group =1)
+            WHERE cp.id_product = p.id_product))`
+)
+
 const (
 	sqlProductAllWithCategories = `
 SELECT p.id_product, pl.name, GROUP_CONCAT(DISTINCT(cl.name) SEPARATOR ",") as categories, p.price, p.reference, pm.name manufacturer_name, pl.description_short, pl.description, p.date_add
-FROM eg_product p
-LEFT JOIN eg_product_lang pl ON (p.id_product = pl.id_product)
-LEFT JOIN eg_category_product cp ON (p.id_product = cp.id_product)
-LEFT JOIN eg_category_lang cl ON (cp.id_category = cl.id_category)
-LEFT JOIN eg_category c ON (cp.id_category = c.id_category)
-LEFT JOIN eg_manufacturer pm ON (p.id_manufacturer = pm.id_manufacturer)
+FROM {{ .prefix }}product p
+LEFT JOIN {{ .prefix }}product_lang pl ON (p.id_product = pl.id_product)
+LEFT JOIN {{ .prefix }}category_product cp ON (p.id_product = cp.id_product)
+LEFT JOIN {{ .prefix }}category_lang cl ON (cp.id_category = cl.id_category)
+LEFT JOIN {{ .prefix }}category c ON (cp.id_category = c.id_category)
+LEFT JOIN {{ .prefix }}manufacturer pm ON (p.id_manufacturer = pm.id_manufacturer)
 WHERE pl.id_lang = {id_lang}
 AND cl.id_lang = {id_lang}
 AND p.id_shop_default = {id_shop}
@@ -89,9 +188,9 @@ const (
         GROUP_CONCAT(DISTINCT cl.link_rewrite ORDER BY cl.id_lang ASC SEPARATOR '|') AS categoryLink,
         GROUP_CONCAT(distinct cl.name ORDER BY cl.id_lang ASC SEPARATOR '|') AS category,
         GROUP_CONCAT(DISTINCT cl.id_shop) AS shopId_attr
-    FROM eg_category_lang AS cl
-    LEFT JOIN eg_category AS c ON cl.id_category=c.id_category
-    LEFT JOIN eg_lang l ON l.id_lang = cl.id_lang
+    FROM {{ .prefix }}category_lang AS cl
+    LEFT JOIN {{ .prefix }}category AS c ON cl.id_category=c.id_category
+    LEFT JOIN {{ .prefix }}lang l ON l.id_lang = cl.id_lang
     WHERE c.id_parent>1 AND c.active=1
     GROUP BY cl.id_category`
 ) // LIMIT {{ .offset }},{{ .limit }}
@@ -135,18 +234,18 @@ const (
 									    pi.id_image,
 									    ".jpg")) SEPARATOR " | ") AS "Images"
 									    FROM
-									eg_product p
-									LEFT JOIN eg_product_lang pl ON (p.id_product = pl.id_product and pl.id_lang=1)
-									LEFT JOIN eg_manufacturer m ON (p.id_manufacturer = m.id_manufacturer)
-									LEFT JOIN eg_category_product cp ON (p.id_product = cp.id_product)
-									LEFT JOIN eg_category c ON (cp.id_category = c.id_category)
-									LEFT JOIN eg_category_lang cl ON (cp.id_category = cl.id_category and cl.id_lang=1)
-									LEFT JOIN eg_product_attribute pa ON (p.id_product = pa.id_product)
-									LEFT JOIN eg_stock_available s ON (p.id_product = s.id_product and (pa.id_product_attribute=s.id_product_attribute or pa.id_product_attribute is null))
-									LEFT JOIN eg_product_tag pt ON (p.id_product = pt.id_product)
-									LEFT JOIN eg_product_attribute_combination pac ON (pac.id_product_attribute = pa.id_product_attribute)
-									LEFT JOIN eg_attribute_lang al ON (al.id_attribute = pac.id_attribute and al.id_lang=1)
-									LEFT JOIN eg_image pi ON (p.id_product = pi.id_product)
+									{{ .prefix }}product p
+									LEFT JOIN {{ .prefix }}product_lang pl ON (p.id_product = pl.id_product and pl.id_lang=1)
+									LEFT JOIN {{ .prefix }}manufacturer m ON (p.id_manufacturer = m.id_manufacturer)
+									LEFT JOIN {{ .prefix }}category_product cp ON (p.id_product = cp.id_product)
+									LEFT JOIN {{ .prefix }}category c ON (cp.id_category = c.id_category)
+									LEFT JOIN {{ .prefix }}category_lang cl ON (cp.id_category = cl.id_category and cl.id_lang=1)
+									LEFT JOIN {{ .prefix }}product_attribute pa ON (p.id_product = pa.id_product)
+									LEFT JOIN {{ .prefix }}stock_available s ON (p.id_product = s.id_product and (pa.id_product_attribute=s.id_product_attribute or pa.id_product_attribute is null))
+									LEFT JOIN {{ .prefix }}product_tag pt ON (p.id_product = pt.id_product)
+									LEFT JOIN {{ .prefix }}product_attribute_combination pac ON (pac.id_product_attribute = pa.id_product_attribute)
+									LEFT JOIN {{ .prefix }}attribute_lang al ON (al.id_attribute = pac.id_attribute and al.id_lang=1)
+									LEFT JOIN {{ .prefix }}image pi ON (p.id_product = pi.id_product)
 									GROUP BY p.id_product,pac.id_product_attribute order by p.id_product`
 ) // LIMIT {{ .offset }},{{ .limit }}
 
@@ -189,7 +288,7 @@ const (
 		CONCAT(LEFT(c.firstname, 1), '. ', c.lastname) AS customer_name,
 		osl.name AS order_status_name,
 		os.color AS order_status_color,
-		IF((SELECT so.id_order FROM eg_orders so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) AS order_new,
+		IF((SELECT so.id_order FROM {{ .prefix }}orders so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) AS order_new,
 		country.id_country AS id_country,
 		country_lang.name AS country_name,
 		address.company AS company,
@@ -203,13 +302,13 @@ const (
 		address.postcode AS postcode,
 		address.city AS city,
 		IF(a.valid, 1, 0) AS badge_success
-		FROM eg_orders a
-		LEFT JOIN eg_customer c ON (c.id_customer = a.id_customer)
-		INNER JOIN eg_address address ON address.id_address = a.id_address_delivery
-		INNER JOIN eg_country country ON address.id_country = country.id_country
-		INNER JOIN eg_country_lang country_lang ON (country.id_country = country_lang.id_country AND country_lang.id_lang = 1)
-		LEFT JOIN eg_order_state os ON (os.id_order_state = a.current_state)
-		LEFT JOIN eg_order_state_lang osl ON (os.id_order_state = osl.id_order_state AND osl.id_lang = 1)
+		FROM {{ .prefix }}orders a
+		LEFT JOIN {{ .prefix }}customer c ON (c.id_customer = a.id_customer)
+		INNER JOIN {{ .prefix }}address address ON address.id_address = a.id_address_delivery
+		INNER JOIN {{ .prefix }}country country ON address.id_country = country.id_country
+		INNER JOIN {{ .prefix }}country_lang country_lang ON (country.id_country = country_lang.id_country AND country_lang.id_lang = 1)
+		LEFT JOIN {{ .prefix }}order_state os ON (os.id_order_state = a.current_state)
+		LEFT JOIN {{ .prefix }}order_state_lang osl ON (os.id_order_state = osl.id_order_state AND osl.id_lang = 1)
 		ORDER BY a.id_order ASC  
 		LIMIT {{ .offset }},{{ .limit }}`
 )
@@ -234,13 +333,13 @@ const (
 				egl.name as group_name,
 				s.name as shop_name, 
 				c.company as company, 
-				(SELECT SUM(total_paid_real / conversion_rate) FROM eg_orders o WHERE (o.id_customer = c.id_customer) AND (o.id_shop IN ('1')) AND (o.valid = 1)) as total_spent, 
-				(SELECT con.date_add FROM eg_guest g LEFT JOIN eg_connections con ON con.id_guest = g.id_guest WHERE g.id_customer = c.id_customer ORDER BY con.date_add DESC LIMIT 1) as connect 
-			FROM eg_customer c 
-				LEFT JOIN eg_customer_group ecg ON ecg.id_customer = c.id_customer
-				LEFT JOIN eg_group_lang egl ON egl.id_group = ecg.id_group
-				LEFT JOIN eg_gender_lang gl ON c.id_gender = gl.id_gender AND gl.id_lang = 1 
-				LEFT JOIN eg_shop s ON c.id_shop = s.id_shop 
+				(SELECT SUM(total_paid_real / conversion_rate) FROM {{ .prefix }}orders o WHERE (o.id_customer = c.id_customer) AND (o.id_shop IN ('1')) AND (o.valid = 1)) as total_spent, 
+				(SELECT con.date_add FROM {{ .prefix }}guest g LEFT JOIN {{ .prefix }}connections con ON con.id_guest = g.id_guest WHERE g.id_customer = c.id_customer ORDER BY con.date_add DESC LIMIT 1) as connect 
+			FROM {{ .prefix }}customer c 
+				LEFT JOIN {{ .prefix }}customer_group ecg ON ecg.id_customer = c.id_customer
+				LEFT JOIN {{ .prefix }}group_lang egl ON egl.id_group = ecg.id_group
+				LEFT JOIN {{ .prefix }}gender_lang gl ON c.id_gender = gl.id_gender AND gl.id_lang = 1 
+				LEFT JOIN {{ .prefix }}shop s ON c.id_shop = s.id_shop 
 			WHERE (c.deleted = 0) AND (c.id_shop IN ('1')
 		) 
 		ORDER BY c.date_add DESC

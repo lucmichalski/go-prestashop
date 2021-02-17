@@ -1,19 +1,19 @@
 package cmd
 
 import (
+	"bytes"
 	"fmt"
 	"path/filepath"
 	"strings"
+	"text/template"
 
 	"github.com/h2non/bimg"
-	"github.com/k0kubun/pp"
+	// "github.com/k0kubun/pp"
 	"github.com/nozzle/throttler"
 	"github.com/spf13/cobra"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
-
-	"github.com/lucmichalski/go-prestashop/internal/models"
 )
 
 var (
@@ -35,15 +35,19 @@ var (
 		//"st": "stores",
 	}
 	imgQuality int
+	imgHeight  int
+	imgWidth   int
 	imgExt     []string
 	imgDefExt  = []string{".png", ".jpg", ".jpeg", ".webp"} // jpeg,png, webp,tiff,gif,pdf,svg
 )
 
+// go run main.go resize --db-name eg_prestanish --db-user root --db-pass "OvdZ5ZoXWgCWL4-hvZjg!" --db-table-prefix eg_ --img-width=1000
+
 var ImportCmd = &cobra.Command{
-	Use:     "generate",
-	Aliases: []string{"g"},
-	Short:   "generate thumbails for prestashop images.",
-	Long:    "generate thumbails for prestashop images",
+	Use:     "resize",
+	Aliases: []string{"r"},
+	Short:   "resize too big images in prestashop images directory.",
+	Long:    "resize too big images in prestashop images directory",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if !dryRun {
@@ -73,63 +77,71 @@ var ImportCmd = &cobra.Command{
 			Quality:  imgQuality,
 		}
 
-		for imgType, imgTypeLabel := range imgTypes {
+		for imgType := range imgTypes {
 
 			imgDir := filepath.Join(psDir, "img", imgType)
 
-			// load image types
-			var imageTypes []*models.ImageType
-			db.Where(imgTypeLabel + " = 1").Find(&imageTypes)
+			// todo. create cli argument for limit
+			limit := 10000
+			offset := 0
 
-			var query string
-			switch imgType {
-			case "products", "p":
-				query = `SELECT image_shop.id_image  AS id_image
+			for {
+
+				var query string
+				switch imgType {
+				case "products", "p":
+					query = `SELECT image_shop.id_image  AS id_image
 			FROM  eg_product p
 			 LEFT JOIN eg_shop shop ON (shop.id_shop = 1)
 			 LEFT JOIN eg_image_shop image_shop ON (image_shop.id_product = p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1)
 			 LEFT JOIN eg_image i ON (i.id_image = image_shop.id_image)
 			WHERE (1 AND state = 1)
 			GROUP BY p.id_product
-			ORDER BY  p.id_product desc`
-			}
+			ORDER BY p.id_product DESC
+			LIMIT {{ .offset }}, {{ .limit }}`
+				}
 
-			// todo. load image list or parse them by name ?
-			var results []*Result
-			db.Debug().Raw(query).Scan(&results)
+				sqlResult := bytes.NewBufferString("")
+				sqlTemplate, _ := template.New("").Parse(query)
+				sqlTemplate.Execute(sqlResult, map[string]string{"offset": fmt.Sprintf("%d", offset), "limit": fmt.Sprintf("%d", limit)})
 
-			pp.Println("imageTypes", imageTypes)
+				// todo. load image list or parse them by name ?
+				var results []*Result
+				db.Debug().Raw(sqlResult.String()).Scan(&results)
 
-			t := throttler.New(12, len(results))
+				offset = offset + limit
 
-			for _, result := range results {
+				if len(results) == 0 {
+					break
+				}
 
-				go func(r *Result) error {
-					// Let Throttler know when the goroutine completes
-					// so it can dispatch another worker
-					defer t.Done(nil)
+				t := throttler.New(10, len(results))
 
-					subDirectories := []rune(fmt.Sprintf("%d", r.IdImage))
-					var prefixPath string
-					for _, subDirectory := range subDirectories {
-						prefixPath = filepath.Join(prefixPath, fmt.Sprintf("%c", subDirectory))
-					}
-					imagePrefixPath := filepath.Join(imgDir, prefixPath)
-					imagePath := filepath.Join(imagePrefixPath, fmt.Sprintf("%d.jpg", r.IdImage))
-					extension := filepath.Ext(imagePath)
+				for _, result := range results {
 
-					log.Println("imagePath=", imagePath)
+					go func(r *Result) error {
+						// Let Throttler know when the goroutine completes
+						// so it can dispatch another worker
+						defer t.Done(nil)
 
-					// Read original image
-					buffer, err := bimg.Read(imagePath)
-					if err != nil {
-						return err
-					}
+						subDirectories := []rune(fmt.Sprintf("%d", r.IdImage))
+						var prefixPath string
+						for _, subDirectory := range subDirectories {
+							prefixPath = filepath.Join(prefixPath, fmt.Sprintf("%c", subDirectory))
+						}
+						imagePrefixPath := filepath.Join(imgDir, prefixPath)
+						imagePath := filepath.Join(imagePrefixPath, fmt.Sprintf("%d.jpg", r.IdImage))
+						// extension := filepath.Ext(imagePath)
 
-					// Write final output
-					for _, imageType := range imageTypes {
+						log.Println("imagePath=", imagePath)
 
-						destinationFilePath := filepath.Join(imagePrefixPath, fmt.Sprintf("%d-%s%s", r.IdImage, imageType.Name, extension))
+						// Read original image
+						buffer, err := bimg.Read(imagePath)
+						if err != nil {
+							return err
+						}
+
+						destinationFilePath := imagePath // filepath.Join(imagePrefixPath, fmt.Sprintf("%d-%s%s", r.IdImage, imageType.Name, extension))
 						log.Println("destinationFilePath=", destinationFilePath)
 
 						// Import image buffer
@@ -144,8 +156,12 @@ var ImportCmd = &cobra.Command{
 							return nil // errors.New("Unsupported image format")
 						}
 
-						bimgOpts.Height = int(imageType.Height)
-						bimgOpts.Width = int(imageType.Width)
+						if imgHeight > 0 {
+							bimgOpts.Height = imgHeight
+						}
+						if imgWidth > 0 {
+							bimgOpts.Width = imgWidth
+						}
 
 						// Process image quality
 						newBytes, err := newImage.Process(bimgOpts)
@@ -159,11 +175,11 @@ var ImportCmd = &cobra.Command{
 							log.Warnln("Write.err=", err)
 							return err
 						}
-					}
 
-					return nil
-				}(result)
-				t.Throttle()
+						return nil
+					}(result)
+					t.Throttle()
+				}
 			}
 		}
 	},
@@ -178,7 +194,9 @@ func init() {
 	ImportCmd.Flags().StringVarP(&dbHost, "db-host", "", "127.0.0.1", "database host")
 	ImportCmd.Flags().StringVarP(&dbPort, "db-port", "", "3306", "datbase port")
 	ImportCmd.Flags().StringVarP(&psDir, "ps-dir", "p", "../../../evolutive-prestashop/shared/www", "prestashop directory")
-	ImportCmd.Flags().IntVarP(&imgQuality, "img-quality", "q", 100, "Image format quality. (works only for JPEG format)")
+	ImportCmd.Flags().IntVarP(&imgWidth, "img-width", "w", 1000, "Image format quality. (works only for JPEG format)")
+	ImportCmd.Flags().IntVarP(&imgHeight, "img-height", "i", 0, "Image format quality. (works only for JPEG format)")
+	ImportCmd.Flags().IntVarP(&imgQuality, "img-quality", "q", 90, "Image format quality. (works only for JPEG format)")
 	ImportCmd.Flags().StringSliceVarP(&imgExt, "img-extension", "e", imgDefExt, "Process only image extensions")
 	ImportCmd.Flags().BoolVarP(&dryRun, "dry-run", "", false, "dry run")
 	RootCmd.AddCommand(ImportCmd)
