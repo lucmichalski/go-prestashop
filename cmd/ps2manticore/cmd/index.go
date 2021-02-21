@@ -69,7 +69,12 @@ var ImportCmd = &cobra.Command{
 		case "products", "product":
 
 			var products []*Product
-			err = db.Raw(sqlAdminCatalogProducts).Scan(&products).Error
+
+			sqlResult := bytes.NewBufferString("")
+			sqlTemplate, _ := template.New("").Parse(sqlAdminCatalogProducts)
+			sqlTemplate.Execute(sqlResult, map[string]string{"prefix": dbTablePrefix})
+
+			err = db.Raw(sqlResult.String()).Scan(&products).Error
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -205,7 +210,7 @@ var ImportCmd = &cobra.Command{
 
 				sqlResult := bytes.NewBufferString("")
 				sqlTemplate, _ := template.New("").Parse(sqlOrdersExtended)
-				sqlTemplate.Execute(sqlResult, map[string]string{"offset": fmt.Sprintf("%d", offset), "limit": fmt.Sprintf("%d", limit)})
+				sqlTemplate.Execute(sqlResult, map[string]string{"prefix": dbTablePrefix, "offset": fmt.Sprintf("%d", offset), "limit": fmt.Sprintf("%d", limit)})
 
 				var orders []*Order
 				err = db.Raw(sqlResult.String()).Scan(&orders).Error
@@ -367,7 +372,7 @@ var ImportCmd = &cobra.Command{
 
 				sqlResult := bytes.NewBufferString("")
 				sqlTemplate, _ := template.New("").Parse(sqlCustomerExtended)
-				sqlTemplate.Execute(sqlResult, map[string]string{"offset": fmt.Sprintf("%d", offset), "limit": fmt.Sprintf("%d", limit)})
+				sqlTemplate.Execute(sqlResult, map[string]string{"prefix": dbTablePrefix, "offset": fmt.Sprintf("%d", offset), "limit": fmt.Sprintf("%d", limit)})
 
 				var customers []*Customer
 				err = db.Raw(sqlResult.String()).Scan(&customers).Error

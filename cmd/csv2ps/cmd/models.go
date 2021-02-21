@@ -1,35 +1,44 @@
 package cmd
 
-type Config struct {
-
+type CatalogMap struct {
+	Name      string   `yaml:"name"`
+	Feed      string   `yaml:"feed"`
+	Separator string   `yaml:"separator"`
+	Fields    []string `yaml:"fields"`
+	Total     int      `yaml:"total"`
+	Mapping   struct {
+		Update     bool     `yaml:"update" default:"true"` // Either ADD
+		LangSuffix []string `yaml:"multi_language_suffix"`
+		LangFields []string `yaml:"multi_language_fields"`
+		Product    Product  `yaml:"product"`
+		Category   struct {
+			Name       string `yaml:"name"`
+			Breadcrumb string `yaml:"breaddcrumb"`
+			Separator  string `yaml:"separator"`
+		} `yaml:"category"`
+	} `yaml:"mapping"`
 }
-Name Setting
-Source:
-Import from local
-File(Excel/CSV):*No file chosen
-Images(Zip file):No file chosen
-Files for Virtual Product (Zip file):No file chosen
-Files for Attachments (Zip file):No file chosen
-New Items:
-Ignore
-Existing Items:
-Mettre à jour
-Product Type:
-Standard product
-Identify Existing Product by Matching Field:
-Reference code
-Identify Existing Combination by Matching Field:
-Reference code
-Update Quantity/Stock:
-Set Quantity/Stock to New Value
-Update Categories:
-Add more Categories
-Encode:
-UTF-8
-CSV Field Delimiter:
-;
-Category's Delimiter:
-/
-Use the first row as headers:YesNoMulti languages:YesNoRemove Combination if Combiantion quantity = 0:YesNoAdd New Categories if Categories not exist:YesNoAdd New Manufacturer if Manufacturer not exist:YesNoAdd New Suppliers if Suppliers not exist:YesNoCreate Feature as Customize Feature if not exist:YesNoItems to import:TousRange- From product
-1
-to
+
+type Product struct {
+	Name             string   `yaml:"name"`
+	Reference        string   `yaml:"reference"`
+	Ean13            string   `yaml:"ean13"`
+	Sku              string   `yaml:"sku"`
+	Mpn              string   `yaml:"mpn"`
+	Price            string   `yaml:"price"`
+	Description      string   `yaml:"description"`
+	DescriptionShort string   `yaml:"description_short"`
+	Image            string   `yaml:"image"`
+	Quantity         string   `yaml:"quantity"`
+	Width            string   `yaml:"width"`
+	Height           string   `yaml:"height"`
+	Weight           string   `yaml:"weight"`
+	Shipping         string   `yaml:"shipping"`
+	Attributes       []string `yaml:"attributes"`
+	Features         []string `yaml:"features"`
+}
+
+type Feature struct {
+	IDFeature      uint
+	IDFeatureValue uint
+}
