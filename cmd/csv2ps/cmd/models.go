@@ -1,8 +1,13 @@
 package cmd
 
+import (
+	"time"
+)
+
 type CatalogMap struct {
 	Name      string   `yaml:"name"`
 	Feed      string   `yaml:"feed"`
+	SellerId  int      `yaml:"seller_id"`
 	Separator string   `yaml:"separator"`
 	Fields    []string `yaml:"fields"`
 	Total     int      `yaml:"total"`
@@ -34,6 +39,7 @@ type Product struct {
 	Height           string   `yaml:"height"`
 	Weight           string   `yaml:"weight"`
 	Shipping         string   `yaml:"shipping"`
+	Redirect         string   `yaml:"redirect"`
 	Attributes       []string `yaml:"attributes"`
 	Features         []string `yaml:"features"`
 }
@@ -41,4 +47,43 @@ type Product struct {
 type Feature struct {
 	IDFeature      uint
 	IDFeatureValue uint
+}
+
+type WkMpSeller struct {
+	IdSeller                int
+	ShopNameUnique          string
+	LinkRewrite             string
+	SellerFirstname         string
+	SellerLastname          string
+	BusinessEmail           string
+	Phone                   string
+	Fax                     string
+	Address                 string
+	Postcode                string
+	City                    string
+	IdCountry               int
+	IdState                 int
+	TaxIdentificationNumber string
+	DefaultLang             int
+	FacebookId              string
+	TwitterId               string
+	GoogleId                string
+	InstagramId             string
+	ProfileImage            string
+	ProfileBanner           string
+	ShopImage               string
+	ShopBanner              string
+	Active                  bool
+	ShopApproved            bool
+	SellerCustomerId        int
+	SellerDetailsAccess     string
+	DateAdd                 time.Time
+	DateUpd                 time.Time
+}
+
+type WkMpSellerLang struct {
+	IdSeller  int
+	IdLang    int
+	ShopName  string
+	AboutShop string
 }

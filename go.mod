@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/beevik/etree v1.1.0
+	github.com/brianvoe/gofakeit/v6 v6.2.0
 	github.com/bxcodec/faker/v3 v3.6.0
 	github.com/c9s/inflect v0.0.0-20130402162822-006c50878f3f // indirect
 	github.com/cavaliercoder/grab v2.0.0+incompatible
@@ -11,11 +12,13 @@ require (
 	github.com/clbanning/mxj/v2 v2.5.2
 	github.com/csimplestring/go-csv v0.0.0-20180328183906-5b8b3cd94f2c
 	github.com/dghubble/sling v1.3.0
+	github.com/dgraph-io/badger v1.6.2
 	github.com/emvi/iso-639-1 v1.0.1
 	github.com/fatih/structs v1.1.0
 	github.com/ghodss/yaml v1.0.0
 	github.com/go-openapi/swag v0.19.14 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
+	github.com/golang/snappy v0.0.2
 	github.com/goombaio/namegenerator v0.0.0-20181006234301-989e774b106e
 	github.com/gosimple/slug v1.9.0
 	github.com/h2non/bimg v1.1.5
@@ -34,6 +37,7 @@ require (
 	github.com/sethgrid/pester v1.1.0
 	github.com/sirupsen/logrus v1.7.0
 	github.com/spf13/cobra v1.1.1
+	github.com/tsak/concurrent-csv-writer v1.0.0
 	github.com/yudppp/json2struct v0.0.0-20170703063715-58ec74d298a8
 	github.com/ziutek/mymysql v1.5.4
 	golang.org/x/net v0.0.0-20200324143707-d3edc9973b7e

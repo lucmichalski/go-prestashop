@@ -11,6 +11,7 @@ import (
 	"math/rand"
 	"net"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -22,13 +23,17 @@ import (
 	"unicode"
 
 	"github.com/beevik/etree"
+	gofakeit "github.com/brianvoe/gofakeit/v6"
 	"github.com/cavaliercoder/grab"
 	"github.com/csimplestring/go-csv/detector"
+	badger "github.com/dgraph-io/badger"
+	"github.com/golang/snappy"
 	"github.com/gosimple/slug"
 	"github.com/iancoleman/strcase"
 	"github.com/k0kubun/pp"
 	"github.com/nozzle/throttler"
 	"github.com/spf13/cobra"
+	ccsv "github.com/tsak/concurrent-csv-writer"
 	"github.com/yudppp/json2struct"
 	"golang.org/x/text/transform"
 	"golang.org/x/text/unicode/norm"
@@ -42,10 +47,15 @@ import (
 
 var (
 	psDir         string
+	psMarketplace bool
 	outputDir     string
 	workDir       string
+	proxyURLStr   string
+	proxyURL      *url.URL
 	dryRun        bool
 	db            *gorm.DB
+	kv            *badger.DB
+	kvPath        = "./badger"
 	dbName        string
 	dbUser        string
 	dbPass        string
@@ -73,6 +83,10 @@ var (
 	seed       = time.Now().UTC().UnixNano()
 	noFixtures bool
 )
+
+func init() {
+	gofakeit.Seed(0)
+}
 
 const (
 	// not operational
@@ -222,7 +236,20 @@ var PrepareCmd = &cobra.Command{
 			if err != nil {
 				log.Fatal(err)
 			}
+
 		}
+
+		var err error
+		proxyURL, err = url.Parse(proxyURLStr)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		kv, err = badger.Open(badger.DefaultOptions(kvPath))
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer kv.Close()
 
 		osPathname := "catalogs/netaffiliation.xml"
 		if options.debug {
@@ -241,7 +268,7 @@ var PrepareCmd = &cobra.Command{
 		reStruct := regexp.MustCompile(`type (.*) struct`)
 		reTags := regexp.MustCompile(`json:"(.*)"`)
 
-		err := db.Where("active = ?", 1).Find(&activeLangs).Error
+		err = db.Where("active = ?", 1).Find(&activeLangs).Error
 		pp.Println("activeLangs:", activeLangs)
 
 		err = db.Where("active = ?", 1).Find(&activeShops).Error
@@ -257,9 +284,9 @@ var PrepareCmd = &cobra.Command{
 		pp.Println("activeGroups:", activeGroups)
 
 		campaigns := root.SelectElements("campaign")
-		shuffleXml(campaigns)
+		// campaigns = shuffleXml(campaigns)
 
-		t := throttler.New(12, len(campaigns))
+		t := throttler.New(3, len(campaigns))
 
 		// shuffle
 		for _, campaign := range campaigns {
@@ -293,6 +320,82 @@ var PrepareCmd = &cobra.Command{
 					Name: feedName,
 					Feed: feedURL,
 				}
+
+				// create fake marketplace user
+				if psMarketplace {
+
+					var randomCountry psm.Country
+					db.Order("RAND()").First(&randomCountry)
+
+					var randomLanguage psm.Lang
+					db.Order("RAND()").First(&randomLanguage)
+
+					var randomCustomer psm.Customer
+					db.Order("RAND()").First(&randomCustomer)
+
+					if feedName == "" {
+						feedName = gofakeit.Company()
+					}
+
+					seller := WkMpSeller{
+						ShopNameUnique:          feedName,
+						LinkRewrite:             slug.Make(feedName),
+						SellerFirstname:         gofakeit.FirstName(),
+						SellerLastname:          gofakeit.LastName(),
+						BusinessEmail:           gofakeit.Email(),
+						Phone:                   gofakeit.Phone(),
+						Fax:                     "",
+						Address:                 gofakeit.Street(),
+						Postcode:                gofakeit.Zip(),
+						City:                    gofakeit.City(),
+						IdCountry:               int(randomCountry.IDCountry),
+						IdState:                 0, // todo. left join on country select
+						TaxIdentificationNumber: gofakeit.UUID(),
+						DefaultLang:             int(randomLanguage.IDLang),
+						FacebookId:              "",
+						TwitterId:               "",
+						GoogleId:                "",
+						InstagramId:             "",
+						ProfileImage:            "",
+						ProfileBanner:           "",
+						ShopImage:               "",
+						ShopBanner:              "",
+						Active:                  true,
+						ShopApproved:            true,
+						SellerCustomerId:        int(randomCustomer.IDCustomer), // randome user
+						SellerDetailsAccess:     "",
+						DateAdd:                 time.Now(),
+						DateUpd:                 time.Now(),
+					}
+
+					var wkMpSeller WkMpSeller
+					err := db.Where("shop_name_unique = ? ", feedName).First(&wkMpSeller).Error
+					if errors.Is(err, gorm.ErrRecordNotFound) {
+						err := db.Create(&seller).Error
+						if err != nil {
+							log.Fatal(err)
+						}
+						db.Where("shop_name_unique = ? ", feedName).First(&wkMpSeller)
+						cmp.SellerId = wkMpSeller.IdSeller
+						// WkMpSellerLang
+						for _, activeLang := range activeLangs {
+							wkMpSellerLang := &WkMpSellerLang{
+								IdSeller:  wkMpSeller.IdSeller,
+								IdLang:    activeLang.IDLang,
+								ShopName:  feedName,
+								AboutShop: gofakeit.HackerPhrase(),
+							}
+							err := db.Create(&wkMpSellerLang).Error
+							if err != nil {
+								return err
+							}
+						}
+					} else {
+						cmp.SellerId = wkMpSeller.IdSeller
+					}
+
+				}
+
 				cmp.Mapping.LangSuffix = languagesDef
 				cmp.Mapping.LangFields = []string{"name", "description", "description_short"}
 
@@ -325,6 +428,8 @@ var PrepareCmd = &cobra.Command{
 						return nil
 					},
 				}
+
+				feedName = stripCtlAndExtFromUnicode(feedName)
 
 				localCatalogStruct := filepath.Join("..", "..", "internal", "netaffiliation", fmt.Sprintf("%s.go", strcase.ToSnake(feedName)))
 				localCatalogJson := filepath.Join("catalogs", fmt.Sprintf("%s.json", slug.Make(feedName)))
@@ -388,7 +493,7 @@ var PrepareCmd = &cobra.Command{
 				detect := detector.New()
 
 				delimiters := detect.DetectDelimiter(inputFile, '"')
-				pp.Println("delimiters:", delimiters, "localCatalogCsv", localCatalogCsv)
+				//pp.Println("delimiters:", delimiters, "localCatalogCsv", localCatalogCsv)
 
 				if len(delimiters) == 0 || len(delimiters) > 1 {
 					return errors.New("No delimiter detected")
@@ -404,19 +509,21 @@ var PrepareCmd = &cobra.Command{
 
 				cmp.Fields = cols
 				cmp.Mapping.Update = true
-				pp.Println("cols:", cols)
+				//pp.Println("cols:", cols)
 
 				for _, col := range cols {
 					switch col {
-					case "name", "nom", "titre", "name_of_the_product", "title", "product_name", "prod_name", "nom_attribute":
+					case "url", "product_url", "ur_lproduit", "product_page_url", "link", "url_de_la_page_produit", "url_produit", "prod_url", "product_link":
+						cmp.Mapping.Product.Redirect = col
+					case "name", "nom", "titre", "name_of_the_product", "title", "product_name", "prod_name", "nom_attribute", "nom_usuel_du_produit":
 						cmp.Mapping.Product.Name = col
 					case "reference", "ref", "reference_interne", "identifiant", "internal_reference", "reference_du_produit", "reference_fabriquant":
 						cmp.Mapping.Product.Reference = col
-					case "ean13", "ean", "ean_or_isbn", "ean_13", "reference_universelle", "universal_reference", "prod_ean", "id":
+					case "ean13", "ean", "ean_or_isbn", "ean_13", "reference_universelle", "universal_reference", "prod_ean", "id", "code_ean":
 						cmp.Mapping.Product.Ean13 = col
-					case "sku":
+					case "sku", "numero_modele_produit":
 						cmp.Mapping.Product.Sku = col
-					case "prix", "price", "current_price", "prix_de_vente", "prix_actuel", "prod_price", "prix_ttc":
+					case "prix", "price", "current_price", "prix_de_vente", "prix_actuel", "prod_price", "prix_ttc", "prix_ttc_du_produit":
 						cmp.Mapping.Product.Price = col
 					case "mpn":
 						cmp.Mapping.Product.Mpn = col
@@ -518,7 +625,7 @@ var PrepareCmd = &cobra.Command{
 					"CatalogPath":      localCatalogCsv,
 					"Line":             fmt.Sprintf("%d", csvRowLine),
 					"Struct":           parsed,
-					"StructName":       structName[1],
+					"StructName":       stripCtlAndExtFromUnicode(structName[1]),
 					"Row":              strings.Join(csvRowExample, ",\n")},
 				)
 
@@ -567,6 +674,8 @@ func init() {
 	PrepareCmd.Flags().BoolVarP(&dbEnv, "db-env", "", false, "use env variables to connect to the database.")
 	PrepareCmd.Flags().BoolVarP(&dbDrop, "db-drop", "", false, "drop/truncate database tables")
 	PrepareCmd.Flags().BoolVarP(&dbMigrate, "db-migrate", "", false, "create/update database tables")
+	PrepareCmd.Flags().StringVarP(&proxyURLStr, "proxy", "x", "socks5://localhost:5566", "tor haproxy url")
+	PrepareCmd.Flags().BoolVarP(&psMarketplace, "ps-market", "", false, "create wk-marketplace users and catalogs per feed.")
 	PrepareCmd.Flags().StringVarP(&psDir, "ps-dir", "p", "../../../evolutive-prestashop/shared/www", "prestashop directory")
 	PrepareCmd.Flags().IntVarP(&imgQuality, "img-quality", "q", 90, "Image format quality. (works only for JPEG format)")
 	PrepareCmd.Flags().StringSliceVarP(&imgExt, "img-extension", "e", imgDefExt, "Process only image extensions")
@@ -729,15 +838,24 @@ func csv2ps(db *gorm.DB, fp, fo string, columns []string, separator string, cmp 
 	}
 
 	// CSV Writer
-	formatted, err := os.Create(fo)
-	if err != nil {
-		return cmp, 0, err
-	}
-	defer formatted.Close()
+	// formatted, err := os.Create(fo)
+	// if err != nil {
+	// 	return cmp, 0, err
+	// }
+	// defer formatted.Close()
 
-	writer := csv.NewWriter(formatted)
-	writer.Comma = ','
-	defer writer.Flush()
+	// Create `sample.csv` in current directory
+	writer, err := ccsv.NewCsvWriter(fo)
+	if err != nil {
+		panic("Could not open `sample.csv` for writing")
+	}
+
+	// Flush pending writes and close file upon exit of main()
+	defer writer.Close()
+
+	//writer := csv.NewWriter(formatted)
+	//writer.Comma = ','
+	//defer writer.Flush()
 
 	headers := []string{"name_en", "name_fr", "reference", "category_id", "default_category", "short_description_en", "short_description_fr", "description_en", "description_fr", "price", "tax_id", "quantity", "image_ref", "feature_name", "feature_values", "minimum_garantie", "quantite_unitaire", "format_unitaire", "prix_total", "unite_total", "poids_piece", "ean13", "sku", "mpn"}
 	err = writer.Write(headers)
@@ -745,306 +863,323 @@ func csv2ps(db *gorm.DB, fp, fo string, columns []string, separator string, cmp 
 
 	detect := detector.New()
 
-	// t := throttler.New(2, len(rows))
+	t := throttler.New(4, len(rows))
 
 	c := 0
 
 	// shuffle rows
-	shuffleMap(rows)
+	// rows = shuffleMap(rows)
 
 	for _, value := range rows {
 
-		//go func(v map[string]string) error {
-		// Let Throttler know when the goroutine completes
-		// so it can dispatch another worker
-		//	defer t.Done(nil)
+		go func(v map[string]string) error {
+			// Let Throttler know when the goroutine completes
+			// so it can dispatch another worker
+			defer t.Done(nil)
 
-		var row []string
+			var row []string
 
-		product := &Product{}
-
-		// product_name
-		if cmp.Mapping.Product.Name != "" {
-			productName := cmp.Mapping.Product.Name
-			name := value[productName]
-			if len(name) > 127 {
-				product.Name = name[0:127]
+			var redirectLink string
+			if cmp.Mapping.Product.Redirect != "" {
+				productRedirect := cmp.Mapping.Product.Redirect
+				redirectLink = v[productRedirect]
 			} else {
-				product.Name = name
+				row = append(row, "")
 			}
-			row = append(row, product.Name)
-		} else {
-			row = append(row, "")
-		}
-
-		// product_name
-		if cmp.Mapping.Product.Name != "" {
-			productName := cmp.Mapping.Product.Name
-			name := value[productName]
-			if len(name) > 127 {
-				product.Name = name[0:127]
-			} else {
-				product.Name = name
+			_, ok := getFromBadger(redirectLink)
+			if ok {
+				log.Infoln("skipping link redirect as processed:", redirectLink)
+				return nil
 			}
-			row = append(row, product.Name)
-		} else {
-			row = append(row, "")
-		}
 
-		// reference
-		if cmp.Mapping.Product.Reference != "" {
-			productRef := cmp.Mapping.Product.Reference
-			product.Reference = value[productRef]
-			row = append(row, value[productRef])
-		} else {
-			row = append(row, "")
-		}
+			product := &Product{}
 
-		// category_id / 200;212;253
-		// reference
-		var category_ids string
-		var default_category string
-		if cmp.Mapping.Category.Breadcrumb != "" {
-			breadcrumb := cmp.Mapping.Category.Breadcrumb
-			sanitizedBreadcrumb := strings.Replace(value[breadcrumb], "-", " ", -1)
-			sanitizedBreadcrumb = strings.Replace(sanitizedBreadcrumb, "&", " and ", -1)
-			sanitizedBreadcrumb = strings.Replace(sanitizedBreadcrumb, "_", " ", -1)
-			sanitizedBreadcrumb = strings.Replace(sanitizedBreadcrumb, "'", " ", -1)
-			sanitizedBreadcrumb = normalize_line(sanitizedBreadcrumb)
-			if !strings.Contains(sanitizedBreadcrumb, "=>") {
-				delimiters := detect.DetectDelimiter(strings.NewReader(sanitizedBreadcrumb), '"')
-				// Do a search in the database for those categories
-				if len(delimiters) > 0 && cmp.Mapping.Category.Separator == "" {
-					cmp.Mapping.Category.Separator = delimiters[0]
-					pp.Println("cmp.Category.Separator = ", delimiters[0], "v=", value[breadcrumb])
-					// row = append(row, "") //			row = append(row, v[breadcrumb])
-				}
-				// create nested category
-				pp.Println("cmp.Mapping.Category.Separator", cmp.Mapping.Category.Separator, "delimiters", delimiters)
-				var breadcrumbSlice []string
-				if cmp.Mapping.Category.Separator == "" {
-					breadcrumbSlice = []string{value[breadcrumb]}
+			// product_name
+			if cmp.Mapping.Product.Name != "" {
+				productName := cmp.Mapping.Product.Name
+				name := v[productName]
+				if len(name) > 127 {
+					product.Name = name[0:127]
 				} else {
-					breadcrumbSlice = strings.Split(value[breadcrumb], cmp.Mapping.Category.Separator)
+					product.Name = name
 				}
-				for i, category := range breadcrumbSlice {
-					breadcrumbSlice[i] = strings.TrimSpace(category)
+				row = append(row, product.Name)
+			} else {
+				row = append(row, "")
+			}
+
+			// product_name
+			if cmp.Mapping.Product.Name != "" {
+				productName := cmp.Mapping.Product.Name
+				name := v[productName]
+				if len(name) > 127 {
+					product.Name = name[0:127]
+				} else {
+					product.Name = name
 				}
-				var err error
-				category_ids, default_category, err = createNestedCategoryTree(db, cmp, breadcrumbSlice)
+				row = append(row, product.Name)
+			} else {
+				row = append(row, "")
+			}
+
+			// reference
+			if cmp.Mapping.Product.Reference != "" {
+				productRef := cmp.Mapping.Product.Reference
+				product.Reference = v[productRef]
+				row = append(row, v[productRef])
+			} else {
+				row = append(row, "")
+			}
+
+			// category_id / 200;212;253
+			// reference
+			var category_ids string
+			var default_category string
+			if cmp.Mapping.Category.Breadcrumb != "" {
+				breadcrumb := cmp.Mapping.Category.Breadcrumb
+				sanitizedBreadcrumb := strings.Replace(v[breadcrumb], ">", " > ", -1) // fix issue with lagiuole breadcrumb
+				sanitizedBreadcrumb = strings.Replace(sanitizedBreadcrumb, "  >  ", " > ", -1)
+				sanitizedBreadcrumb = strings.Replace(sanitizedBreadcrumb, "-", " ", -1)
+				sanitizedBreadcrumb = strings.Replace(sanitizedBreadcrumb, "&", " and ", -1)
+				sanitizedBreadcrumb = strings.Replace(sanitizedBreadcrumb, "_", " ", -1)
+				sanitizedBreadcrumb = strings.Replace(sanitizedBreadcrumb, "'", " ", -1)
+				sanitizedBreadcrumb = normalize_line(sanitizedBreadcrumb)
+				if !strings.Contains(sanitizedBreadcrumb, "=>") {
+					delimiters := detect.DetectDelimiter(strings.NewReader(sanitizedBreadcrumb), '"')
+					// Do a search in the database for those categories
+					if len(delimiters) > 0 && cmp.Mapping.Category.Separator == "" {
+						cmp.Mapping.Category.Separator = delimiters[0]
+						//pp.Println("cmp.Category.Separator = ", delimiters[0], "v=", v[breadcrumb])
+						// row = append(row, "") //			row = append(row, v[breadcrumb])
+					}
+					// create nested category
+					//pp.Println("cmp.Mapping.Category.Separator", cmp.Mapping.Category.Separator, "delimiters", delimiters)
+					var breadcrumbSlice []string
+					if cmp.Mapping.Category.Separator == "" {
+						breadcrumbSlice = []string{v[breadcrumb]}
+					} else {
+						breadcrumbSlice = strings.Split(v[breadcrumb], cmp.Mapping.Category.Separator)
+					}
+					for i, category := range breadcrumbSlice {
+						breadcrumbSlice[i] = strings.TrimSpace(category)
+					}
+					var err error
+					category_ids, default_category, err = createNestedCategoryTree(db, cmp, breadcrumbSlice)
+					checkErr("createNestedCategoryTreeError", err)
+				} else {
+					cmp.Mapping.Category.Separator = "=>"
+				}
+				// category_id
+				row = append(row, category_ids)
+			} else {
+				category_ids, default_category, err = createNestedCategoryTree(db, cmp, nil)
 				checkErr("createNestedCategoryTreeError", err)
+				row = append(row, category_ids)
+			}
+
+			// row = append(row, "")
+
+			// default_category / 253
+			row = append(row, default_category)
+
+			// short_description
+			if cmp.Mapping.Product.DescriptionShort != "" {
+				productDescShort := cmp.Mapping.Product.DescriptionShort
+				product.DescriptionShort = v[productDescShort]
+				row = append(row, v[productDescShort])
 			} else {
-				cmp.Mapping.Category.Separator = "=>"
+				row = append(row, "")
 			}
-			// category_id
-			row = append(row, category_ids)
-		} else {
-			category_ids, default_category, err = createNestedCategoryTree(db, cmp, nil)
-			checkErr("createNestedCategoryTreeError", err)
-			row = append(row, category_ids)
-		}
 
-		// row = append(row, "")
-
-		// default_category / 253
-		row = append(row, default_category)
-
-		// short_description
-		if cmp.Mapping.Product.DescriptionShort != "" {
-			productDescShort := cmp.Mapping.Product.DescriptionShort
-			product.DescriptionShort = value[productDescShort]
-			row = append(row, value[productDescShort])
-		} else {
-			row = append(row, "")
-		}
-
-		// short_description
-		if cmp.Mapping.Product.DescriptionShort != "" {
-			productDescShort := cmp.Mapping.Product.DescriptionShort
-			row = append(row, value[productDescShort])
-		} else {
-			row = append(row, "")
-		}
-
-		// description
-		if cmp.Mapping.Product.Description != "" {
-			productDesc := cmp.Mapping.Product.Description
-			if value[productDesc] == "" {
-				continue
-			}
-			product.Description = value[productDesc]
-			row = append(row, value[productDesc])
-		} else {
-			row = append(row, "")
-		}
-
-		// description
-		if cmp.Mapping.Product.Description != "" {
-			productDesc := cmp.Mapping.Product.Description
-			row = append(row, value[productDesc])
-		} else {
-			row = append(row, "")
-		}
-
-		// price
-		if cmp.Mapping.Product.Price != "" {
-			productPrice := cmp.Mapping.Product.Price
-			product.Price = strings.Replace(value[productPrice], ",", ".", -1)
-			row = append(row, strings.Replace(value[productPrice], ",", ".", -1))
-		} else {
-			row = append(row, "")
-		}
-
-		// tax_id
-		row = append(row, "1")
-
-		// quantity
-		row = append(row, "10")
-
-		var imageRef string
-		if cmp.Mapping.Product.Image != "" {
-			productImage := cmp.Mapping.Product.Image
-			imageRef = value[productImage]
-			row = append(row, value[productImage])
-		} else {
-			row = append(row, "")
-		}
-
-		// feature_name
-		// feature_values
-		var features, featuresValues []string
-		for _, feature := range cmp.Mapping.Product.Features {
-			if value[feature] == "" {
-				continue
-			}
-			features = append(features, feature)
-			featuresValues = append(featuresValues, value[feature])
-		}
-		row = append(row, strings.Join(features, ","))
-		row = append(row, strings.Join(featuresValues, ","))
-
-		// insert feature
-		features_pairs, err := createOrFindFeatures(db, features, featuresValues)
-		pp.Println("features_pairs:", features_pairs)
-
-		// minimum_garantie
-		row = append(row, "")
-
-		// quantite_unitaire
-		if cmp.Mapping.Product.Quantity != "" {
-			productQuantity := cmp.Mapping.Product.Quantity
-			product.Quantity = value[productQuantity]
-			row = append(row, value[productQuantity])
-		} else {
-			row = append(row, "")
-		}
-
-		// format_unitaire
-		row = append(row, "")
-
-		// prix_total
-		if cmp.Mapping.Product.Price != "" {
-			productPrice := cmp.Mapping.Product.Price
-			product.Price = value[productPrice]
-			row = append(row, value[productPrice])
-		} else {
-			row = append(row, "")
-		}
-
-		// unite_total
-		row = append(row, "1")
-
-		// poids_piece
-		row = append(row, "1")
-
-		if cmp.Mapping.Product.Ean13 != "" {
-			productEan := cmp.Mapping.Product.Ean13
-			ean13 := value[productEan]
-			if len(ean13) > 12 {
-				product.Ean13 = ean13[0:12]
+			// short_description
+			if cmp.Mapping.Product.DescriptionShort != "" {
+				productDescShort := cmp.Mapping.Product.DescriptionShort
+				row = append(row, v[productDescShort])
 			} else {
-				product.Ean13 = ean13
+				row = append(row, "")
 			}
-			row = append(row, product.Ean13)
-		} else {
+
+			// description
+			if cmp.Mapping.Product.Description != "" {
+				productDesc := cmp.Mapping.Product.Description
+				if v[productDesc] == "" {
+					return nil
+				}
+				product.Description = v[productDesc]
+				row = append(row, v[productDesc])
+			} else {
+				row = append(row, "")
+			}
+
+			// description
+			if cmp.Mapping.Product.Description != "" {
+				productDesc := cmp.Mapping.Product.Description
+				row = append(row, v[productDesc])
+			} else {
+				row = append(row, "")
+			}
+
+			// price
+			if cmp.Mapping.Product.Price != "" {
+				productPrice := cmp.Mapping.Product.Price
+				product.Price = strings.Replace(v[productPrice], ",", ".", -1)
+				row = append(row, strings.Replace(v[productPrice], ",", ".", -1))
+			} else {
+				row = append(row, "")
+			}
+
+			// tax_id
+			row = append(row, "1")
+
+			// quantity
+			row = append(row, "10")
+
+			var imageRef string
+			if cmp.Mapping.Product.Image != "" {
+				productImage := cmp.Mapping.Product.Image
+				imageRef = v[productImage]
+				row = append(row, v[productImage])
+			} else {
+				row = append(row, "")
+			}
+
+			// feature_name
+			// feature_values
+			var features, featuresValues []string
+			for _, feature := range cmp.Mapping.Product.Features {
+				if v[feature] == "" {
+					return nil
+				}
+				features = append(features, feature)
+				featuresValues = append(featuresValues, v[feature])
+			}
+			row = append(row, strings.Join(features, ","))
+			row = append(row, strings.Join(featuresValues, ","))
+
+			// insert feature
+			features_pairs, err := createOrFindFeatures(db, features, featuresValues)
+			// pp.Println("features_pairs:", features_pairs)
+
+			// minimum_garantie
 			row = append(row, "")
-		}
 
-		if cmp.Mapping.Product.Sku != "" {
-			productSku := cmp.Mapping.Product.Sku
-			product.Sku = value[productSku]
-			row = append(row, value[productSku])
-		} else {
+			// quantite_unitaire
+			if cmp.Mapping.Product.Quantity != "" {
+				productQuantity := cmp.Mapping.Product.Quantity
+				product.Quantity = v[productQuantity]
+				row = append(row, v[productQuantity])
+			} else {
+				row = append(row, "")
+			}
+
+			// format_unitaire
 			row = append(row, "")
-		}
 
-		if cmp.Mapping.Product.Mpn != "" {
-			productMpn := cmp.Mapping.Product.Mpn
-			product.Mpn = value[productMpn]
-			row = append(row, value[productMpn])
-		} else {
-			row = append(row, "")
-		}
+			// prix_total
+			if cmp.Mapping.Product.Price != "" {
+				productPrice := cmp.Mapping.Product.Price
+				product.Price = v[productPrice]
+				row = append(row, v[productPrice])
+			} else {
+				row = append(row, "")
+			}
 
-		productId, err := createOrFindProduct(db, product, imageRef, default_category, features_pairs)
-		checkErr("createOrFindProduct.Error", err)
-		// insert product + association feature
+			// unite_total
+			row = append(row, "1")
 
-		pp.Println("productId", productId)
+			// poids_piece
+			row = append(row, "1")
 
-		/*
-			OK - INSERT IGNORE INTO :prefix:product (`id_product`, `id_supplier`, `id_manufacturer`, `id_category_default`, `id_shop_default`, `id_tax_rules_group`, `on_sale`, `online_only`, `ean13`, `upc`, `ecotax`, `quantity`, `minimal_quantity`, `price`, `wholesale_price`, `unity`, `unit_price_ratio`, `additional_shipping_cost`, `reference`, `supplier_reference`, `location`, `width`, `height`, `depth`, `weight`, `out_of_stock`, `quantity_discount`, `customizable`, `uploadable_files`, `text_fields`, `active`, `redirect_type`, `available_for_order`, `available_date`, `condition`, `show_price`, `indexed`, `visibility`, `cache_is_pack`, `cache_has_attachments`, `is_virtual`, `cache_default_attribute`, `date_add`, `date_upd`, `advanced_stock_management`) VALUES (:id:, :id_supplier:, :id_manufacturer:, :id_category_default:, :id_shop_default:, :id_tax_rules_group:, :on_sale:, :online_only:, :ean13:, :upc:, :ecotax:, :quantity:, :minimal_quantity:, :price:, :wholesale_price:, :unity:, :unit_price_ratio:, :additional_shipping_cost:, :reference:, :supplier_reference:, :location:, :width:, :height:, :depth:, :weight:, :out_of_stock:, :quantity_discount:, :customizable:, :uploadable_files:, :text_fields:, :active:, :redirect_type:, :available_for_order:, :available_date:, :condition:, :show_price:, :indexed:, :visibility:, :cache_is_pack:, :cache_has_attachments:, :is_virtual:, :cache_default_attribute:, NOW(), NOW(), :advanced_stock_management:);
-			OK - INSERT IGNORE INTO :prefix:product_lang (`id_product`, `id_shop`, `id_lang`, `description`, `description_short`, `link_rewrite`, `meta_description`, `meta_keywords`, `meta_title`, `name`, `available_now`, `available_later`) VALUES (:id:, :id_shop:, :id_lang:, :description:, :description_short:, :link_rewrite:, :meta_description:, :meta_keywords:, :meta_title:, :name:, :available_now:, :available_later:);
-			OK - INSERT IGNORE INTO :prefix:product_shop (`id_product`, `id_shop`, `id_category_default`, `id_tax_rules_group`, `on_sale`, `online_only`, `ecotax`, `minimal_quantity`, `price`, `wholesale_price`, `unity`, `unit_price_ratio`, `additional_shipping_cost`, `customizable`, `uploadable_files`, `text_fields`, `active`, `redirect_type`, `available_for_order`, `available_date`, `condition`, `show_price`, `indexed`, `visibility`, `cache_default_attribute`, `advanced_stock_management`, `date_add`, `date_upd`) VALUES (:id:, :id_shop:, :id_category_default:, :id_tax_rules_group:, :on_sale:, :online_only:, :ecotax:, :minimal_quantity:, :price:, :wholesale_price:, :unity:, :unit_price_ratio:, :additional_shipping_cost:, :customizable:, :uploadable_files:, :text_fields:, :active:, :redirect_type:, :available_for_order:, :available_date:, :condition:, :show_price:, :indexed:, :visibility:, :cache_default_attribute:, :advanced_stock_management:, NOW(), NOW());
-			OK - INSERT IGNORE INTO :prefix:category_product (`id_product`, `id_category`, `position`) VALUES (:id:, :id_category_default:, 0);
-			OK - INSERT IGNORE INTO :prefix:feature_product (`id_product`, `id_feature`, `id_feature_value`) VALUES (:id:, :id_feature:, :id_feature_value:);
-		*/
+			if cmp.Mapping.Product.Ean13 != "" {
+				productEan := cmp.Mapping.Product.Ean13
+				ean13 := v[productEan]
+				if len(ean13) > 12 {
+					product.Ean13 = ean13[0:12]
+				} else {
+					product.Ean13 = ean13
+				}
+				row = append(row, product.Ean13)
+			} else {
+				row = append(row, "")
+			}
 
-		// insert image
-		/*
-			INSERT IGNORE INTO :prefix:image (`id_image`, `id_product`, `position`, `cover`) VALUES (:id:, :id_product:, :position:, :cover:);
-			INSERT IGNORE INTO :prefix:image_lang (`id_image`, `id_lang`, `legend`) VALUES (:id:, :id_lang:, :legend:);
-			INSERT IGNORE INTO :prefix:image_shop (`id_product`, `id_image`, `id_shop`, `cover`) VALUES (:id_product:, :id:, :id_shop:, :cover:);
-		*/
-		localImg, err := downloadImageToPs(imageRef, productId)
-		log.Warnln("downloadImageToPs.Error", err)
-		// checkErr("downloadImageToPs.Error", err)
-		pp.Println("localImg", localImg)
+			if cmp.Mapping.Product.Sku != "" {
+				productSku := cmp.Mapping.Product.Sku
+				product.Sku = v[productSku]
+				row = append(row, v[productSku])
+			} else {
+				row = append(row, "")
+			}
 
-		/*
-			var attributes, attributesValues []string
-			for _, attribute := range cmp.Mapping.Product.Attributes {
-				if value[attribute] != "" {
-					attributes = append(attributes, attribute)
-					attributesValues = append(attributesValues, value[attribute])
+			if cmp.Mapping.Product.Mpn != "" {
+				productMpn := cmp.Mapping.Product.Mpn
+				product.Mpn = v[productMpn]
+				row = append(row, v[productMpn])
+			} else {
+				row = append(row, "")
+			}
+
+			productId, err := createOrFindProduct(db, product, imageRef, default_category, features_pairs)
+			if err != nil {
+				// todo. log as an error
+				return err
+			}
+			pp.Println("productId", productId)
+
+			localImg, err := downloadImageToPs(imageRef, productId)
+			log.Warnln("downloadImageToPs.Error", err)
+			if err != nil {
+				if strings.Contains(err.Error(), "bad content length") {
+					log.Warnln("openFileByURL.Fallback")
+					err := openFileByURL(imageRef, productId)
+					if err != nil {
+						log.Warnln("openFileByURL;", err)
+						// todo. log as an error
+						return err
+					}
+				}
+			} // checkErr("downloadImageToPs.Error", err)
+			pp.Println("localImg", localImg)
+			// fallback
+
+			/*
+				var attributes, attributesValues []string
+				for _, attribute := range cmp.Mapping.Product.Attributes {
+					if value[attribute] != "" {
+						attributes = append(attributes, attribute)
+						attributesValues = append(attributesValues, value[attribute])
+					}
+				}
+				row = append(row, strings.Join(attributes, ","))
+				row = append(row, strings.Join(attributesValues, ","))
+			*/
+
+			if redirectLink != "" {
+				err = addToBadger(redirectLink, "ok")
+				if err != nil {
+					return err
 				}
 			}
-			row = append(row, strings.Join(attributes, ","))
-			row = append(row, strings.Join(attributesValues, ","))
-		*/
 
-		err = writer.Write(row)
-		checkErr("Cannot write to file", err)
-		c++
-		//	return nil
+			err = writer.Write(row)
+			// err = writer.Write(row)
+			checkErr("Cannot write to file", err)
+			c++
+			return nil
 
-		//}(value)
+		}(value)
 
-		//t.Throttle()
+		t.Throttle()
 
 	}
 
-	/*
-		if t.Err() != nil {
-			// Loop through the errors to see the details
-			for i, err := range t.Errs() {
-				log.Printf("error #%d: %s", i, err)
-			}
-			log.Fatal(t.Err())
+	if t.Err() != nil {
+		// Loop through the errors to see the details
+		for i, err := range t.Errs() {
+			log.Printf("error #%d: %s", i, err)
 		}
-	*/
-
-	//}
+		log.Fatal(t.Err())
+	}
 
 	return cmp, c, nil
 }
@@ -1133,7 +1268,6 @@ func createOrFindProduct(db *gorm.DB, product *Product, imageRef, default_catego
 
 	if default_category == "" {
 		return 0, errors.New("default category is empty")
-		// log.Fatalln("default category is empty: ", imageRef)
 	}
 
 	id_default_category, err := strconv.Atoi(default_category)
@@ -1147,7 +1281,7 @@ func createOrFindProduct(db *gorm.DB, product *Product, imageRef, default_catego
 		Ean13:             product.Ean13,
 		Reference:         product.Reference,
 	}
-	err = db.Debug().Where(where).First(&productExists).Error
+	err = db.Where(where).First(&productExists).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 
@@ -1285,7 +1419,7 @@ func createOrFindFeatures(db *gorm.DB, featureNames, featureValues []string) ([]
 		var featureId, featureValueId uint32
 
 		var featureExists psm.Feature
-		err := db.Debug().Joins("JOIN eg_feature_lang fl ON fl.id_feature = `eg_feature`.id_feature AND fl.name = ?", featureName).First(&featureExists).Error
+		err := db.Joins("JOIN eg_feature_lang fl ON fl.id_feature = `eg_feature`.id_feature AND fl.name = ?", featureName).First(&featureExists).Error
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 
 			feature := &psm.Feature{
@@ -1330,7 +1464,7 @@ func createOrFindFeatures(db *gorm.DB, featureNames, featureValues []string) ([]
 			WHERE fvl.value = 'Rhum & Cachaca'
 		*/
 
-		err = db.Debug().Joins("LEFT JOIN eg_feature_value fv ON fv.id_feature_value = `eg_feature_value_lang`.id_feature_value").Where("`eg_feature_value_lang`.value = ?", featureValues[i]).First(&featureValueExists).Error
+		err = db.Joins("LEFT JOIN eg_feature_value fv ON fv.id_feature_value = `eg_feature_value_lang`.id_feature_value").Where("`eg_feature_value_lang`.value = ?", featureValues[i]).First(&featureValueExists).Error
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			featureValue := &psm.FeatureValue{
 				IDFeature: featureId,
@@ -1359,17 +1493,6 @@ func createOrFindFeatures(db *gorm.DB, featureNames, featureValues []string) ([]
 
 	}
 
-	/*
-		OK - INSERT IGNORE INTO :prefix:feature (`id_feature`, `position`) VALUES (:id:, :position:);
-		OK - INSERT IGNORE INTO :prefix:feature_lang (`id_feature`, `id_lang`, `name`) VALUES (:id:, :id_lang:, :name:);
-		OK - INSERT IGNORE INTO :prefix:feature_shop (`id_feature`, `id_shop`) VALUES (:id:, :id_shop:);
-	*/
-
-	// insert feature_value
-	/*
-		OK - INSERT IGNORE INTO :prefix:feature_value (`id_feature_value`, `id_feature`, `custom`) VALUES (:id:, :id_feature:, :custom:);
-		OK - INSERT IGNORE INTO :prefix:feature_value_lang (`id_feature_value`, `id_lang`, `value`) VALUES (:id:, :id_lang:, :value:);
-	*/
 	return featureValuePairs, nil
 }
 
@@ -1392,18 +1515,22 @@ func createNestedCategoryTree(db *gorm.DB, cpm *CatalogMap, breadcrumbSlice []st
 	err := db.Joins("JOIN eg_category_lang cl ON cl.id_category = `eg_category`.id_category AND cl.name = ?", cpm.Name).Where(rootCategory).First(&rootCategoryExists).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 
-		pp.Println("rootCategory.IDCategory", rootCategory.IDCategory)
+		//pp.Println("rootCategory.IDCategory", rootCategory.IDCategory)
 
 		err := db.Create(&rootCategory).Error
 		if err != nil {
 			return "", "", err
 		}
-		pp.Println("rootCategory.IDCategory", rootCategory.IDCategory)
+		//pp.Println("rootCategory.IDCategory", rootCategory.IDCategory)
 		id_category_root = int(rootCategory.IDCategory)
 
 		// category_lang
 		for _, activeLang := range activeLangs {
 
+			name := cpm.Name
+			if len(name) > 127 {
+				name = cpm.Name[0:127]
+			}
 			linkRewrite := slug.Make(cpm.Name)
 			if len(linkRewrite) > 127 {
 				linkRewrite = linkRewrite[0:127]
@@ -1456,7 +1583,7 @@ func createNestedCategoryTree(db *gorm.DB, cpm *CatalogMap, breadcrumbSlice []st
 			if parentId == 0 {
 				parentId = uint32(id_category_root)
 			}
-			pp.Println("category", category)
+			//pp.Println("category", category)
 			parentId, category_ids, err = createCategoryTree(db, category, parentId, category_ids, shop.IDShop, parent_level+1)
 		}
 	}
@@ -1490,6 +1617,10 @@ func createCategoryTree(db *gorm.DB, name string, id_parent uint32, category_ids
 
 		// category_lang
 		for _, activeLang := range activeLangs {
+
+			if len(name) > 127 {
+				name = name[0:127]
+			}
 
 			linkRewrite := slug.Make(name)
 			if len(linkRewrite) > 127 {
@@ -1596,7 +1727,7 @@ func downloadImageToPs(remoteUrl string, productId int) (string, error) {
 	// proxyURL
 
 	tr := &http.Transport{
-		// Proxy: http.ProxyURL(proxyURL),
+		Proxy: http.ProxyURL(proxyURL),
 		DialContext: (&net.Dialer{
 			Timeout: 240 * time.Second,
 			// KeepAlive: 30 * time.Second,
@@ -1664,6 +1795,132 @@ LoopRel:
 	return localImg, nil
 }
 
+func openFileByURL(rawURL string, productId int) error {
+
+	image := &psm.Image{
+		IDProduct: uint32(productId),
+		Cover:     true,
+	}
+
+	var imageExists psm.Image
+	var imageId int
+	err := db.Where(image).First(&imageExists).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+
+		err := db.Create(&image).Error
+		if err != nil {
+			return err
+		}
+
+		for _, activeLang := range activeLangs {
+			imageLang := &psm.ImageLang{
+				IDImage: image.IDImage,
+				IDLang:  uint32(activeLang.IDLang),
+				Legend:  "",
+			}
+			err := db.Create(&imageLang).Error
+			if err != nil {
+				return err
+			}
+		}
+
+		for _, shop := range activeShops {
+			imageShop := &psm.ImageShop{
+				IDProduct: uint32(productId),
+				IDShop:    uint32(shop.IDShop),
+				IDImage:   image.IDImage,
+				Cover:     true,
+			}
+			err := db.Create(&imageShop).Error
+			if err != nil {
+				return err
+			}
+		}
+		imageId = int(image.IDImage)
+	} else {
+		imageId = int(imageExists.IDImage)
+	}
+
+	localPath := buildFolderForImage(filepath.Join(psDir, "img", "p"), int(imageId))
+	localImg := fmt.Sprintf("%s/%d.jpg", localPath, imageId)
+
+	if _, err := url.Parse(rawURL); err != nil {
+
+		return err
+	} else {
+
+		file, err := os.Create(localImg)
+		if err != nil {
+			return err
+		}
+
+		tr := &http.Transport{
+			Proxy: http.ProxyURL(proxyURL),
+		}
+
+		check := http.Client{
+			Transport: tr,
+			CheckRedirect: func(r *http.Request, via []*http.Request) error {
+				r.URL.Opaque = r.URL.Path
+				return nil
+			},
+		}
+		resp, err := check.Get(rawURL) // add a filter to check redirect
+		if err != nil {
+			return err
+		}
+		defer resp.Body.Close()
+		fmt.Printf("----> Downloaded %v to %s\n", rawURL, localImg)
+
+		_, err = io.Copy(file, resp.Body)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+}
+
+func compress(data []byte) ([]byte, error) {
+	return snappy.Encode([]byte{}, data), nil
+}
+
+func decompress(data []byte) ([]byte, error) {
+	return snappy.Decode([]byte{}, data)
+}
+
+func getFromBadger(key string) (resp []byte, ok bool) {
+	err := kv.View(func(txn *badger.Txn) error {
+		item, err := txn.Get([]byte(key))
+		if err != nil {
+			return err
+		}
+		err = item.Value(func(val []byte) error {
+			// fmt.Printf("The answer is: %s\n", val)
+			return nil
+		})
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	return resp, err == nil
+}
+
+func addToBadger(key, value string) error {
+	err := kv.Update(func(txn *badger.Txn) error {
+		log.Println("indexing: ", key)
+		cnt, err := compress([]byte(value))
+		if err != nil {
+			return err
+		}
+		err = txn.Set([]byte(key), cnt)
+		return err
+	})
+	return err
+}
+
 // Advanced Unicode normalization and filtering,
 // see http://blog.golang.org/normalization and
 // http://godoc.org/golang.org/x/text/unicode/norm for more
@@ -1681,21 +1938,23 @@ func stripCtlAndExtFromUnicode(str string) string {
 	return str
 }
 
-func shuffleMap(slc []map[string]string) {
+func shuffleMap(slc []map[string]string) []map[string]string {
 	for i := 1; i < len(slc); i++ {
 		r := rand.Intn(i + 1)
 		if i != r {
 			slc[r], slc[i] = slc[i], slc[r]
 		}
 	}
+	return slc
 }
 
 // shuffleXml
-func shuffleXml(slc []*etree.Element) {
+func shuffleXml(slc []*etree.Element) []*etree.Element {
 	for i := 1; i < len(slc); i++ {
 		r := rand.Intn(i + 1)
 		if i != r {
 			slc[r], slc[i] = slc[i], slc[r]
 		}
 	}
+	return slc
 }
