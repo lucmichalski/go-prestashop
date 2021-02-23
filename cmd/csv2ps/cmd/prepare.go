@@ -288,9 +288,7 @@ var PrepareCmd = &cobra.Command{
 
 		t := throttler.New(3, len(campaigns))
 
-		// shuffle
 		for _, campaign := range campaigns {
-
 			// todo. move throttler here, will avoid duplicate categories
 			go func(c *etree.Element) error {
 				// Let Throttler know when the goroutine completes
@@ -1003,7 +1001,7 @@ func csv2ps(db *gorm.DB, fp, fo string, columns []string, separator string, cmp 
 			if cmp.Mapping.Product.Description != "" {
 				productDesc := cmp.Mapping.Product.Description
 				if v[productDesc] == "" {
-					return nil
+					continue
 				}
 				product.Description = v[productDesc]
 				row = append(row, v[productDesc])
