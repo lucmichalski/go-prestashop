@@ -24,9 +24,9 @@ var (
 
 // RootCmd is the root command for ovh-qa
 var RootCmd = &cobra.Command{
-	Use:   "ps2sresize",
-	Short: "ps2sresize is an helper to resize prestashop images to define width or height with keep ratio.",
-	Long:  `ps2sresize is an helper to resize prestashop images to define width or height with keep ratio.`,
+	Use:   "ps2resize",
+	Short: "ps2resize is an helper to resize prestashop images to define width or height with keep ratio.",
+	Long:  `ps2resize is an helper to resize prestashop images to define width or height with keep ratio.`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

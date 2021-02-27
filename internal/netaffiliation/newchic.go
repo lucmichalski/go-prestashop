@@ -18,8 +18,8 @@ product_id: SKU516069,
 id: https://action.metaffiliation.com/trk.php?mclic=P4D7014598315S1UF4124cf010025126V4,
 product_url: https://www.newchic.com/other-tools-4166/p-https://action.metaffiliation.com/trk.php?mclic=P4D7014598315S1UF4124cf010025126V4.html,
 name: 3/32 '' Flame Ceramic Nail Drill Bit Tool Carbide Pedicure,
-crossed_price: 13.70 EUR,
-current_price: 13.70 EUR,
+crossed_price: 13.72 EUR,
+current_price: 13.72 EUR,
 category: Beauty > Nail Art > Nail Tools > Other Tools,
 image: https://imgaz1.chiccdn.com/thumb/large/oaupload/newchic/images/B6/BC/832cc829-03ae-4e26-a8c1-f82673b90065.jpg?s=906x906,
 brand: Newchic,
@@ -27,7 +27,7 @@ currency: EUR,
 description: 3/32 '' Flame Ceramic Nail Drill Bit Tool Carbide Pedicure,
 availability: in stock,
 condition: new,
-shipping_cost: 4.57 EUR
+shipping_cost: 4.58 EUR
 \\ ===================================================================================== //
 
 */

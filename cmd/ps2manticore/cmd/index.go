@@ -18,7 +18,7 @@ import (
 	Todo. select data with ranges (offset,limit...)
 */
 
-// go run main.go index --db-name eg_prestanish --db-user root --db-pass "OvdZ5ZoXWgCWL4-hvZjg!" --db-table-prefix eg_ --index-name orders
+// go run main.go index --db-name eg_prestanish --db-user root --db-pass "OvdZ5ZoXWgCWL4-hvZjg!" --db-table-prefix eg_ --index-name products
 var (
 	indexName       string
 	psDir           string
@@ -68,27 +68,39 @@ var ImportCmd = &cobra.Command{
 		switch indexName {
 		case "products", "product":
 
-			var products []*Product
+			// todo. create cli argument for limit
+			limit := 1000000
+			offset := 0
 
-			sqlResult := bytes.NewBufferString("")
-			sqlTemplate, _ := template.New("").Parse(sqlAdminCatalogProducts)
-			sqlTemplate.Execute(sqlResult, map[string]string{"prefix": dbTablePrefix})
+			for {
 
-			err = db.Raw(sqlResult.String()).Scan(&products).Error
-			if err != nil {
-				log.Fatal(err)
-			}
+				var products []*Product
 
-			t := throttler.New(6, len(products))
+				sqlResult := bytes.NewBufferString("")
+				sqlTemplate, _ := template.New("").Parse(sqlAdminCatalogProducts)
+				sqlTemplate.Execute(sqlResult, map[string]string{"prefix": dbTablePrefix, "offset": fmt.Sprintf("%d", offset), "limit": fmt.Sprintf("%d", limit)})
 
-			for _, product := range products {
+				err = db.Raw(sqlResult.String()).Scan(&products).Error
+				if err != nil {
+					log.Fatal(err)
+				}
 
-				go func(p *Product) error {
-					// Let Throttler know when the goroutine completes
-					// so it can dispatch another worker
-					defer t.Done(nil)
+				offset = offset + limit
 
-					query := `SELECT eg_feature_product.id_product, eg_feature_value_lang.value, eg_feature_lang.name
+				if len(products) == 0 {
+					break
+				}
+
+				t := throttler.New(6, len(products))
+
+				for _, product := range products {
+
+					go func(p *Product) error {
+						// Let Throttler know when the goroutine completes
+						// so it can dispatch another worker
+						defer t.Done(nil)
+
+						query := `SELECT eg_feature_product.id_product, eg_feature_value_lang.id_feature_value as id_feature_value, eg_feature_value_lang.value as value, eg_feature_lang.name as name, eg_feature_lang.id_feature as id_feature
 						FROM eg_feature_product
 						INNER JOIN eg_feature_value ON eg_feature_product.id_feature_value = eg_feature_value.id_feature_value
 						INNER JOIN eg_feature_value_lang ON eg_feature_value_lang.id_feature_value = eg_feature_value.id_feature_value
@@ -98,23 +110,39 @@ var ImportCmd = &cobra.Command{
 						AND eg_feature_value_lang.id_lang = 1 
 						AND eg_feature_product.id_product = ` + fmt.Sprintf("%d", p.IdProduct)
 
-					// create sub query for features
-					var features []*Feature
-					db.Raw(query).Scan(&features)
+						// create sub query for features
+						var features []*Feature
+						db.Raw(query).Scan(&features)
 
-					var engine, make, model string
-					for _, feat := range features {
-						switch feat.Name {
-						case "Marque":
-							make = feat.Value
-						case "Modèle":
-							model = feat.Value
-						case "Motorisation":
-							engine = feat.Value
+						var engine, make, model, size, color, season string
+						var engine_id, make_id, model_id, size_id, season_id, color_id int
+						for _, feat := range features {
+							switch feat.Name {
+							case "Marque", "brand", "brand_name", "marque", "fabricant", "name_of_brand", "nom_marque", "make", "manufacturer":
+								make = feat.Value
+								engine_id = feat.IdFeatureValue
+							case "Modèle", "model", "modele", "vehicule":
+								model = feat.Value
+								model_id = feat.IdFeatureValue
+							case "Motorisation", "engine", "motor", "moteur":
+								engine = feat.Value
+								engine_id = feat.IdFeatureValue
+							case "size", "taille":
+								size = feat.Value
+								size_id = feat.IdFeatureValue
+							case "color", "couleur", "matiere":
+								color = feat.Value
+								color_id = feat.IdFeatureValue
+							// case "genre", "kind":
+							// 	genre = feat.Value
+							// 	genre_id = feat.IdFeatureValue
+							case "saison", "season":
+								season = feat.Value
+								season_id = feat.IdFeatureValue
+							}
 						}
-					}
 
-					query = fmt.Sprintf(`REPLACE into rt_products (
+						query = fmt.Sprintf(`REPLACE into rt_products (
 					id,
 					date_add,
 					date_upd,
@@ -139,65 +167,84 @@ var ImportCmd = &cobra.Command{
 					description_short,
 					name_category,
 					engine,
+					id_engine,
 					model,
+					id_model,
 					make,
+					id_make,
+					size,
+					id_size,
+					color,
+					id_color,
+					season,
+					id_season,
 					ft_engine,
 					ft_model,
 					ft_make,
 					id_category
-					) VALUES ('%s','%d','%d','%d','%.2f','%d','%t','%s','%t','%s','%d','%d','%.2f','%d','%d','%t',(%s),(%s),'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%d')`,
-						fmt.Sprintf("%d-%d", p.IdProduct, p.ShopId),
-						p.DateAdd.Unix(),
-						p.DateUpd.Unix(),
-						p.IdProduct,
-						p.Price, //
-						p.IdShopDefault,
-						p.IsVirtual,
-						p.LinkRewrite,
-						p.Active,
-						escape(p.ShopName),
-						p.ShopId,
-						p.IdImage,
-						p.PriceFinal,
-						p.NbDownloadable,
-						p.SavQuantity,
-						p.BadgeDanger,
-						p.Features,
-						p.FeatureValues,
-						escape(p.Name),
-						escape(p.Reference),
-						escape(p.Description),
-						escape(p.DescriptionShort),
-						escape(p.NameCategory),
-						escape(engine),
-						escape(model),
-						escape(make),
-						escape(engine),
-						escape(model),
-						escape(make),
-						p.IdCategory,
-					)
+					) VALUES ('%s','%d','%d','%d','%.2f','%d','%t','%s','%t','%s','%d','%d','%.2f','%d','%d','%t',(%s),(%s),'%s','%s','%s','%s','%s','%s','%d','%s','%d','%s','%d','%s','%d','%s','%d','%s','%d','%s','%s','%s','%d')`,
+							fmt.Sprintf("%d-%d", p.IdProduct, p.ShopId),
+							p.DateAdd.Unix(),
+							p.DateUpd.Unix(),
+							p.IdProduct,
+							p.Price, //
+							p.IdShopDefault,
+							p.IsVirtual,
+							p.LinkRewrite,
+							p.Active,
+							escape(p.ShopName),
+							p.ShopId,
+							p.IdImage,
+							p.PriceFinal,
+							p.NbDownloadable,
+							p.SavQuantity,
+							p.BadgeDanger,
+							p.Features,
+							p.FeatureValues,
+							escape(p.Name),
+							escape(p.Reference),
+							escape(p.Description),
+							escape(p.DescriptionShort),
+							escape(p.NameCategory),
+							escape(make),
+							make_id,
+							escape(engine),
+							engine_id,
+							escape(model),
+							model_id,
+							escape(size),
+							size_id,
+							escape(color),
+							color_id,
+							escape(season),
+							season_id,
+							escape(engine),
+							escape(model),
+							escape(make),
+							p.IdCategory,
+						)
 
-					_, err = cl.Exec(query)
-					if err != nil {
-						log.Infoln(query)
-						log.Fatal(err)
-						return err
-					}
-					log.Infoln("Index product >> ", p.IdProduct, "==", p.Name)
-					return nil
-				}(product)
+						_, err = cl.Exec(query)
+						if err != nil {
+							log.Infoln(query)
+							log.Fatal(err)
+							return err
+						}
+						log.Infoln("Index product >> ", p.IdProduct, "==", p.Name)
+						return nil
+					}(product)
 
-				t.Throttle()
+					t.Throttle()
 
-			}
-
-			if t.Err() != nil {
-				// Loop through the errors to see the details
-				for i, err := range t.Errs() {
-					log.Printf("error #%d: %s", i, err)
 				}
-				log.Fatal(t.Err())
+
+				if t.Err() != nil {
+					// Loop through the errors to see the details
+					for i, err := range t.Errs() {
+						log.Printf("error #%d: %s", i, err)
+					}
+					log.Fatal(t.Err())
+				}
 			}
 
 		case "orders", "order":

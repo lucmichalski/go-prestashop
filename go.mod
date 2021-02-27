@@ -34,12 +34,16 @@ require (
 	github.com/nsf/termbox-go v0.0.0-20210114135735-d04385b850e8 // indirect
 	github.com/oleiade/reflections v1.0.1
 	github.com/olivere/elastic/v7 v7.0.22
+	github.com/pkg/errors v0.9.1
 	github.com/sethgrid/pester v1.1.0
 	github.com/sirupsen/logrus v1.7.0
 	github.com/spf13/cobra v1.1.1
+	github.com/svent/go-flags v0.0.0-20141123140740-4bcbad344f03
+	github.com/svent/go-nbreader v0.0.0-20150201200112-7cef48da76dc
 	github.com/tsak/concurrent-csv-writer v1.0.0
 	github.com/yudppp/json2struct v0.0.0-20170703063715-58ec74d298a8
 	github.com/ziutek/mymysql v1.5.4
+	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
 	golang.org/x/net v0.0.0-20200324143707-d3edc9973b7e
 	golang.org/x/text v0.3.3
 	gopkg.in/yaml.v2 v2.4.0

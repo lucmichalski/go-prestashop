@@ -33,9 +33,11 @@ type Product struct {
 }
 
 type Feature struct {
-    IdProduct uint
-    Value     string
-    Name      string
+    IdProduct      uint
+    Value          string
+    Name           string
+    IdFeature      int
+    IdFeatureValue int
 }
 
 type Category struct {

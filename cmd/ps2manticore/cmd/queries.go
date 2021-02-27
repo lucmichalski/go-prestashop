@@ -39,7 +39,8 @@ const (
 	         LEFT JOIN {{ .prefix }}manufacturer AS m ON p.id_manufacturer=m.id_manufacturer 
 			WHERE (1 AND state = 1)
 			GROUP BY p.id_product
-			ORDER BY  id_product desc`
+			ORDER BY  id_product desc
+			LIMIT {{ .offset }},{{ .limit }}`
 ) // LIMIT {{ .offset }},{{ .limit }}
 
 const (

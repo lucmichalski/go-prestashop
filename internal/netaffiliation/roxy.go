@@ -14,18 +14,18 @@ import (
 // Catalog excerpt: #1
 
 // ===================================================================================== \\
-Color ID: ERJX304404ngf0,
-EAN: 3613376199376,
-Name: Beach Classics - Haut de bikini triangle Athletic pour Femme - Orange - Roxy,
-Unique ID: ERJX304404ngf0,
+Color ID: ARJX303486wbb3,
+EAN: 3613376342123,
+Name: Roxy PT BEACH CLASSICS FIX TRI - Blanc - Roxy,
+Unique ID: ARJX303486wbb3,
 Current Price: 32.99,
 Was Price: 32.99,
 Category: Swim > Haut de bikini,
-URL: https://action.metaffiliation.com/trk.php?mclic=P447F3459832A7S1UC41281b070672V4,
-Image URL: http://images.boardriders.com/globalGrey/roxy-products/all/default/large/erjx304404_roxy,w_ngf0_frt1.jpg,
-MPN: 3613376199376,
+URL: https://action.metaffiliation.com/trk.php?mclic=P447F3459832A7S1UC41281b070877V4,
+Image URL: http://images.boardriders.com/globalGrey/roxy-products/all/default/large/arjx303486_roxy,w_wbb3_frt1.jpg,
+MPN: 3613376342123,
 Brand: Roxy,
-Description: Haut de bikini triangle Athletic pour Femme. Les caractéristiques produit sont les suivantes : tissu stretch, doux et résistant, forme triangle coupe sportswear, léger, coussinets amovibles, liens réglables, par liens, Taille de bonnet : idéal pour les bonnets A/B/C, Logo ROXY en caoutchouc et Bretelles croisées dans le dos pour plus de maintien et de liberté de mouvement.,
+Description: Roxy PT BEACH CLASSICS FIX TRI , Swim > Haut de bikini,
 Shipping Cost: 0,
 Ecotax: ,
 Short Description: ,
@@ -34,7 +34,7 @@ Availability: ,
 Performance Indicator: ,
 Discount Indicator: 2,
 Novelty Indicator: ,
-Size: L,M,S,XL,XS,XXL
+Size: L,M,S,XL,XS
 \\ ===================================================================================== //
 
 */

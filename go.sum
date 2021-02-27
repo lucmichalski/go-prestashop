@@ -369,6 +369,10 @@ github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81P
 github.com/stretchr/testify v1.5.1/go.mod h1:5W2xD1RspED5o8YsWQXVCued0rvSQ+mT+I5cxcmMvtA=
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/subosito/gotenv v1.2.0/go.mod h1:N0PQaV/YGNqwC0u51sEeR/aUtSLEXKX9iv69rRypqCw=
+github.com/svent/go-flags v0.0.0-20141123140740-4bcbad344f03 h1:rQ2altc2segoMAqIA2Wx+f0MLEhq12Q9j3xSQumEVpw=
+github.com/svent/go-flags v0.0.0-20141123140740-4bcbad344f03/go.mod h1:NqD1j/FwfaG9ljD9BohCK5YZHzSRCzWAMneQoMWVBxw=
+github.com/svent/go-nbreader v0.0.0-20150201200112-7cef48da76dc h1:usYkrH2/es/TT7ETdC/qLAagcJPW3EEYFKqvibSnFbA=
+github.com/svent/go-nbreader v0.0.0-20150201200112-7cef48da76dc/go.mod h1:pPzZl0vMkUhyoxUF8PAGG5bDRGo7PY80oO/PMmpLkkc=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5/go.mod h1:ncp9v5uamzpCO7NfCPTXjqaC+bZgJeR0sMTm6dMHP7U=
 github.com/tsak/concurrent-csv-writer v1.0.0 h1:1wW2+Sp/IEkZUMu+auA24Ex2cya6CmVfew1/wALKCbA=
 github.com/tsak/concurrent-csv-writer v1.0.0/go.mod h1:Uqx1MUOk32TwWJtDv5b++tbPYlIZvqMvE9wP5TT8Cmg=
@@ -404,6 +408,7 @@ golang.org/x/crypto v0.0.0-20190820162420-60c769a6c586/go.mod h1:yigFU9vqHzYiE8U
 golang.org/x/crypto v0.0.0-20190911031432-227b76d455e7/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
 golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
 golang.org/x/crypto v0.0.0-20200323165209-0ec3e9974c59/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
+golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 h1:psW17arqaxU48Z5kZ0CQnkZWQJsqcURM6tKiBApRjXI=
 golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
 golang.org/x/exp v0.0.0-20190121172915-509febef88a4/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
 golang.org/x/exp v0.0.0-20190306152737-a1d7652674e8/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
