@@ -1,11 +1,15 @@
 package cmd
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -32,6 +36,8 @@ var (
 	dbTablePrefix string
 	dbDrop        bool
 )
+
+// go run main.go index --db-name eg_prestanish --db-user root --db-pass "OvdZ5ZoXWgCWL4-hvZjg!" --db-table-prefix eg_
 
 var IndexCmd = &cobra.Command{
 	Use:     "index",
@@ -96,6 +102,12 @@ var IndexCmd = &cobra.Command{
 				imgPrefixPath := buildFolderForImage(filepath.Join("img", "p"), i.IdImage)
 				mediaUrl := filepath.Join(imgPrefixPath, fmt.Sprintf("%d.jpg", i.IdImage))
 
+				fingerprint, err := getMd5File(filepath.Join(psDir, mediaUrl))
+				if err != nil {
+					log.Warn(err)
+					return err
+				}
+
 				// BodyForm parameters
 				params := &Add{
 					Url:      psDomain + "/" + mediaUrl,
@@ -103,10 +115,11 @@ var IndexCmd = &cobra.Command{
 					Metadata: string(imageJson),
 				}
 
-				pp.Println("params", params)
+				// pp.Println("params", params)
+				// getMd5File
 
 				var existsImage Match
-				err = db.Debug().Where("id_image = ? ", i.IdImage, true).First(&existsImage).Error
+				err = db.Where("fingerprint = ? ", fingerprint).First(&existsImage).Error
 				if !errors.Is(err, gorm.ErrRecordNotFound) {
 					log.Infoln("Skipping: ", i.IdImage)
 					return nil
@@ -151,11 +164,11 @@ var IndexCmd = &cobra.Command{
 				} else {
 					log.Infoln("Submitted media >> ", i.IdImage)
 					img := &Match{
-						IdProduct: i.IdProduct,
-						IdImage:   i.IdImage,
-						IdShop:    i.IdShop,
-						Filepath:  params.Filepath,
-						// Fingerprint: fingerprint,
+						IdProduct:   i.IdProduct,
+						IdImage:     i.IdImage,
+						IdShop:      i.IdShop,
+						Filepath:    params.Filepath,
+						Fingerprint: fingerprint,
 						// Mimetype:    mimeType,
 					}
 					if err := db.Create(&img).Error; err != nil {
@@ -193,6 +206,23 @@ func init() {
 	IndexCmd.Flags().StringVarP(&psDir, "ps-dir", "", "../../../shared/www", "prestashop directory")
 	IndexCmd.Flags().BoolVarP(&dryRun, "dry-run", "", false, "dry run")
 	RootCmd.AddCommand(IndexCmd)
+}
+
+func getMd5File(filePath string) (result string, err error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return
+	}
+	defer file.Close()
+
+	hash := md5.New()
+	_, err = io.Copy(hash, file)
+	if err != nil {
+		return
+	}
+
+	result = hex.EncodeToString(hash.Sum(nil))
+	return
 }
 
 func buildFolderForImage(basePath string, id uint) string {

@@ -19,7 +19,7 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-// go run main.go insert --db-name eg_prestanish --db-user root --db-pass "OvdZ5ZoXWgCWL4-hvZjg!" --db-table-prefix eg_
+// go run main.go insert --db-name eg_prestanish --db-user root --db-pass "OvdZ5ZoXWgCWL4-hvZjg!" --db-table-prefix eg_ --import-dir ../netaf2ps/imports/
 
 var (
 	psDir         string
@@ -258,9 +258,15 @@ var InsertCmd = &cobra.Command{
 
 			// eg_wk_mp_product_feature
 			sqlQuery = `INSERT IGNORE INTO eg_wk_mp_product_feature (ps_id_feature, mp_id_product, ps_id_feature_value, mp_id_feature_value)
-							SELECT DISTINCT fv.id_feature, ` + fmt.Sprintf("%d", product.IDProduct) + `,` + fmt.Sprintf("%d", wkMpSellerProduct.IdMpProduct) + `, fv.id_feature_value, wmpfv.mp_id_feature_value FROM eg_feature_product fp
-							LEFT JOIN eg_feature f ON f.id_feature=fp.id_feature
-							LEFT JOIN eg_feature_value fv ON fv.id_feature=fp.id_feature
+						SELECT fp.id_feature, ` + fmt.Sprintf("%d", wkMpSellerProduct.IdMpProduct) + `, fvl.id_feature_value, wmpfv.mp_id_feature_value FROM eg_feature_product fp
+						LEFT JOIN eg_feature_value_lang fvl ON (fp.id_feature_value = fvl.id_feature_value)
+						LEFT JOIN eg_wk_mp_product_feature_value wmpfv ON wmpfv.ps_id_feature=fp.id_feature
+						WHERE fp.id_product = ` + fmt.Sprintf("%d", product.IDProduct)
+			db.Debug().Exec(sqlQuery)
+
+			sqlQuery = `INSERT IGNORE INTO eg_wk_mp_product_feature_value_lang (ps_id_feature_value, mp_id_feature_value, id_lang, value)
+							SELECT fp.id_feature, wmpfv.mp_id_feature_value, fvl.id_lang, fvl.value FROM eg_feature_product fp
+							LEFT JOIN eg_feature_value_lang fvl ON (fp.id_feature_value = fvl.id_feature_value)
 							LEFT JOIN eg_wk_mp_product_feature_value wmpfv ON wmpfv.ps_id_feature=fp.id_feature
 							WHERE fp.id_product=` + fmt.Sprintf("%d", product.IDProduct)
 			db.Debug().Exec(sqlQuery)
@@ -268,6 +274,7 @@ var InsertCmd = &cobra.Command{
 		}
 
 		/*
+
 			// to do. finish features import
 			// insert select feature values
 			sqlQuery = `INSERT IGNORE INTO eg_wk_mp_product_feature_value (ps_id_feature, is_custom)
@@ -275,15 +282,7 @@ var InsertCmd = &cobra.Command{
 			db.Debug().Exec(sqlQuery)
 
 			// eg_wk_mp_product_feature_value_lang
-			sqlQuery = `INSERT IGNORE INTO eg_wk_mp_product_feature_value_lang (ps_id_feature_value, mp_id_feature_value, id_lang, value)
-								SELECT DISTINCT wmpfv.id_feature_value, wmpf.mp_id_feature_value,id_lang, fvl.value FROM eg_feature_product fp
-								LEFT JOIN eg_feature f ON f.id_feature=fp.id_feature
-								LEFT JOIN eg_feature_value fv ON fv.id_feature=fp.id_feature
-								LEFT JOIN eg_feature_value_lang fvl ON fv.id_feature=fp.id_feature
-								LEFT JOIN eg_wk_mp_product_feature wmpf ON wmpf.ps_id_feature=fp.id_feature
-								LEFT JOIN eg_wk_mp_product_feature_value wmpfv ON wmpfv.ps_id_feature=fp.id_feature
-								WHERE fp.id_product=` + fmt.Sprintf("%d", product.IDProduct)
-			db.Debug().Exec(sqlQuery)
+
 		*/
 
 	},
